@@ -77,7 +77,6 @@ namespace ATM.CLI
                     for (int i = 0; i < userTransactionHistory.Count; i++)
                     {
                         string transaction = userTransactionHistory[i];
-                        Console.WriteLine();
                         Console.WriteLine(transaction);
                     }
                 }
