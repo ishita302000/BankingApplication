@@ -12,7 +12,7 @@ namespace ATM.CLI
             string username = "";
             string password = "";
             // Console.WriteLine("Hello World!");
-            BankManager bankManager = new BankManager(new Bank("state", 123));
+            BankManager bankmanager = new BankManager(new Bank("state", 123));
             Console.WriteLine("Press 1 for create Account");
             Console.WriteLine("Press 2 for Log in");
        //     bool createAccount = (Convert.ToInt32(InputTakenfromUser.Input()) == 1) ? true : false;
@@ -22,21 +22,24 @@ namespace ATM.CLI
                 //create
                 username = InputTakenfromUser.Username();
                 password = InputTakenfromUser.Password();
-                bankManager.addaccount(username, password);
+                bankmanager.addaccount(username, password);
            
             }
+        /*    if(x1==2)
+            {
+
+            }*/
             do
             {
                  username= InputTakenfromUser.Username();
-            } while (!bankManager.checkusername(username));
+            } while (!bankmanager.checkusername(username));
 
             do
             {
                 password = InputTakenfromUser.Password();
-            } while (!bankManager.checkpassword(username, password));
+            } while (!bankmanager.checkpassword(username, password));
 
-            //    StandardMessages.UserLoggedIn(userName);
-            //    StandardMessages.ChooseAnOption();
+      
             Console.WriteLine("Successfully Login ");
             Console.WriteLine();
             Console.WriteLine("Press 0 to log out");
@@ -50,36 +53,37 @@ namespace ATM.CLI
             {
                 if ( input == 1)
                 {
-                    string deposit = InputTakenfromUser.Deposit();
-                    Console.WriteLine("Successfully deposited");
-                      bankManager.addtransaction (username, $"{deposit} deposited");
+                    double deposit = InputTakenfromUser.Deposit();
+                    double currentBalance = bankmanager.deposit(deposit, username);
+
+                    Console.WriteLine("Successfully deposited : " + deposit);
+                    Console.WriteLine("Current balance : " + currentBalance);
+
+                    bankmanager.addtransaction (username, $"{deposit} deposited");
 
                 }
                 else if ( input == 2)
                 {
-                    string withdraw = InputTakenfromUser.Withdraw();
-                    Console.WriteLine("Successfully withdrawn ");
-                    bankManager.addtransaction( username, $"{withdraw} withdrawn");
+                    double withdraw = InputTakenfromUser.Withdraw();
+                    double currentBalance = bankmanager.withdraw(withdraw, username);
+                    Console.WriteLine("Successfully withdrawn : " + withdraw);
+                    Console.WriteLine("Current Balance : " + currentBalance);
+                    bankmanager.addtransaction( username, $"{withdraw} withdrawn");
 
                 }
                 else if (input == 3)
                 {
 
                     string accNo = InputTakenfromUser.Accountno();
-                    string amount = InputTakenfromUser.Transferamount();
-                    bankManager.addtransaction(username, $"{amount} has been transferred to {accNo}");
+                    double amount = InputTakenfromUser.Transferamount();
+                    bankmanager.addtransaction(username, $"{amount} has been transferred to {accNo}");
 
                 }
-                else if ( input == 4)
+               else if ( input == 4)
                 {
-                    List<string> userTransactionHistory = new List<string>(); 
-                    Console.WriteLine("TRANSACTION HISTORY");
-                    for (int i = 0; i < userTransactionHistory.Count; i++)
-                    {
-                        string transaction = userTransactionHistory[i];
-                        Console.WriteLine(transaction);
-                    }
-                }
+                    bankmanager.transactionHistory(username);
+                    
+                } 
                 else
                 {
                     Console.WriteLine("Enter valid option ");

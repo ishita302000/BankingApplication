@@ -25,45 +25,54 @@ namespace ATM.Services
         {
         }
 
-   /*     public int deposit( int balance)
+        public double deposit( double amount , string username)
         {
-          ///  balance = balance+ BankManager.deposit;
-            return balance;
+            bank.users[username].currentbalance += amount;    // arr[i]  2 3 4
+            return bank.users[username].currentbalance;
         }
-        public int withdraw(int balance)
+        public double withdraw(double amount , string username)
         {
-            return balance;
+            bank.users[username].currentbalance -= amount;
+            return bank.users[username].currentbalance;
         }
-*/
+
         public void  addaccount(string username , string pasword)
         {
-            bank.user.Add(username, pasword);    // dic of user(bank)--username , password is added to the list 
+            bank.userlogin.Add(username, pasword);    // dic of user(bank)--username , password is added to the list 
             bank.transactionhistory.Add(username, new List<String>());
+            bank.users.Add(username, new Account(username,pasword));
         }
-        public List<string> transactionHistory(string username)
+    /*    public List<string> transactionHistory(string username)
         {
             return bank.transactionhistory[username];
         }
+    */
         public void addtransaction(string username , string transaction)
         {
             bank.transactionhistory[username].Add(transaction);
         }
         public bool login(string username , string password )
         {
-            return bank.user[username] == bank.user[password];
+            return bank.userlogin[username] == bank.userlogin[password];
         }
         public bool checkusername(string username)
         {
-            return bank.user.ContainsKey(username);
+            var a = bank.userlogin.ContainsKey(username);
+            //  return bank.user.ContainsKey(username);
+            return a;
         }
         public bool checkpassword(string username ,string password)
         {
-            return bank.user[username] == password;
+            return bank.userlogin[username] == password;
         }
-       // public bool checkaccount()
-        //{
-
-      //  }
+        public void transactionHistory(string username)
+        {
+            foreach (string transaction in bank.transactionhistory[username])
+            {
+                Console.WriteLine(transaction);
+            }
+        }
+     
 
     }
 }

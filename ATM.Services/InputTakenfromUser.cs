@@ -24,22 +24,22 @@ namespace ATM.Services
             string password = Console.ReadLine();
             return password;
         }
-        public static string Deposit()
+        public static double Deposit()
         {
             Console.WriteLine("Please Enter the Amount to be Deposited");
-            string deposit = Console.ReadLine();
+            double deposit = Convert.ToDouble(Console.ReadLine());
             return deposit;
         }
-        public static string Withdraw()
+        public static double Withdraw()
         {
             Console.WriteLine("Please Enter the Amount to be Withdrawn");
-            string withdraw = Console.ReadLine();
+            double withdraw = Convert.ToDouble(Console.ReadLine());
             return withdraw;
         }
-        public static string Transferamount()
+        public static double Transferamount()
         {
             Console.WriteLine("Please Enter to be Transfer");
-            string transferamount = Console.ReadLine();
+            double transferamount = Convert.ToDouble(Console.ReadLine());
             return transferamount;
         }
         public static string  Input()
