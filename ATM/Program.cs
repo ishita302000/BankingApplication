@@ -67,7 +67,6 @@ namespace ATM.CLI
                     Console.WriteLine("current balance" + currentBalance);
 
                     bankmanager.addtransaction (username, $"{deposit} deposited");
-
                 }
                 else if ( input == 2)
                 {
