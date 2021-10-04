@@ -56,8 +56,12 @@ namespace ATM.CLI
                     double deposit = InputTakenfromUser.Deposit();
                     double currentBalance = bankmanager.deposit(deposit, username);
 
+
                     Console.WriteLine("Successfully deposited : " + deposit);
                     Console.WriteLine("Current balance : " + currentBalance);
+             //       Console.WriteLine("Successfully deposited");
+               //     Console.WriteLine("current balance" + currentBalance);
+
                     bankmanager.addtransaction (username, $"{deposit} deposited");
 
                 }
@@ -67,6 +71,8 @@ namespace ATM.CLI
                     double currentBalance = bankmanager.withdraw(withdraw, username);
                     Console.WriteLine("Successfully withdrawn : " + withdraw);
                     Console.WriteLine("Current Balance : " + currentBalance);
+
+      //              Console.WriteLine("Successfully withdrawn ");
                     bankmanager.addtransaction( username, $"{withdraw} withdrawn");
 
                 }
