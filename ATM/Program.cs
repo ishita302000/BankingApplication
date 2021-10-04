@@ -58,7 +58,6 @@ namespace ATM.CLI
 
                     Console.WriteLine("Successfully deposited : " + deposit);
                     Console.WriteLine("Current balance : " + currentBalance);
-
                     bankmanager.addtransaction (username, $"{deposit} deposited");
 
                 }
