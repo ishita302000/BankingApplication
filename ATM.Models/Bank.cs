@@ -11,6 +11,7 @@ namespace ATM.Models
         public Dictionary<string , Account> users;
         public string name;
         public int  id;
+        
         public Bank( string name , int id )
         {
            this.id = id;
