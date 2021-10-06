@@ -14,15 +14,15 @@ namespace ATM.Services
     //withdrawl
     public class BankManager
     {
-        int serialnumber;
-       Bank bank;
-         public BankManager(Bank b)
+        Bank bank;
+         public BankManager(string name , int id)
         {
-            this.bank = b;
+            this.bank = new Bank( name , id);
         }
 
-        public BankManager()
+        public BankManager(Bank bank)
         {
+            this.bank = bank;
         }
 
         public double deposit( double amount , string username)
@@ -33,6 +33,12 @@ namespace ATM.Services
         public double withdraw(double amount , string username)
         {
             bank.users[username].currentbalance -= amount;
+            return bank.users[username].currentbalance;
+        }
+        public double transfer(double amount, string accno , string username)
+        {
+            bank.users[username].currentbalance -= amount;
+           // bank.users[]
             return bank.users[username].currentbalance;
         }
 
@@ -72,7 +78,6 @@ namespace ATM.Services
                 Console.WriteLine(transaction);
             }
         }
-     
 
     }
 }

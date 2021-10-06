@@ -15,31 +15,25 @@ namespace ATM.CLI
             BankManager bankmanager = new BankManager(new Bank("state", 123));
             Console.WriteLine("Press 1 for create Account");
             Console.WriteLine("Press 2 for Log in");
-       //     bool createAccount = (Convert.ToInt32(InputTakenfromUser.Input()) == 1) ? true : false;
                 int x1 = Convert.ToInt32(Console.ReadLine());
             if (x1 ==1 )
             {
                 //create
-                username = InputTakenfromUser.Username();
-                password = InputTakenfromUser.Password();
+                username = Input.getmessage();
+                password = Input.getmessage();
                 bankmanager.addaccount(username, password);
            
             }
-        /*    if(x1==2)
-            {
-
-            }*/
             do
             {
-                 username= InputTakenfromUser.Username();
+                username= Input.getmessage();
             } while (!bankmanager.checkusername(username));
 
             do
             {
-                password = InputTakenfromUser.Password();
+                password = Input.getmessage();
             } while (!bankmanager.checkpassword(username, password));
 
-      
             Console.WriteLine("Successfully Login ");
             Console.WriteLine();
             Console.WriteLine("Press 0 to log out");
@@ -53,44 +47,33 @@ namespace ATM.CLI
             {
                 if ( input == 1)
                 {
-                    double deposit = InputTakenfromUser.Deposit();
+                    //    double deposit = InputTakenfromUser.Deposit();
+                    double deposit = Input.getMessage();
                     double currentBalance = bankmanager.deposit(deposit, username);
-
-
-
                     Console.WriteLine("Successfully deposited : " + deposit);
                     Console.WriteLine("Current balance : " + currentBalance);
-             //       Console.WriteLine("Successfully deposited");
-               //     Console.WriteLine("current balance" + currentBalance);
-//=======
-                    Console.WriteLine("Successfully deposited");
-                    Console.WriteLine("current balance" + currentBalance);
-
                     bankmanager.addtransaction (username, $"{deposit} deposited");
                 }
                 else if ( input == 2)
                 {
-                    double withdraw = InputTakenfromUser.Withdraw();
+                    double withdraw = Input.getMessage();
                     double currentBalance = bankmanager.withdraw(withdraw, username);
                     Console.WriteLine("Successfully withdrawn : " + withdraw);
                     Console.WriteLine("Current Balance : " + currentBalance);
-
-                    Console.WriteLine("Successfully withdrawn ");
+               //     Console.WriteLine("Successfully withdrawn ");
                     bankmanager.addtransaction( username, $"{withdraw} withdrawn");
-
                 }
                 else if (input == 3)
-                {
-
-                    string accNo = InputTakenfromUser.Accountno();
-                    double amount = InputTakenfromUser.Transferamount();
-                    bankmanager.addtransaction(username, $"{amount} has been transferred to {accNo}");
-
+                {     
+                    string accNo = Input.getmessage();
+                    double amount = Input.getMessage();
+                    double currentBalance = bankmanager.transfer(amount, accNo , username);
+                    bankmanager.addtransaction(username, $"{amount} has been transferred to account {accNo}");
+                    Console.WriteLine("Current Balance : " + currentBalance);
                 }
                else if ( input == 4)
                 {
                     bankmanager.transactionHistory(username);
-                    
                 } 
                 else
                 {
