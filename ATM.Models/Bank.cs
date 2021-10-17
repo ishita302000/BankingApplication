@@ -4,19 +4,23 @@ namespace ATM.Models
 {
     public class Bank
     {
-        public Dictionary<string, List<string>> transactionhistory;
-        public Dictionary<string, string> userlogin;
-        public Dictionary<string, Account> users;
+          // public Dictionary<string, List<string>> transactionhistory;
+        // public Dictionary<string, string> userlogin;
+        //    public Dictionary<string, Account> users; // Accounts
+
+    //    public List<Account> Accounts;
+
+
         public string name;
         public int id;
-
         public Bank(string name, int id)
         {
-            this.id = id;
+            this.id = id;  // Generate it randomly
             this.name = name;
-            transactionhistory = new Dictionary<string, List<string>>();
-            users = new Dictionary<string, Account>();
-            userlogin = new Dictionary<string, string>();
+            this.Accounts = new List<Account>();
         }
-    }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public List<Account> Accounts { get; set; }
+            }
 }

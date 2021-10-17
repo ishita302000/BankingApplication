@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ATM.Models;
+using ATM.Models.Exceptions;
 using ATM.Services;
 
 namespace ATM.CLI
@@ -11,28 +12,32 @@ namespace ATM.CLI
         {
             string username = "";
             string password = "";
+            int id ;
             // Console.WriteLine("Hello World!");
-            BankManager bankmanager = new BankManager(new Bank("state", 123));
+            BankManager bankmanager = new BankManager("state", 123);
             Console.WriteLine("Press 1 for create Account");
             Console.WriteLine("Press 2 for Log in");
                 int x1 = Convert.ToInt32(Console.ReadLine());
             if (x1 ==1 )
             {
                 //create
-                username = Input.getmessage();
-                password = Input.getmessage();
-                bankmanager.addaccount(username, password);
-           
+                username = InputTakenFromUser.GetString("Please enter username");
+                password = InputTakenFromUser.GetString("Please enter password");
+                id = InputTakenFromUser.getmsg();
+                bankmanager.addaccount(username, password , id);
             }
             do
             {
-                username= Input.getmessage();
+                username= InputTakenFromUser.GetString("Please enter username");
             } while (!bankmanager.checkusername(username));
 
             do
             {
-                password = Input.getmessage();
+                password = InputTakenFromUser.GetString("Please enter password");
+                id = InputTakenFromUser.getmsg();
+
             } while (!bankmanager.checkpassword(username, password));
+            
 
             Console.WriteLine("Successfully Login ");
             Console.WriteLine();
@@ -48,32 +53,40 @@ namespace ATM.CLI
                 if ( input == 1)
                 {
                     //    double deposit = InputTakenfromUser.Deposit();
-                    double deposit = Input.getMessage();
-                    double currentBalance = bankmanager.deposit(deposit, username);
+                  int   deposit = InputTakenFromUser.getMessage();
+                    double currentBalance = bankmanager.deposit(deposit, id);
                     Console.WriteLine("Successfully deposited : " + deposit);
                     Console.WriteLine("Current balance : " + currentBalance);
-                    bankmanager.addtransaction (username, $"{deposit} deposited");
+                    bankmanager.addtransaction (username, $"{deposit} deposited" , id);
                 }
                 else if ( input == 2)
                 {
-                    double withdraw = Input.getMessage();
-                    double currentBalance = bankmanager.withdraw(withdraw, username);
+                    int withdraw = InputTakenFromUser.getMessage();
+                    double currentBalance = bankmanager.withdraw(withdraw, id);
                     Console.WriteLine("Successfully withdrawn : " + withdraw);
                     Console.WriteLine("Current Balance : " + currentBalance);
                //     Console.WriteLine("Successfully withdrawn ");
-                    bankmanager.addtransaction( username, $"{withdraw} withdrawn");
+                    bankmanager.addtransaction( username, $"{withdraw} withdrawn" , id);
                 }
                 else if (input == 3)
                 {     
-                    string accNo = Input.getmessage();
-                    double amount = Input.getMessage();
-                    double currentBalance = bankmanager.transfer(amount, accNo , username);
-                    bankmanager.addtransaction(username, $"{amount} has been transferred to account {accNo}");
-                    Console.WriteLine("Current Balance : " + currentBalance);
+                    int accNo1 = InputTakenFromUser.getmsg();
+                    int accNo2 = InputTakenFromUser.getmsg();
+                    int amount = InputTakenFromUser.getMessage();
+                    try
+                    {
+                        double currentBalance = bankmanager.transfer(amount, accNo1, accNo2);
+                        bankmanager.addtransaction(username, $"{amount} has been transferred to account {accNo2}", accNo2);
+                        Console.WriteLine("Current Balance : " + currentBalance);
+                    }
+                    catch (UserNotFoundException)
+                    {
+                        Console.WriteLine("User not found.");
+                    }
                 }
                else if ( input == 4)
                 {
-                    bankmanager.transactionHistory(username);
+                    bankmanager.transactionHistory(username , id);
                 } 
                 else
                 {
