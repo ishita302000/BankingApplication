@@ -26,6 +26,10 @@ namespace ATM.CLI
                 id = InputTakenFromUser.getmsg();
                 bankmanager.addaccount(username, password , id);
             }
+        /*    if(x1==2)
+            {
+
+            }*/
             do
             {
                 username= InputTakenFromUser.GetString("Please enter username");
@@ -88,6 +92,16 @@ namespace ATM.CLI
                 {
                     bankmanager.transactionHistory(username , id);
                 } 
+                    {
+                        string transaction = userTransactionHistory[i];
+                        Console.WriteLine(transaction);
+                    }
+                }
+                    {
+                        string transaction = userTransactionHistory[i];
+                        Console.WriteLine(transaction);
+                    }
+                }
                 else
                 {
                     Console.WriteLine("Enter valid option ");
