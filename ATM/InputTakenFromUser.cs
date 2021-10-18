@@ -6,10 +6,10 @@ namespace ATM.CLI
 {
     class InputTakenFromUser
     {
-        public  static int getmsg()
+        public  static string getmsg()
         {
             Console.WriteLine("Please enter your id ");
-            return Convert.ToInt32(Console.ReadLine());
+            return Console.ReadLine();
       }
      
         public static int getMessage()

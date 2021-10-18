@@ -4,7 +4,9 @@ using System.Text;
 
 namespace ATM.Models
 {
-    class Transaction
+    public enum  AccountStatus
     {
+        Active , 
+        InActive 
     }
 }
