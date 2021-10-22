@@ -12,7 +12,9 @@ namespace ATM.CLI
             Console.WriteLine("Account Created Successfully");
         }
 
-        public static void Login(string userName)  { Console.WriteLine($"{userName} is logged in");  
+        public static void Login(string userName) 
+        { 
+            Console.WriteLine($"{userName} is logged in");  
         }
 
         public static void ChooseOption()

@@ -32,9 +32,17 @@ namespace ATM.Services
               this.Account = new Account(name, password, id);
           }
          */
-        public int deposit( int amount, string accountId)
+
+        public void CreateBank(string name)
         {
-           return bank.Accounts[accountId].currentbalance += amount;
+            Bank bank = new Bank
+            { };
+        }
+        public int deposit( int amount, string username)
+        {
+    //        var account = bank.Accounts.FirstOrDefault(m=>m.Id == accountId);
+     //       return amount.currentBalance += amount;
+           return bank.Accounts[username].currentbalance += amount;
            
         }
         public int withdraw(int amount, string accountId)
@@ -68,12 +76,6 @@ namespace ATM.Services
             return true;
 
         }
-
-        public double deposit(int depositamount, int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public void addaccount(string username, string password, string id)
         {
             //    bank.Accounts.Add(new List<username>());   // check
@@ -93,12 +95,26 @@ namespace ATM.Services
             //    Account.transactionhistory[id].Add(transaction);
             // account1.transactionhistory[account1].Add(transaction);
         }
-        public bool login(string username, string password)
+        public bool login(string username, string password )
         {
             //var somthing = Account.userlogin[username];
-            return bank.Accounts[username].password == password;
+            if( bank.Accounts[username].password == password)
+            {
+            //    if( bank.Accounts[username].AccountId == accountId)
+                    return true;
+            }
+            return false;
         }
-       
+        public bool checkId( string username , string accountId)
+        {
+            //   if ( bank.Accounts[username].AccountId == accountId)
+            // {
+            //   return true;
+            //}
+            //return false;
+            return bank.Accounts[username].AccountId == accountId;
+
+        }
         public bool AccountExit(string username)
         {
             // var a = Account.userlogin.ContainsKey(username);
@@ -122,6 +138,7 @@ namespace ATM.Services
             //}
             return bank.Accounts[username].transactionhistory;
         }
+       
     }
 }
 

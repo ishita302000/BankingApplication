@@ -36,14 +36,16 @@ namespace ATM.CLI
             {
                 username= InputTakenFromUser.GetString("Please enter username");
             } while (!bankmanager.AccountExit(username));
-
             do
             {
                 password = InputTakenFromUser.GetString("Please enter password");
+             //   accountid = InputTakenFromUser.getmsg();
+            } while (!bankmanager.login(username, password ));
+            do
+            {
                 accountid = InputTakenFromUser.getmsg();
-
-            } while (!bankmanager.login(username, password));
-
+            } while(!bankmanager.checkId(username,accountid));
+         
             Outputs.Login(username);
             Outputs.ChooseOption();
        
@@ -55,7 +57,7 @@ namespace ATM.CLI
                 { 
                     int depositInput = InputTakenFromUser.getMessage();
                     int depositamount = Convert.ToInt32(depositInput);
-                double currentBalance = bankmanager.deposit(amount: depositamount, accountid);
+                double currentBalance = bankmanager.deposit(amount: depositamount, username);
                     Console.WriteLine("Successfully deposited : " + depositamount);
                     Console.WriteLine("Current balance : " + currentBalance);
                     bankmanager.addtransaction(username, $"{depositamount} deposited");

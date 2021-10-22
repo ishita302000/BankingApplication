@@ -10,6 +10,8 @@ namespace ATM.Models
         public int  currentbalance = 1000; // Balance
         public string AccountNo;
         public string AccountId;
+        public string Txn { get; set; }
+
         public List<string> transactionhistory;
         public Dictionary<string, string > userlogin;
         private static int x = 2021;
