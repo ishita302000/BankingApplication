@@ -49,7 +49,7 @@ namespace ATM.Services
         {
               //  var account = bank.Accounts.FirstOrDefault(m => m.Id == accountId);
             //   return amount.currentbalance -= amount;
-             return bank.Accounts[accountId].currentbalance -= amount;
+             return bank.Accounts[accountId].currentbalance += amount;
            
         }
         public bool transfer(int amount, string accountId1, string accountId2)
