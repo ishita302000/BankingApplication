@@ -39,7 +39,7 @@ namespace ATM.Services
         }
         public int withdraw(int amount, string accountId)
         {
-            //  var account = bank.Accounts.FirstOrDefault(m => m.Id == accountId);
+              //  var account = bank.Accounts.FirstOrDefault(m => m.Id == accountId);
             //   return amount.currentbalance -= amount;
              return bank.Accounts[accountId].currentbalance -= amount;
            
