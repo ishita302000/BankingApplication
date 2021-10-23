@@ -33,11 +33,7 @@ namespace ATM.Services
           }
          */
 
-        public void CreateBank(string name)
-        {
-            Bank bank = new Bank
-            { };
-        }
+       
         public int deposit( int amount, string username)
         {
     //        var account = bank.Accounts.FirstOrDefault(m=>m.Id == accountId);
@@ -81,7 +77,7 @@ namespace ATM.Services
             //    bank.Accounts.Add(new List<username>());   // check
             Account newAccount = new Account(username, password, id);
             bank.Accounts.Add( username , newAccount); // list
-            newAccount.userlogin.Add(username, password);  //
+      //      newAccount.userlogin.Add(username, id);  //
         }
         public void addtransaction(string accountId, string transaction)
         {
@@ -112,7 +108,8 @@ namespace ATM.Services
             //   return true;
             //}
             //return false;
-            return bank.Accounts[username].AccountId == accountId;
+           return bank.Accounts[username].AccountId == accountId;
+         //    return bank.Accounts[username].userlogin[] == accountId;
 
         }
         public bool AccountExit(string username)

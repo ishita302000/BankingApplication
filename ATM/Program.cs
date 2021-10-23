@@ -12,7 +12,7 @@ namespace ATM.CLI
         {
             string username = "";
             string password = "";
-            string accountid;
+            string accountid= "";
             // Console.WriteLine("Hello World!");
             BankManager bankmanager = new BankManager("state", 123);
             Console.WriteLine("Press 1 for create Account");
@@ -24,9 +24,10 @@ namespace ATM.CLI
                 //create
                 username = InputTakenFromUser.GetString("Please enter username");
                 password = InputTakenFromUser.GetString("Please enter password");
-                accountid = InputTakenFromUser.getmsg();
+             //   accountid = InputTakenFromUser.getmsg();
                 bankmanager.addaccount(username, password , accountid);
                 Outputs.AccountCreationSuccesful();
+                Outputs.AccountId();
             }
             /*    if(x1==2)
                 {
@@ -48,7 +49,6 @@ namespace ATM.CLI
          
             Outputs.Login(username);
             Outputs.ChooseOption();
-       
             Console.WriteLine();
             Choice input = (Choice)Convert.ToInt32(Console.ReadLine());
             while (input!= Choice.quit)

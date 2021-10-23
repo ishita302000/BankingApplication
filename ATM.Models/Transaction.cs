@@ -4,9 +4,7 @@ using System.Text;
 
 namespace ATM.Models
 {
-    public enum UserOptions
+    class Transaction
     {
-        CreateAccount,
-        Login
     }
 }

@@ -13,7 +13,7 @@ namespace ATM.Models
         public string Txn { get; set; }
 
         public List<string> transactionhistory;
-        public Dictionary<string, string > userlogin;
+     //   public Dictionary<string, string > userlogin;   // id 
         private static int x = 2021;
         private DateTime currentDate;
         private string username;
@@ -27,12 +27,13 @@ namespace ATM.Models
 
             this.transactionhistory = new List<string>();
          //   users = new Dictionary<string, Account>();
-          this.userlogin = new Dictionary<string, string>();
+        //  this.userlogin = new Dictionary<string, string>();
             this.AccountNo = Convert.ToString(++x);
             currentDate = DateTime.Now;
             String date = currentDate.ToShortDateString();
             AccountId = "";
-            for (int i = 0; i < 3; i++) AccountId += this.name;
+            for (int i = 0; i < 3; i++) 
+                AccountId += this.name;
             AccountId += date;
         }
 

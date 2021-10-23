@@ -66,6 +66,10 @@ namespace ATM.CLI
         {
             Console.WriteLine("Please enter a valid number");
         }
+        public static void AccountId(string username , string accountId)
+        {
+            Console.WriteLine($"{username} your account Id is " + AccountId);
+        }
 
     }
 }
