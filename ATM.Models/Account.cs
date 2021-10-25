@@ -16,8 +16,6 @@ namespace ATM.Models
      //   public Dictionary<string, string > userlogin;   // id 
         private static int x = 2021;
         private DateTime currentDate;
-        private string username;
-        private string id;
 
         public  Account(string name , string password , string Id)
         {
