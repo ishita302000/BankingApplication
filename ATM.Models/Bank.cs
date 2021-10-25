@@ -24,7 +24,6 @@ namespace ATM.Models
                 Id += this.name;
             }
             Id += date;  // bankid
-        }
-       // public List<Account> Accounts { get; set; }
-            }
+        }       
+     }
 }

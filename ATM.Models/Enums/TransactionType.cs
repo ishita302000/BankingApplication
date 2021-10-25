@@ -7,6 +7,7 @@ namespace ATM.Models
     public enum TransactionType
     {
         Debited,
+        Withdraw,
         Credited
     }
 }

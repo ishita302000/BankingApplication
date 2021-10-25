@@ -17,7 +17,7 @@ namespace ATM.Services
     public class BankManager
     {
         Bank bank;
-   //     Account Account;
+   
         public BankManager(string name, int id)
         {
             this.bank = new Bank(name, id);

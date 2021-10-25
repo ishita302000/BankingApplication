@@ -21,8 +21,6 @@ namespace ATM.Models
         {
             this.password = password;
             this.name = name;
-    //        this.Id = Id;
-
             this.transactionhistory = new List<string>();
          //   users = new Dictionary<string, Account>();
         //  this.userlogin = new Dictionary<string, string>();
