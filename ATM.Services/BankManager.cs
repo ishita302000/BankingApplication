@@ -91,13 +91,22 @@ namespace ATM.Services
             //    Account.transactionhistory[id].Add(transaction);
             // account1.transactionhistory[account1].Add(transaction);
         }
-        public bool login(string username, string password )
+        public bool login(string username, string password )    // user
         {
             //var somthing = Account.userlogin[username];
             if( bank.Accounts[username].password == password)
             {
             //    if( bank.Accounts[username].AccountId == accountId)
                     return true;
+            }
+            return false;
+        }
+        public bool Stafflogin(string username, string password)    // user
+        {
+            //var somthing = Account.userlogin[username];
+            if (bank.StaffAccount[username].Password == password)
+            {
+                return true;
             }
             return false;
         }
@@ -112,7 +121,7 @@ namespace ATM.Services
          //    return bank.Accounts[username].userlogin[] == accountId;
 
         }
-        public bool AccountExit(string username)
+        public bool AccountExit(string username)    // user
         {
             // var a = Account.userlogin.ContainsKey(username);
             //  return bank.user.ContainsKey(username);
@@ -125,6 +134,10 @@ namespace ATM.Services
             }
         */
             return bank.Accounts.ContainsKey(username);
+        }
+        public bool StaffAccountExist(String username)
+        {
+            return bank.StaffAccount.ContainsKey(username);
         }
         public List<string> GettransactionHistory(string username, string id)
         {

@@ -8,22 +8,23 @@ namespace ATM.Models
 {
   public  class Staff
     {
-        public string Id;
+        public string StaffId;
         public string Name;
         public string Password;
         private DateTime CurrentDate;
         public StaffType Access;
          
         public Staff(string Name , string Password , StaffType Access)
-        {
+        {    
             this.Name = Name;
             this.Password = Password;
             CurrentDate = DateTime.Now;
             for(int i=0;i<3;i++)
             {
-                Id += Name[i];
+                StaffId += Name[i];
             }
-            Id += CurrentDate;
+            StaffId += CurrentDate;
+            Access = StaffType.StaffMember;
             this.Access = Access;
         }
     }

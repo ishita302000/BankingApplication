@@ -12,7 +12,7 @@ namespace ATM.Models
         public double Amount;
         public DateTime On;
         public TransactionType type;
-        public string Id;
+        public string TransactionId;
         public string date;
         public Transaction(string RecieverAccountId, string SenderAccountId, string BankId, double Amount, DateTime On, TransactionType type)
         {
@@ -22,7 +22,7 @@ namespace ATM.Models
             this.On = On;
             this.type = type;
             date = On.ToString();
-            Id = "TXN" + BankId + SenderAccountId + date;
+            TransactionId = "TXN" + BankId + SenderAccountId + date;
         }
     }
 }

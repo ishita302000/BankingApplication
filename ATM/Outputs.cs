@@ -27,25 +27,21 @@ namespace ATM.CLI
             Console.WriteLine("Press 4 to show transaction history");
             Console.WriteLine();
         }
-
         public static void Deposit(double amount)
         {
        //     Console.WriteLine();
             Console.WriteLine( amount + " deposited successfully");
         }
-
         public static void Withdraw(double amount)
         {
            // Console.WriteLine();
             Console.WriteLine( amount + " withdrawn successfully");
         }
-
         public static void Transfer(double amount, string accNo)
         {
             Console.WriteLine();
             Console.WriteLine($"{amount} has been succesfully transfered to {accNo}");
         }
-
         public static void TransactionHistory(List<string> userTransactionHistory)
         {
             Console.WriteLine("TRANSACTION HISTORY");
@@ -55,7 +51,6 @@ namespace ATM.CLI
                 Console.WriteLine(transaction);
             }
         }
-
         public static void validOption()
         {
             Console.WriteLine();
@@ -68,7 +63,7 @@ namespace ATM.CLI
         }
         public static void AccountId(string username , string accountId)
         {
-            Console.WriteLine($"{username} your account Id is " + AccountId);
+          //  Console.WriteLine($"{username} your account Id is " + AccountId);
         }
 
     }
