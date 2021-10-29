@@ -11,10 +11,10 @@ namespace ATM.Services
     {
         Staff staff;
         public Staff StaffPerson;
-        StaffServices(string name , string password , StaffType access )
+        StaffServices(string name , string password , StaffLoginType access )
         {
             StaffPerson = new Staff(name,password,access);
-            access = StaffType.StaffMember;
+            access = StaffLoginType.StaffMember;
         }
     }
 

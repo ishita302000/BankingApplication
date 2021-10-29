@@ -12,9 +12,9 @@ namespace ATM.Models
         public string Name;
         public string Password;
         private DateTime CurrentDate;
-        public StaffType Access;
+        public StaffLoginType Access;
          
-        public Staff(string Name , string Password , StaffType Access)
+        public Staff(string Name , string Password , StaffLoginType Access)
         {    
             this.Name = Name;
             this.Password = Password;
@@ -24,7 +24,7 @@ namespace ATM.Models
                 StaffId += Name[i];
             }
             StaffId += CurrentDate;
-            Access = StaffType.StaffMember;
+            Access = StaffLoginType.StaffMember;
             this.Access = Access;
         }
     }

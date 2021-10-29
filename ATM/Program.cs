@@ -12,7 +12,7 @@ namespace ATM.CLI
         {
             string username = "";
             string password = "";
-            string accountid= "";
+      //   string accountid= "";
             // Console.WriteLine("Hello World!");
             BankManager bankmanager = new BankManager("state", 123);
             Console.WriteLine("Press 1 for create Account");

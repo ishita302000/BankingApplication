@@ -14,7 +14,7 @@ namespace ATM.Models
 
         public List<string> transactionhistory;
      //   public Dictionary<string, string > userlogin;   // id 
-        private static int x = 2021;
+        private static int year = 2021;
         private DateTime currentDate;
 
         public  Account(string name , string password , string Id)
@@ -24,7 +24,7 @@ namespace ATM.Models
             this.transactionhistory = new List<string>();
          //   users = new Dictionary<string, Account>();
         //  this.userlogin = new Dictionary<string, string>();
-            this.AccountNo = Convert.ToString(++x);
+            this.AccountNo = Convert.ToString(++year);
             currentDate = DateTime.Now;
             String date = currentDate.ToShortDateString();
             AccountId = "";

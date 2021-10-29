@@ -16,6 +16,7 @@ namespace ATM.Models
         public double IMPSdifferentBank;
          
         // currency part left 
+       
         public Bank(string name, int id)
         {
            this.name = name;
