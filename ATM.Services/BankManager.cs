@@ -4,6 +4,7 @@ using System.Linq;
 using ATM.Models;
 using ATM.Models.Exceptions;
 
+
 namespace ATM.Services
 {
 
@@ -18,135 +19,109 @@ namespace ATM.Services
     {
         Bank bank;
    
-        public BankManager(string name, int id)
+        public BankManager(string name, string id)
         {
             this.bank = new Bank(name, id);
         }
-
-        /*  public BankManager(Bank bank)
-          {
-              this.bank = bank;
-          }
-         /* public BankManager(string name, string password, int id)
-          {
-              this.Account = new Account(name, password, id);
-          }
-         */
-
-       
-        public int deposit( int amount, string username)
+     
+        public string addaccount(string username, string accountId)
         {
-    //        var account = bank.Accounts.FirstOrDefault(m=>m.Id == accountId);
-     //       return amount.currentBalance += amount;
-           return bank.Accounts[username].currentbalance += amount;
-           
+               // bank.Accounts.Add(new List<username>());   // check
+            Account newAccount = new Account(username, accountId);
+        //    bank.Accounts.Add( username , newAccount); // list
+            newAccount.userLogin.Add(username, accountId );  //
+            return newAccount.AccountId;
         }
-        public int withdraw(int amount, string accountId)
+     
+        public bool userlogin(string username, string password )    // user
         {
-              //  var account = bank.Accounts.FirstOrDefault(m => m.Id == accountId);
-            //   return amount.currentbalance -= amount;
-             return bank.Accounts[accountId].currentbalance += amount;
-           
-        }
-        public bool transfer(int amount, string accountId1, string accountId2)
-        {
-            //   Account account1 = bank.Accounts.FirstOrDefault(m => m.Id == accountId1);  
-            // if (account1 == null)
-            //   {
-            //     throw new UserNotFoundException();
-            //  }
-            //   Account account2 = bank.Accounts.FirstOrDefault(m => m.Id == accountId2);
-            // if (account2 == null)
-            //  {
-            //    throw new UserNotFoundException();
-            //}
-            //  var bal = accountId2.currentbalance += amount;
-            bank.Accounts[accountId1].currentbalance -= amount;
-            if(bank.Accounts.ContainsKey(accountId2))
+            
+            foreach(Account account in bank.Accounts)
             {
-                deposit( amount , accountId2);
-                //addtransaction(accountId1 , " Id recieved " + amount + " from account " + accountId2);
-                addtransaction( accountId1, "recieved " + amount + " from " + accountId2);
-
+                if( account.name == username)
+                {
+                    if(account.password==password)
+                    {
+                        return true;
+                    }
+                }
             }
-            return true;
-
+            return false;
+           
         }
-        public void addaccount(string username, string password, string id)
+        public bool StaffcheckId(string accountId)    // user
         {
-            //    bank.Accounts.Add(new List<username>());   // check
-            Account newAccount = new Account(username, password, id);
-            bank.Accounts.Add( username , newAccount); // list
-      //      newAccount.userlogin.Add(username, id);  //
-        }
-        public void addtransaction(string accountId, string transaction)
-        {
-            //  Account account = bank.Accounts.FirstOrDefault(a => a.Id == accountId);
-            //   if (account == null)
-            //   {
-            //     throw new UserNotFoundException();
-            //}
-            bank.Accounts[accountId].transactionhistory.Add(transaction);
-         //   account.transactionhistory.Add(transaction);
-            //    Account.transactionhistory[id].Add(transaction);
-            // account1.transactionhistory[account1].Add(transaction);
-        }
-        public bool login(string username, string password )    // user
-        {
-            //var somthing = Account.userlogin[username];
-            if( bank.Accounts[username].password == password)
+            foreach (Staff account in bank.StaffAccount)
             {
-            //    if( bank.Accounts[username].AccountId == accountId)
+                if (account.StaffId == accountId)
+                {
                     return true;
+                }
             }
             return false;
         }
-        public bool Stafflogin(string username, string password)    // user
-        {
-            //var somthing = Account.userlogin[username];
-            if (bank.StaffAccount[username].Password == password)
-            {
-                return true;
-            }
-            return false;
-        }
-        public bool checkId( string username , string accountId)
+        public bool UsercheckId( string accountId)
         {
             //   if ( bank.Accounts[username].AccountId == accountId)
             // {
             //   return true;
             //}
             //return false;
-           return bank.Accounts[username].AccountId == accountId;
-         //    return bank.Accounts[username].userlogin[] == accountId;
+            //   return bank.Accounts[username].AccountId == accountId;
+            //    return bank.Accounts[username].userlogin[] == accountId;
 
-        }
-        public bool AccountExit(string username)    // user
-        {
-            // var a = Account.userlogin.ContainsKey(username);
-            //  return bank.user.ContainsKey(username);
-        /*    foreach (Account account in bank.Accounts)
+          //  var result = bank.Accounts.FirstOrDefault(a => a.AccountId == accountId);
+        //    if(result)
+        //    {
+         //       return true;
+        //    }
+         //   return false;
+            foreach( Account account in bank.Accounts)
             {
-                if (account.userlogin.ContainsKey(username))
+                if(account.AccountId==accountId)
                 {
                     return true;
                 }
             }
-        */
-            return bank.Accounts.ContainsKey(username);
+            return false;
         }
-        public bool StaffAccountExist(String username)
+        public bool UserAccountExit(string username)    // user
         {
-            return bank.StaffAccount.ContainsKey(username);
+            // var a = Account.userlogin.ContainsKey(username);
+            //  return bank.user.ContainsKey(username);
+            foreach (Account account in bank.Accounts)
+            {
+                if (account.userLogin.ContainsKey(username))
+                {
+                    return true;
+                }
+            }
+            return false;
+           // return bank.Accounts.Contains(username);
         }
+        public bool StaffAccountExit(string username)    // user
+        {
+            // var a = Account.userlogin.ContainsKey(username);
+            //  return bank.user.ContainsKey(username);
+            foreach (Staff account in bank.StaffAccount)
+            {
+                if (account.stafflogin.ContainsKey(username))
+                {
+                    return true;
+                }
+            }
+            return false;
+            // return bank.Accounts.Contains(username);
+        }
+    
         public List<string> GettransactionHistory(string username, string id)
         {
-            //   Account account = bank.Accounts.FirstOrDefault(a => a.Id == id);
-            // foreach (string transaction in account.transactionhistory)
-            //   {
-            //     Console.WriteLine(transaction);
-            //}
-            return bank.Accounts[username].transactionhistory;
+              Account account = bank.Accounts.FirstOrDefault(a => a.AccountId == id);
+             foreach (string transaction in account.transactionhistory)
+               {
+                 Console.WriteLine(transaction);
+            }
+            return bank.Accounts.;
         }
        
     }

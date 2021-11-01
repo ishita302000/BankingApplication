@@ -13,12 +13,14 @@ namespace ATM.Models
         public string Password;
         private DateTime CurrentDate;
         public StaffLoginType Access;
+        public Dictionary<string, string> stafflogin;
          
-        public Staff(string Name , string Password , StaffLoginType Access)
+        public Staff(string Name , string Password , StaffLoginType Access = StaffLoginType.StaffMember)
         {    
             this.Name = Name;
             this.Password = Password;
             CurrentDate = DateTime.Now;
+            stafflogin = new Dictionary<string, string>();
             for(int i=0;i<3;i++)
             {
                 StaffId += Name[i];

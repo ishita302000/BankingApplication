@@ -5,8 +5,9 @@ namespace ATM.Models
 {
     public class Bank
     {
-        public Dictionary<string, Account> Accounts; // accounts of customers
-        public Dictionary<string, Staff> StaffAccount;  
+     //   private const double V = 0.05;
+        public List<Account> Accounts; // accounts of customers
+        public List<Staff> StaffAccount;  
         public string name;
         public string BankId;
         private readonly DateTime currentDate;
@@ -17,13 +18,13 @@ namespace ATM.Models
          
         // currency part left 
        
-        public Bank(string name, int id)
+        public Bank(string name, string id)
         {
            this.name = name;
             //    this.transactionhistory = new Dictionary<string, List<string>>();
             //    this.user = new Dictionary<string, string>();
-            this.Accounts = new Dictionary<string, Account>();
-            this.StaffAccount = new Dictionary<string, Staff>();
+            this.Accounts = new List<Account>();
+            this.StaffAccount = new List<Staff>();
             currentDate = DateTime.Now;
             string date = currentDate.ToShortDateString();
             BankId = "";
@@ -33,9 +34,9 @@ namespace ATM.Models
             }
             BankId += date;  // bankid
             this.RTGSsameBank = 0;    //0%
-            this.RTGSdifferentBank = 0; // 2%
-            this.IMPSsameBank = 0;    //5%
-            this.IMPSdifferentBank = 0;   // 6%
+            this.RTGSdifferentBank = .02; // 2%
+            this.IMPSsameBank = .05;    //5%
+            this.IMPSdifferentBank = 0.06;   // 6%
         }       
      }
 }

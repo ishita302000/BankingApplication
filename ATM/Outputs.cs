@@ -5,8 +5,21 @@ using System.Text;
 namespace ATM.CLI
 {
     class Outputs
-    {
-      
+    {    
+        public static void ChooseBank()
+        {
+            Console.WriteLine("WELCOME");
+            Console.WriteLine("Choose a Bank you want to create  account or in which your account already exits ");
+        }
+        public static void BankName(List<string> BankList)
+        {
+            foreach (string name in BankList)
+            {
+                Console.WriteLine();
+                Console.WriteLine(name);
+            }
+        }
+
         public static void AccountCreationSuccesful()
         {
             Console.WriteLine("Account Created Successfully");
@@ -51,6 +64,7 @@ namespace ATM.CLI
                 Console.WriteLine(transaction);
             }
         }
+       
         public static void validOption()
         {
             Console.WriteLine();

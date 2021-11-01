@@ -7,6 +7,6 @@ namespace ATM.Models
     public enum  AccountStatus
     {
         Active , 
-        InActive 
+        InActive , Delete
     }
 }

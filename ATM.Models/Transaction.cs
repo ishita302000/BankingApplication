@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ATM.Models
 {
-    class Transaction
+   public  class Transaction
     {
         public string RecieverAccountId;
         public string SenderAccountId;
@@ -14,7 +14,7 @@ namespace ATM.Models
         public TransactionType type;
         public string TransactionId;
         public string date;
-        public Transaction(string RecieverAccountId, string SenderAccountId, string BankId, double Amount, DateTime On, TransactionType type)
+        public Transaction(string RecieverAccountId, string SenderAccountId,  double Amount, DateTime On, TransactionType type)
         {
             this.RecieverAccountId = RecieverAccountId;
             this.RecieverAccountId = SenderAccountId;
@@ -22,6 +22,7 @@ namespace ATM.Models
             this.On = On;
             this.type = type;
             date = On.ToString();
+            TransactionId = "";
             TransactionId = "TXN" + BankId + SenderAccountId + date;
         }
     }
