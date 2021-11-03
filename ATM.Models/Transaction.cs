@@ -17,7 +17,7 @@ namespace ATM.Models
         public Transaction(string RecieverAccountId, string SenderAccountId,  double Amount, DateTime On, TransactionType type)
         {
             this.RecieverAccountId = RecieverAccountId;
-            this.RecieverAccountId = SenderAccountId;
+            this.SenderAccountId = SenderAccountId;
             this.Amount = Amount;
             this.On = On;
             this.type = type;
