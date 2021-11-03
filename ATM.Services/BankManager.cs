@@ -17,19 +17,20 @@ namespace ATM.Services
     //withdrawl
     public class BankManager
     {
-        Bank bank;
+        public Bank bank;
    
-        public BankManager(string name, string id)
+        public BankManager(string name)
         {
-            this.bank = new Bank(name, id);
+            this.bank = new Bank(name);
         }
      
         public string addaccount(string username, string accountId)
         {
                // bank.Accounts.Add(new List<username>());   // check
             Account newAccount = new Account(username, accountId);
-        //    bank.Accounts.Add( username , newAccount); // list
-            newAccount.userLogin.Add(username, accountId );  //
+            //    bank.Accounts.Add( username , newAccount); // list
+            //  newAccount.userLogin.Add(username, accountId );  //
+            bank.Accounts.Add(newAccount);
             return newAccount.AccountId;
         }
      
@@ -47,8 +48,25 @@ namespace ATM.Services
                 }
             }
             return false;
-           
+
         }
+        public bool Stafflogin(string username, string password)    // user
+        {
+            foreach (Staff account in bank.StaffAccount)
+            {
+                if (account.Name == username)
+                {
+                    if (account.Password == password)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+
+        }
+
+
         public bool StaffcheckId(string accountId)    // user
         {
             foreach (Staff account in bank.StaffAccount)
@@ -114,15 +132,7 @@ namespace ATM.Services
             // return bank.Accounts.Contains(username);
         }
     
-        public List<string> GettransactionHistory(string username, string id)
-        {
-              Account account = bank.Accounts.FirstOrDefault(a => a.AccountId == id);
-             foreach (string transaction in account.transactionhistory)
-               {
-                 Console.WriteLine(transaction);
-            }
-            return bank.Accounts.;
-        }
+     
        
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using ATM.Models;
 namespace ATM.CLI
 {
     class Outputs
@@ -55,13 +55,18 @@ namespace ATM.CLI
             Console.WriteLine();
             Console.WriteLine($"{amount} has been succesfully transfered to {accNo}");
         }
-        public static void TransactionHistory(List<string> userTransactionHistory)
+        public static void TransactionHistory(List<Transaction> userTransactionHistory)
         {
             Console.WriteLine("TRANSACTION HISTORY");
-            foreach (string transaction in userTransactionHistory)
+            foreach (var transaction in userTransactionHistory)
             {
+                string date = transaction.date;
+                string senderId = transaction.SenderAccountId;
+                string recieverId = transaction.RecieverAccountId;
+                double amount = transaction.Amount;
+                string info = amount + " transfered to " + recieverId + " from " + senderId + " on " + date;
                 Console.WriteLine();
-                Console.WriteLine(transaction);
+                Console.WriteLine(info);
             }
         }
        

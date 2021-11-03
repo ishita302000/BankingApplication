@@ -12,7 +12,7 @@ namespace ATM.Models
         public string AccountId;
         public string BankId;
         public Dictionary<string, string> userLogin;
-        public List<string> transactionhistory ;
+        public List<Transaction> Transactions ;
         public AccountStatus status;
         private static int year = 2021;
         private DateTime currentDate;
@@ -22,7 +22,7 @@ namespace ATM.Models
             this.password = password;
             this.name = name;
             this.status = status;
-            this.transactionhistory = new List<string>();
+            this.Transactions = new List<Transaction>();
          //   users = new Dictionary<string, Account>();
           this.userLogin = new Dictionary<string, string>();
             this.AccountNo = Convert.ToString(++year);

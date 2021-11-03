@@ -23,5 +23,10 @@ namespace ATM.CLI
             Console.WriteLine(message);
             return Console.ReadLine();
         }
+        public static string bankname()
+        {
+            Console.WriteLine("Please enter the Bank Name");
+            return Console.ReadLine();
+        }
     }
 }

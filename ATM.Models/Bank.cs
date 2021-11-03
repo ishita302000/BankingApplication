@@ -18,7 +18,7 @@ namespace ATM.Models
          
         // currency part left 
        
-        public Bank(string name, string id)
+        public Bank(string name)
         {
            this.name = name;
             //    this.transactionhistory = new Dictionary<string, List<string>>();

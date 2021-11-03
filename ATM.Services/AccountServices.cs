@@ -11,12 +11,12 @@ namespace ATM.Services
     {
         Bank bank;
 
-        public AccountServices(string accountId , string name)
+        public AccountServices( string name)
         {
-            this.bank = new Bank(accountId, name);
+            this.bank = new Bank(name);
         }
        
-        public static int deposit(int amount, string accountId)  // static
+        public  int deposit(int amount, string accountId)  // static
         {
             Account account = bank.Accounts.FirstOrDefault(m => m.AccountId == accountId);
             account.currentbalance += amount;
@@ -61,16 +61,23 @@ namespace ATM.Services
             //}
             DateTime datetime = DateTime.Now;
             Transaction transaction = new Transaction( senderId , receiverId,   amount, datetime, transactionType);
-            sender.Transaction.add(transaction);
+            var acc = GetAccount(senderId);
+            acc.Transactions.Add(transaction);
         }
-        public List<string> GettransactionHistory(string username, string id)
+        public List<Transaction> GettransactionHistory(string username, string userid)
         {
-            Account account = bank.Accounts.FirstOrDefault(a => a.AccountId == id);
-            foreach (string transaction in account.transactionhistory)
+            Account account = bank.Accounts.FirstOrDefault(a => a.AccountId == userid);
+           
+            return account.Transactions;
+        }
+
+        public Account GetAccount(string accId)
+        {
+            foreach (var acc in bank.Accounts)
             {
-                Console.WriteLine(transaction);
+                if (acc.AccountId == accId) return acc;
             }
-            return bank.Accounts.;
+            return null;
         }
 
     }

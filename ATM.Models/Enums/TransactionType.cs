@@ -8,6 +8,7 @@ namespace ATM.Models
     {
         Debited,
         Withdraw,
+        Deposited,
         Credited
     }
 }
