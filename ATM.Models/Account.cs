@@ -7,11 +7,11 @@ namespace ATM.Models
     {
         public string name; // Name
         public string password; // Password
-        public int  currentbalance = 1000; // Balance
+        public double  currentbalance = 1000.00; // Balance
         public string AccountNo;
         public string AccountId;
         public string BankId;
-        public Dictionary<string, string> userLogin;
+       
         public List<Transaction> Transactions ;
         public AccountStatus status;
         private static int year = 2021;
@@ -24,7 +24,7 @@ namespace ATM.Models
             this.status = status;
             this.Transactions = new List<Transaction>();
          //   users = new Dictionary<string, Account>();
-          this.userLogin = new Dictionary<string, string>();
+          
             this.AccountNo = Convert.ToString(++year);
             currentDate = DateTime.Now;
             String date = currentDate.ToShortDateString();
@@ -33,7 +33,7 @@ namespace ATM.Models
             for (int i = 0; i < 3; i++) 
                 AccountId += this.name;
             AccountId += date;  // ish1203
-            this.AccountId = AccountId;
+            
         }
     }
 }

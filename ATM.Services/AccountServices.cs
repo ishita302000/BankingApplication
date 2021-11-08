@@ -11,56 +11,100 @@ namespace ATM.Services
     {
         Bank bank;
 
-        public AccountServices( string name)
+        public AccountServices( string name , string countrycode)
         {
-            this.bank = new Bank(name);
+            this.bank = new Bank(name , countrycode);
         }
        
-        public  int deposit(int amount, string accountId)  // static
+        public  double deposit(double amount, string accountId , string currentycode)  // static
         {
             Account account = bank.Accounts.FirstOrDefault(m => m.AccountId == accountId);
-            account.currentbalance += amount;
+          account.currentbalance += ( amount * Currency.curr[currentycode]);
 
             return account.currentbalance;
         }
-        public int withdraw(int amount, string accountId)
+        public double withdraw(double amount, string accountId)
         {
             var account = bank.Accounts.FirstOrDefault(m => m.AccountId == accountId);
             //   return amount.currentbalance -= amount;
             return account.currentbalance -= amount;
 
         }
-        public bool transfer(int amount, string accountId1, string accountId2)
+        public bool transfer(double amount, string accountId1, string accountId2 , string SenderBankId , string RecieverBankId , string choice)
         {
-            Account account1 = bank.Accounts.FirstOrDefault(m => m.AccountId == accountId1);
-            if (account1 == null)
+         //   Bank SenderBank = null;
+            Bank RecieverBank = null;
+            try
             {
-                throw new UserNotFoundException();
+                foreach(var i in BankList.Banks)
+                {
+                    if(i.BankId==SenderBankId)
+                    {
+                        bank = i;  // senderbank
+                    }
+                    if(i.BankId==RecieverBankId)
+                    {
+                        RecieverBank =i;
+                    }
+                }
+                double charge;
+                if(SenderBankId==RecieverBankId)
+                {
+                    if( choice =="1")
+                    {
+                        charge = DeductCharge(amount, bank.RTGSsameBank);
+                    }
+                    else
+                    {
+                        charge = DeductCharge(amount, bank.IMPSsameBank);
+                    }
+                }
+                else
+                {
+                    if (choice == "1")
+                    {
+                        charge = DeductCharge(amount, bank.RTGSdifferentBank);
+                    }
+                    else
+                    {
+                        charge = DeductCharge(amount, bank.IMPSdifferentBank);
+                    }
+
+                }
+                Account account1 = bank.Accounts.FirstOrDefault(m => m.AccountId == accountId1);
+                if (account1 == null)
+                {
+                    throw new UserNotFoundException();
+                }
+                Account account2 = bank.Accounts.FirstOrDefault(m => m.AccountId == accountId2);
+                if (account2 == null)
+                {
+                    throw new UserNotFoundException();
+                }
+                if (account1.currentbalance >= amount + charge)
+                {
+                    account1.currentbalance -= amount + charge;
+                    account2.currentbalance += Math.Round(amount * (double)(Currency.curr[bank.Countrycode] / Currency.curr[RecieverBank.Countrycode]), 2);
+                    return true;
+                }
+             //   account2.currentbalance += amount;
+             //   account1.currentbalance -= amount;
             }
-            Account account2 = bank.Accounts.FirstOrDefault(m => m.AccountId == accountId2);
-            if (account2 == null)
+            catch(Exception ex)
             {
-                throw new UserNotFoundException();
+                Console.WriteLine("Error in Transfer: {0}", ex.Message);
             }
-            var bal = account2.currentbalance += amount;
-            //    bank.Accounts[accountId1].currentbalance -= amount;
-            //  if(bank.Accounts.ContainsKey(accountId2))
-            //{
-            //  deposit( amount , accountId2);
-            //addtransaction(accountId1 , " Id recieved " + amount + " from account " + accountId2);
-            //addtransaction( accountId1, "recieved " + amount + " from " + accountId
-            return true;
+            return false;
 
         }
-        public void addtransaction(string senderId, string receiverId, double amount, TransactionType transactionType)
+        public double DeductCharge(double amount , double percent )
         {
-            //  Account account = bank.Accounts.FirstOrDefault(a => a.Id == accountId);
-            //   if (account == null)
-            //   {
-            //     throw new UserNotFoundException();
-            //}
+            return (double)Math.Round(amount*percent , 2);
+        }
+        public void addtransaction(string senderId, string receiverId, double amount, TransactionType transactionType , string senderbankid,string recieverbankid)
+        {
             DateTime datetime = DateTime.Now;
-            Transaction transaction = new Transaction( senderId , receiverId,   amount, datetime, transactionType);
+            Transaction transaction = new Transaction( senderId , receiverId,   amount, datetime, transactionType , senderbankid , recieverbankid);
             var acc = GetAccount(senderId);
             acc.Transactions.Add(transaction);
         }
@@ -82,4 +126,17 @@ namespace ATM.Services
 
     }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 

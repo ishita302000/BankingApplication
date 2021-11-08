@@ -12,42 +12,45 @@ namespace ATM.CLI
         static void Main(string[] args)
         {
 
-            List<string> BankList = new List<string>();
-            BankList.Add("Axis Bank");
-            BankList.Add("HDFC Bank");
-            BankList.Add("SBI Bank");
-            BankList.Add("Kotak Bank");
+          
            
             string username = "";
             string password = "";
             string accountId = "";
             string CurrentUserAccId = "";
             string BankId = "";
-            string BankName = "";
-            Outputs.ChooseBank();
-            Outputs.BankName(BankList); // view
-
-            BankName = InputTakenFromUser.bankname();
+            string Bankname = "";
+            string CountryCode = "";
+            string BankAddress = "";
             // Console.WriteLine("Hello World!");
-            BankManager bankmanager = new BankManager(BankName);
-            BankId = bankmanager.bank.BankId;
-            Console.WriteLine(" Your Bank ID is"+ BankId);
+            ConsoleOutput.Welcome();
+            BankManager bankmanager = new BankManager();
+            StaffServices staffmanager = new StaffServices();
+            Console.WriteLine(ConstantMessages.SetupFirstBank);
+        //   BankId = bankmanager.bank.BankId;
+        //      var bank = bankmanager.
 
-            Console.WriteLine("Press 1 for create Account");
-            Console.WriteLine("Press 2 for Log in");
-            Console.WriteLine();
-            int x1 = Convert.ToInt32(Console.ReadLine());
-            if (x1 ==1)
+        //    Console.WriteLine("Your Bank ID is"+ BankId);
+        //   Console.WriteLine();
+        SetUpBank:
+            Bankname = InputTakenFromUser.BankName();
+            BankAddress =InputTakenFromUser.Address();
+            CountryCode = Console.ReadLine();
+        
+            try
             {
-                //create
-                username = InputTakenFromUser.GetString("Please enter username");
-                password = InputTakenFromUser.GetString("Please enter password");
-             //   accountid = InputTakenFromUser.getmsg();
-                 CurrentUserAccId =  bankmanager.addaccount(username, password); // accountid
-                Outputs.AccountCreationSuccesful();
-                Console.WriteLine($"{username} your Account ID is"+ CurrentUserAccId);
+                BankId= staffmanager.CreateBank(Bankname, BankAddress, CountryCode);
+                ConsoleOutput.BankSuccessfullCreation();
+                ConsoleOutput.BankId(BankId);
             }
-            AccountServices AccountManager = new AccountServices(  username);
+            catch(Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+                goto SetUpBank;
+            }
+          
+            AccountServices AccountManager = new AccountServices(username , CountryCode);
+        StaffSetUp:
 
             do
             {
@@ -63,8 +66,8 @@ namespace ATM.CLI
                 accountId = InputTakenFromUser.getmsg();
             } while(!bankmanager.UsercheckId(accountId));
          
-            Outputs.Login(username);
-            Outputs.ChooseOption();
+            ConsoleOutput.Login(username);
+            ConsoleOutput.ChooseOption();
             Console.WriteLine();
             Choice input = (Choice)Convert.ToInt32(Console.ReadLine());
             while (input!= Choice.quit)
@@ -74,17 +77,17 @@ namespace ATM.CLI
                     int depositInput = InputTakenFromUser.getMessage();
                   //  var currentId =  bankmanager.addaccount(username , password);
                     int depositamount = Convert.ToInt32(depositInput);
-                double currentBalance = AccountManager.deposit( depositamount, CurrentUserAccId);
+                double currentBalance = AccountManager.deposit( depositamount, CurrentUserAccId , CountryCode);
                    
                     Console.WriteLine("Current balance : " + currentBalance);
-                    AccountManager.addtransaction(CurrentUserAccId , CurrentUserAccId , depositamount , TransactionType.Deposited);
+                    AccountManager.addtransaction(CurrentUserAccId , CurrentUserAccId , depositamount , TransactionType.Deposited , BankId , BankId);
                 }
                 else if (input == Choice.withdraw)
                 {
-                    int withdrawamount = InputTakenFromUser.getMessage();
+                    double withdrawamount = InputTakenFromUser.getMessage();
                        //    double currentBalance = bankmanager.withdraw(withdraw, accountid);
-                   int currentBalance = AccountManager.withdraw(withdrawamount,CurrentUserAccId);
-                     //  bankmanager.withdraw(withdrawamount, accountid);
+                   double currentBalance = AccountManager.withdraw(withdrawamount,CurrentUserAccId);
+                    //  bankmanager.withdraw(withdrawamount, accountid);
                     Console.WriteLine("Successfully withdrawn : " + withdrawamount);
                     Console.WriteLine("Current Balance : " + currentBalance);
                     //     Console.WriteLine("Successfully withdrawn ");
@@ -108,7 +111,7 @@ namespace ATM.CLI
                 }
                 else if (input == Choice.transactionHistory)
                 {
-                    Outputs.TransactionHistory(AccountManager.GettransactionHistory(username , CurrentUserAccId));
+                    ConsoleOutput.TransactionHistory(AccountManager.GettransactionHistory(username , CurrentUserAccId));
 
                 }
 
@@ -117,7 +120,7 @@ namespace ATM.CLI
                     Console.WriteLine("Enter valid option ");
                 }
 
-                Outputs.ChooseOption();
+                ConsoleOutput.ChooseOption();
                 input =  (Choice) Convert.ToInt32(Console.ReadLine());
 
             }

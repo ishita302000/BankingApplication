@@ -25,7 +25,7 @@ namespace ATM.Models
             {
                 StaffId += Name[i];
             }
-            StaffId += CurrentDate;
+            StaffId += CurrentDate;  // staffmember
             Access = StaffLoginType.StaffMember;
             this.Access = Access;
         }

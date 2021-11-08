@@ -18,11 +18,19 @@ namespace ATM.Services
     public class BankManager
     {
         public Bank bank;
-   
-        public BankManager(string name)
+        public Staff staff;
+     
+
+       
+
+     /*   public List<string> BankList()
         {
-            this.bank = new Bank(name);
-        }
+            BankList.Add("Axis Bank");
+            BankList.Add("HDFC Bank");
+            BankList.Add("SBI Bank");
+            BankList.Add("Kotak Bank");
+            return BankManager.BankList;
+        }*/
      
         public string addaccount(string username, string accountId)
         {
@@ -34,33 +42,49 @@ namespace ATM.Services
             return newAccount.AccountId;
         }
      
-        public bool userlogin(string username, string password )    // user
+        public bool userlogin(string username, string password , string bankid )    // user
         {
-            
-            foreach(Account account in bank.Accounts)
-            {
-                if( account.name == username)
-                {
-                    if(account.password==password)
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            Account user = null;
 
-        }
-        public bool Stafflogin(string username, string password)    // user
-        {
-            foreach (Staff account in bank.StaffAccount)
+            try
             {
-                if (account.Name == username)
+                bank = StaffServices.FindBank(bankid);
+                if (bank == null)
                 {
-                    if (account.Password == password)
-                    {
-                        return true;
-                    }
+                    throw new Exception("Bank does not exist");
                 }
+                foreach (var account in bank.Accounts.Where(account => account.name == username & account.password == password))
+                {
+                    user = account;
+                }
+                return true;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+           return false;
+        }
+    public bool Stafflogin(string username, string password , string bankid)    // user
+        {
+            Staff user = null;
+
+            try
+            {
+                bank = StaffServices.FindBank(bankid);
+                if (bank == null)
+                {
+                    throw new Exception("Bank does not exist");
+                }
+                foreach (var account in bank.StaffAccount.Where(account => account.Name == username & account.Password == password))
+                {
+                    user = account;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
             return false;
 
@@ -103,33 +127,54 @@ namespace ATM.Services
             }
             return false;
         }
-        public bool UserAccountExit(string username)    // user
+        public bool UserAccountExit(string username , string bankid)    // user
         {
             // var a = Account.userlogin.ContainsKey(username);
-            //  return bank.user.ContainsKey(username);
-            foreach (Account account in bank.Accounts)
+            Account user = null;
+            try
             {
-                if (account.userLogin.ContainsKey(username))
+                bank = StaffServices.FindBank(bankid);
+                if (bank == null)
                 {
-                    return true;
+                    throw new Exception("Bank does not exist");
                 }
+
+                foreach (var account in bank.Accounts.Where(account => account.name == username))
+                {
+                    user = account;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
             return false;
-           // return bank.Accounts.Contains(username);
         }
-        public bool StaffAccountExit(string username)    // user
+        public bool StaffAccountExit(string username , string bankid)    // user
         {
             // var a = Account.userlogin.ContainsKey(username);
             //  return bank.user.ContainsKey(username);
-            foreach (Staff account in bank.StaffAccount)
+            Staff user = null;
+            try
             {
-                if (account.stafflogin.ContainsKey(username))
+                bank = StaffServices.FindBank(bankid);
+                if (bank == null)
                 {
-                    return true;
+                    throw new Exception("Bank does not exist");
                 }
+
+                foreach (var account in bank.StaffAccount.Where(account => account.Name == username))
+                {
+                    user = account;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
             return false;
-            // return bank.Accounts.Contains(username);
         }
     
      

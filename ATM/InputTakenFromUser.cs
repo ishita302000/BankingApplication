@@ -6,27 +6,56 @@ namespace ATM.CLI
 {
     class InputTakenFromUser
     {
-        public  static string getmsg()
+        private static string GetInput(string message)
         {
-            Console.WriteLine("Please enter your id ");
-            return Console.ReadLine();
-      }
-     
-        public static int getMessage()
+            Console.WriteLine("\n"+message+"\n");
+            string result = Console.ReadLine();
+            return result;
+        }
+        public  static string Username()
         {
-            Console.WriteLine("Please enter your amount ");
-            return Convert.ToInt32(Console.ReadLine());
+            return GetInput(ConstantMessages.UserName);
+        }
+        public static string Password()
+        {
+            return GetInput(ConstantMessages.Password);
+        }
+        public static string DeleteUserName()
+        {
+            return GetInput(ConstantMessages.DeleteUserName);
+        }
+        public static string RecieverName()
+        {
+            return GetInput(ConstantMessages.RecieverName);
+        }
+        public static string DepositAmount()
+        {
+            return GetInput(ConstantMessages.DepositAmount);
+        }
+        public static string WithdrawAmount()
+        {
+            return GetInput(ConstantMessages.WithdrawAmount);
+        }
+        public static string Amount()
+        {
+            return GetInput(ConstantMessages.Amount);
+        }
+        public static string UpdateCurrency()
+        {
+            return GetInput(ConstantMessages.UpdateCurrency);
+        }
+        public static string InitializeAmount()
+        {
+            return GetInput(ConstantMessages.Amount);
+        }
+        public static string BankName()
+        {
+            return GetInput(ConstantMessages.BankName);
+        }
+        public static string Address()
+        {
+            return GetInput(ConstantMessages.Address);
         }
 
-        public static string GetString(string message)
-        {
-            Console.WriteLine(message);
-            return Console.ReadLine();
-        }
-        public static string bankname()
-        {
-            Console.WriteLine("Please enter the Bank Name");
-            return Console.ReadLine();
-        }
     }
 }
