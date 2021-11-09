@@ -33,7 +33,7 @@ namespace ATM.Services
             BankList.Banks.Add(bank);
             return bank.BankId;
         }
-        public string CreateAccount(string bankId, string name, string password, int choice, string accountId)
+        public string CreateAccount(string bankId, string name, string password, int choice)
         {
 
             string Id;
@@ -41,7 +41,7 @@ namespace ATM.Services
 
             if (string.IsNullOrEmpty(name))
                 throw new Exception("Name is not valid!");
-            if (bank.Accounts.Count != 0 & bank.Accounts.Any(p => p.AccountId == accountId) == true)
+            if (bank.Accounts.Count != 0 & bank.Accounts.Any(p => p.name == name) == true)
                 throw new Exception("Account already exists!");
             if (BankList.Banks.Count != 0 & BankList.Banks.Any(p => p.BankId == bankId) != true)
                 throw new Exception("Bank doesn't exists!");

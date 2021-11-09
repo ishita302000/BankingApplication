@@ -16,19 +16,26 @@ namespace ATM.Services
             this.bank = new Bank(name , countrycode);
         }
        
-        public  double deposit(double amount, string accountId , string currentycode)  // static
+        public double deposit(double amount, string accountId , string currentycode , string bankid )  // static
         {
             Account account = bank.Accounts.FirstOrDefault(m => m.AccountId == accountId);
           account.currentbalance += ( amount * Currency.curr[currentycode]);
-
+            Transaction transaction = new Transaction(account.AccountId , account.AccountId , amount , DateTime.Now , TransactionType.Credited , bankid , bankid);
+            account.Transactions.Add(transaction);
             return account.currentbalance;
         }
-        public double withdraw(double amount, string accountId)
+        public bool withdraw(double amount, string accountId , Account user , string bankid)
         {
+            if(user.currentbalance >= amount)
+            { 
             var account = bank.Accounts.FirstOrDefault(m => m.AccountId == accountId);
             //   return amount.currentbalance -= amount;
-            return account.currentbalance -= amount;
-
+            account.currentbalance -= amount;
+            Transaction transaction = new Transaction(accountId , accountId , amount , DateTime.Now , TransactionType.Debited  , bankid , bankid);
+            user.Transactions.Add(transaction);
+            return true;
+            }
+            return false;
         }
         public bool transfer(double amount, string accountId1, string accountId2 , string SenderBankId , string RecieverBankId , string choice)
         {

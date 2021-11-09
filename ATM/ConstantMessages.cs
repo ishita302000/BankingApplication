@@ -10,7 +10,9 @@ namespace ATM.CLI
         public const string AccountId = "\nPlease Enter AccouontId:";
         public const string AccountSuccessfullCreation = "\nAccount Created Successfully!!\n";
         public const string AccountSuccessfullDeletion = "\nAccount deleted successfully!!\n";
-        public const string AccountUpdateChoice = "\nWhat do you want to update!\n1.Name\n2.Phone Number\n3.Password\n";
+        public const string AccountUpdateChoice = "\nWhat do you want to update!\n1.Name\n2.Password\n";
+        public const string AccountCustomerChoice = "\nWhat do you want to !\n1.Create Account\n2.Login Account\n";
+
         public const string AdminName = "\nPlease enter Admin name";
         public const string AdminPass = "\nPlease enter Admin password";
         public const string Address = "\nEnter the bank Address";

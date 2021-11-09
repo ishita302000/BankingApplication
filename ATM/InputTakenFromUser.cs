@@ -12,6 +12,10 @@ namespace ATM.CLI
             string result = Console.ReadLine();
             return result;
         }
+        public static string Input()
+        {
+            return Console.ReadLine();
+        }
         public  static string Username()
         {
             return GetInput(ConstantMessages.UserName);

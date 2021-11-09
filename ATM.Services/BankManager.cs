@@ -42,7 +42,7 @@ namespace ATM.Services
             return newAccount.AccountId;
         }
      
-        public bool userlogin(string username, string password , string bankid )    // user
+        public Account userlogin(string accid , string password , string bankid )    // user
         {
             Account user = null;
 
@@ -53,22 +53,20 @@ namespace ATM.Services
                 {
                     throw new Exception("Bank does not exist");
                 }
-                foreach (var account in bank.Accounts.Where(account => account.name == username & account.password == password))
+                foreach (var account in bank.Accounts.Where(account => account.AccountId == accid & account.password == password))
                 {
                     user = account;
                 }
-                return true;
             }
             catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-           return false;
+           return user;
         }
-    public bool Stafflogin(string username, string password , string bankid)    // user
+    public Staff Stafflogin(string id, string password , string bankid)    // user
         {
             Staff user = null;
-
             try
             {
                 bank = StaffServices.FindBank(bankid);
@@ -76,21 +74,18 @@ namespace ATM.Services
                 {
                     throw new Exception("Bank does not exist");
                 }
-                foreach (var account in bank.StaffAccount.Where(account => account.Name == username & account.Password == password))
+                foreach (var account in bank.StaffAccount.Where(account => account.StaffId == id & account.Password == password))
                 {
                     user = account;
                 }
-                return true;
+               
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-            return false;
-
+            return user;
         }
-
-
         public bool StaffcheckId(string accountId)    // user
         {
             foreach (Staff account in bank.StaffAccount)

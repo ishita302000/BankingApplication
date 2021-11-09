@@ -1,10 +1,12 @@
 ﻿namespace ATM.CLI
 {
-    public enum Choice
+    public enum OperationsPerformedByUser
     {   quit,
         deposit,
         withdraw,
         transfer,
-        transactionHistory
+        transactionHistory,
+        Logout,
+        Login
     }
 }

@@ -73,6 +73,10 @@ namespace ATM.CLI
         {
             Console.WriteLine(ConstantMessages.Balance);
         }
+        public static void option()
+        {
+            Console.WriteLine(ConstantMessages.AccountCustomerChoice);
+        }
         public static void InsufficientBalance()
         {
             Console.WriteLine(ConstantMessages.InsufficientBalance);
@@ -105,11 +109,21 @@ namespace ATM.CLI
         {
             Console.WriteLine("\n{0} transferred successfully", amt);
         }
-        public static void TransactionHistory(List<Transaction> userTransactionHistory)
+        public static void TransactionHistory(Transaction userTransactionHistory)
         {
             Console.WriteLine("TRANSACTION HISTORY");
-            foreach (var transaction in userTransactionHistory)
+            Console.WriteLine("Transaction ID:" + userTransactionHistory.SenderAccountId);
+            Console.WriteLine(userTransactionHistory.Amount);
+            Console.WriteLine(userTransactionHistory.type + "to your account");
+            if (userTransactionHistory.SenderAccountId != userTransactionHistory.RecieverAccountId)
             {
+                Console.WriteLine("From " + userTransactionHistory.SenderAccountId + " to " + userTransactionHistory.RecieverAccountId);
+            }
+            Console.WriteLine(userTransactionHistory.On.ToString());
+          /*  foreach (var transaction in i)
+            {
+                Console.WriteLine("Transaction ID:" + i.Id);
+                Console.WriteLine(i.Amount);
                 string date = transaction.date;
                 string senderId = transaction.SenderAccountId;
                 string recieverId = transaction.RecieverAccountId;
@@ -118,6 +132,7 @@ namespace ATM.CLI
                 Console.WriteLine();
                 Console.WriteLine(info);
             }
+          */
         }
        
     
