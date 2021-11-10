@@ -26,6 +26,7 @@ namespace ATM.CLI
             string StaffName = "";
             string Staffpass = "";
             int choice1 = 0;
+            Account reciever;
             // Console.WriteLine("Hello World!");
             ConsoleOutput.Welcome();
             BankManager bankmanager = new BankManager();
@@ -483,7 +484,7 @@ namespace ATM.CLI
                         else if (customerOperation == OperationsPerformedByUser.transfer)
                         {
                             Console.Clear();
-                            Account reciever;
+                         //   Account reciever;
                             Console.WriteLine(ConstantMessages.SenderBankId);
                             string sbankId = Console.ReadLine();
                             Console.WriteLine(ConstantMessages.ReceiverBankId);
@@ -544,8 +545,10 @@ namespace ATM.CLI
                 ConsoleOutput.InValidOption();
                 goto LoginPage;
             }
-            ////
-            // Console.WriteLine(ConstantMessages.BankId);
+        ////
+        // Console.WriteLine(ConstantMessages.BankId);
+        Finish:
+            ConsoleOutput.Exit();
         }
     }
 }
