@@ -12,9 +12,9 @@ namespace ATM.CLI
             string result = Console.ReadLine();
             return result;
         }
-        public static string Input()
+        public static string Staff()
         {
-            return Console.ReadLine();
+            return GetInput(ConstantMessages.StaffName);
         }
         public  static string Username()
         {

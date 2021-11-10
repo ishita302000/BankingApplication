@@ -57,7 +57,7 @@ namespace ATM.CLI
             AccountServices AccountManager = new AccountServices(username, CountryCode);
         StaffSetUp:
             Console.WriteLine(ConstantMessages.StaffName);
-            StaffName = InputTakenFromUser.Input();
+            StaffName = InputTakenFromUser.Staff();
             Staffpass = InputTakenFromUser.Password();
             string StaffAccountId;
             try

@@ -12,10 +12,6 @@ namespace ATM.CLI
         public const string AccountSuccessfullDeletion = "\nAccount deleted successfully!!\n";
         public const string AccountUpdateChoice = "\nWhat do you want to update!\n1.Name\n2.Password\n";
         public const string AccountCustomerChoice = "\nWhat do you want to !\n1.Create Account\n2.Login Account\n";
-
-        public const string AdminName = "\nPlease enter Admin name";
-        public const string AdminPass = "\nPlease enter Admin password";
-        public const string Address = "\nEnter the bank Address";
         public const string Amount = "\nPlease Enter the Amount";
         public const string Balance = "\nYour current Balance is: ";
         public const string BankId = "\nPlease Enter BankId:";
@@ -29,8 +25,6 @@ namespace ATM.CLI
         public const string DepositAmount = "\nPlease Enter the amount to deposit";
         public const string ExchangeRate = "\nEnter Exchange rate:";
         public const string Exit = "\nTHANK YOU, VISIT AGAIN !";
-        public const string Gender = "\nPlease enter your Gender";
-        public const string InitializeAmount = "\nPlease Enter the Initialize Amount";
         public const string InsufficientBalance = "\nInsufficient Balance, Transaction failed !";
         public const string InvalidDetail = "\nPLEASE ENTER VALID DETAILS !";
         public const string InvalidOption = "\nPLEASE ENTER A VALID OPTION !";
@@ -40,7 +34,6 @@ namespace ATM.CLI
         public const string NewIMPScharge = "\nEnter new charge for IMPS:";
         public const string NewRTGScharge = "\nEnter new charge for RTGS:";
         public const string Password = "\nPlease Enter the Password";
-        public const string PhoneNumber = "\nPlease enter Phone Number";
         public const string ReceiverBankId = "\nEnter Receiver BankId";
         public const string RecieverName = "\nPlease Enter the Reciever name";
         public const string RevertAccountId = "\nEnter Accoount Id to revert:";
@@ -55,7 +48,6 @@ namespace ATM.CLI
         public const string SetupFirstBank = "\nPlease setup a bank first";
         public const string TransactionHistory = "\nTransaction History:-- \n<--------*-----*------->\n";
         public const string TransferToAccountHolderName = "\nEnter Account Holder name to Transfer:";
-        public const string UnderConstruction = "\nCurrently application is under construction";
         public const string UpdateCurrency = "\nPlease Enter currency to add";
         public const string UpdateDeleteAccount = "\nChoose the Option \n1.Update Account 2.Delete Account";
         public const string UserName = "\nPlease Enter Your Name";
