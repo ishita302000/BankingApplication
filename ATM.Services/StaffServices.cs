@@ -16,7 +16,27 @@ namespace ATM.Services
         {
             return false;
         }
-     
+        public Account checkAccount(string bankid, string id)
+        {
+            Account user = null;
+            try
+            {
+                bank = FindBank(bankid);
+                if(bank==null)
+                {
+                    throw new Exception("Bank doesn't exist! ");
+                }
+                foreach(var account in bank.Accounts.Where(account => account.AccountId == id))
+                {
+                    user = account;
+                }
+            }
+            catch(Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+            return user;
+        }
         public string CreateBank(string name, string address, string currencyCode)
         {
             if (string.IsNullOrEmpty(name))

@@ -10,8 +10,12 @@ namespace ATM.Models.Enums
         UpdateAccountStatus,
         ChangeCurrency,
         Quit,
+        Login,
         AccountCharges,
         TransactionHistory,
-        RevertTransaction
+        LogOut,
+        RevertTransaction,
+        TransferMoney,
+        DepositMoney
     }
 }

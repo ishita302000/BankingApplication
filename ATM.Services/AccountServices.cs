@@ -11,9 +11,9 @@ namespace ATM.Services
     {
         Bank bank;
 
-        public AccountServices( string name , string countrycode)
+        public AccountServices( string bankname , string countrycode)
         {
-            this.bank = new Bank(name , countrycode);
+            this.bank = new Bank(bankname , countrycode);
         }
        
         public double deposit(double amount, string accountId , string currentycode , string bankid )  // static
@@ -24,7 +24,7 @@ namespace ATM.Services
             account.Transactions.Add(transaction);
             return account.currentbalance;
         }
-        public bool withdraw(double amount, string accountId , Account user , string bankid)
+        public bool withdraw(double amount, string accountId , Account user ,string bankid)
         {
             if(user.currentbalance >= amount)
             { 

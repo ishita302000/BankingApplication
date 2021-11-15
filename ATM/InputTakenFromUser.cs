@@ -56,10 +56,11 @@ namespace ATM.CLI
         {
             return GetInput(ConstantMessages.BankName);
         }
-        public static string Address()
+        public static string branch()
         {
-            return GetInput(ConstantMessages.Address);
+            return GetInput(ConstantMessages.BranchName);
         }
+        
 
     }
 }
