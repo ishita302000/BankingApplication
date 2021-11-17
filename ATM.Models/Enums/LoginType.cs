@@ -6,7 +6,7 @@ namespace ATM.Models.Enums
 {
     public enum LoginType
     {
-        BankSetup,
+        BankSetup=1,
         Stafflogin,
         Customerlogin
     }

@@ -71,6 +71,7 @@ namespace ATM.CLI
             LoginType loginOption;
             try
             {
+                
                 loginOption = (LoginType)(Convert.ToInt32(Console.ReadLine()));
             }
             catch (Exception ex)
@@ -162,7 +163,7 @@ namespace ATM.CLI
                     }
                     else if (staffOperation == OperationsPerdormedByStaff.UpdateAccountStatus)
                     {
-                        Console.Clear();
+                      //  Console.Clear();
                     UpdateAccount:
                         Console.WriteLine(ConstantMessages.UpdateDeleteAccount);
                         string choice1 = Console.ReadLine();
@@ -254,7 +255,7 @@ namespace ATM.CLI
                     }
 
 
-                    else if (staffOperation == OperationsPerdormedByStaff.AccountCharges)
+                    else if (staffOperation == OperationsPerdormedByStaff.UpdateServiceCharge)
                     {
                     UpdateServiceCharge:
                         Console.WriteLine(ConstantMessages.ServiceChargeUpdateChoice);
@@ -301,7 +302,7 @@ namespace ATM.CLI
                     }
                     else if (staffOperation == OperationsPerdormedByStaff.TransactionHistory)
                     {
-                        Console.Clear();
+                      //  Console.Clear();
 
                     ShowTransactionHistory:
                         Console.WriteLine(ConstantMessages.AccountId);
@@ -321,7 +322,7 @@ namespace ATM.CLI
                     {
                         Console.WriteLine("Done Later");
                     }
-                    else if (staffOperation == OperationsPerdormedByStaff.Login)
+                    else if (staffOperation == OperationsPerdormedByStaff.LoginAnotherAccount)
                     {
                         goto LoginPage;
                     }
@@ -342,7 +343,7 @@ namespace ATM.CLI
                 Console.WriteLine(" Customer Log in ");
 
                 Account bankAccount;
-                Console.Clear();
+        //        Console.Clear();
 
                 Console.WriteLine(ConstantMessages.BankId);
                 string bId = Console.ReadLine();
@@ -378,11 +379,11 @@ namespace ATM.CLI
                         Console.WriteLine(ex.Message);
                         goto CustomerOperations;
                     }
-                    while (customerOperation != OperationsPerformedByUser.Logout)
+                    while (customerOperation != OperationsPerformedByUser.LogOut)
                     {
-                        if (customerOperation == OperationsPerformedByUser.deposit)
+                        if (customerOperation == OperationsPerformedByUser.Deposit)
                         {
-                            Console.Clear();
+                          //  Console.Clear();
                             double amt;
                             string currCode, bankId , accId;
                             try
@@ -411,9 +412,9 @@ namespace ATM.CLI
                             }
                             ConsoleOutput.DepositSuccessfull(amt);
                         }
-                        else if (customerOperation == OperationsPerformedByUser.withdraw)
+                        else if (customerOperation == OperationsPerformedByUser.Withdraw)
                         {
-                            Console.Clear();
+                          //  Console.Clear();
                             double amt;
                             string bankId , accId;
                             try
@@ -438,9 +439,9 @@ namespace ATM.CLI
                                 ConsoleOutput.InsufficientBalance();
                             }
                         }
-                        else if (customerOperation == OperationsPerformedByUser.transfer)
+                        else if (customerOperation == OperationsPerformedByUser.Transfer)
                         {
-                            Console.Clear();
+                         //   Console.Clear();
                             Account reciever;
                             Console.WriteLine(ConstantMessages.SenderBankId);
                             string sbankId = Console.ReadLine();
@@ -478,9 +479,9 @@ namespace ATM.CLI
                             }
 
                         }
-                        else if (customerOperation == OperationsPerformedByUser.transactionHistory)
+                        else if (customerOperation == OperationsPerformedByUser.TransactionHistory)
                         {
-                            Console.Clear();
+                         //   Console.Clear();
 
                             foreach (var i in bankAccount.Transactions)
                             {
@@ -489,13 +490,13 @@ namespace ATM.CLI
 
                         }
 
-                        else if (customerOperation == OperationsPerformedByUser.Login)
+                        else if (customerOperation == OperationsPerformedByUser.LoginAnotherAccount)
                         {
                             goto LoginPage;
                         }
                         else
                         {
-                            Console.Clear();
+                         //   Console.Clear();
                             ConsoleOutput.InValidOption();
                         }
                         goto CustomerOperations;
@@ -509,7 +510,7 @@ namespace ATM.CLI
                 ConsoleOutput.InValidOption();
                 goto LoginPage;
             }
-            Console.Clear();
+         //   Console.Clear();
         Finish:
             ConsoleOutput.Exit();
         }

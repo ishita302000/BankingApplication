@@ -6,16 +6,13 @@ namespace ATM.Models.Enums
 {
    public enum  OperationsPerdormedByStaff
     {
-        CreateAccount,
+        CreateAccount = 1,
         UpdateAccountStatus,
         ChangeCurrency,
-        Quit,
-        Login,
-        AccountCharges,
+        UpdateServiceCharge,
         TransactionHistory,
-        LogOut,
         RevertTransaction,
-        TransferMoney,
-        DepositMoney
+        LoginAnotherAccount,
+        LogOut
     }
 }

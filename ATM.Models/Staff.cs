@@ -20,12 +20,13 @@ namespace ATM.Models
             this.Name = Name;
             this.Password = Password;
             CurrentDate = DateTime.Now;
+            string Date = CurrentDate.ToShortDateString();
             stafflogin = new Dictionary<string, string>();
             for(int i=0;i<3;i++)
             {
                 StaffId += Name[i];
             }
-            StaffId += CurrentDate;  // staffmember
+            StaffId += Date;  // staffmember
             Access = StaffLoginType.StaffMember;
             this.Access = Access;
         }

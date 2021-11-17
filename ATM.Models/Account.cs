@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ATM.Models
 {
-    public class Account
+    public class Account 
     {
         public string name; // Name
         public string password; // Password
@@ -26,13 +26,16 @@ namespace ATM.Models
          //   users = new Dictionary<string, Account>();
           
             this.AccountNo = Convert.ToString(++year);
+
             currentDate = DateTime.Now;
-            String date = currentDate.ToShortDateString();
-     //       this.AccountId = "xyz";
+            string date = currentDate.ToShortDateString();
             AccountId = "";
-            for (int i = 0;i<3; i++) 
-                AccountId += this.name;
-            AccountId += date;  // ish1203
+            for (int i = 0; i < 3; i++)
+            {
+                AccountId += this.name[i];
+            }
+            AccountId += date;  // bankid
+            this.status = status;
             
         }
     }

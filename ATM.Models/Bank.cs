@@ -33,7 +33,7 @@ namespace ATM.Models
             BankId = "";
             for(int i=0;i<3;i++)
             {
-                BankId += this.name;
+                BankId += this.name[i];
             }
             BankId += date;  // bankid
             this.RTGSsameBank = 0;    //0%
