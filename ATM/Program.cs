@@ -393,8 +393,8 @@ namespace ATM.CLI
                                 currCode = Console.ReadLine();
                                 Console.WriteLine(ConstantMessages.BankId);
                                 bankId = Console.ReadLine();
-                                Console.WriteLine(ConstantMessages.AccountId);
-                                accId = Console.ReadLine();
+                          //      Console.WriteLine(ConstantMessages.AccountId);
+                            //    accId = Console.ReadLine();
                             }
                             catch (Exception ex)
                             {
@@ -403,7 +403,7 @@ namespace ATM.CLI
                             }
                             try
                             {
-                                AccountManager.deposit( amt, accId ,  currCode, bankId);
+                                AccountManager.deposit(  amt,bankAccount,  currCode, bankId);
                             }
                             catch (Exception ex)
                             {
@@ -488,6 +488,11 @@ namespace ATM.CLI
                                 ConsoleOutput.TransactionHistory(i);
                             }
 
+                        }
+                        else if(customerOperation == OperationsPerformedByUser.Balance)
+                        {
+                            ConsoleOutput.Balance();
+                            Console.Write(staffmanager.viewbalance(bankAccount));
                         }
 
                         else if (customerOperation == OperationsPerformedByUser.LoginAnotherAccount)

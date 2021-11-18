@@ -15,23 +15,29 @@ namespace ATM.Services
         {
             this.bank = new Bank(bankname , countrycode);
         }
-       
-        public double deposit(double amount, string accountId , string currentycode , string bankid )  // static
+
+        public void deposit(double amount, Account user, string currentycode, string bankid)  // static
         {
-            Account account = bank.Accounts.FirstOrDefault(m => m.AccountId == accountId);
-          account.currentbalance += ( amount * Currency.curr[currentycode]);
-            Transaction transaction = new Transaction(account.AccountId , account.AccountId , amount , DateTime.Now , TransactionType.Credited , bankid , bankid);
-            account.Transactions.Add(transaction);
-            return account.currentbalance;
-        }
+            try {
+               
+                user.currentbalance += (amount * Currency.curr[currentycode]);
+                Transaction transaction = new Transaction(user.AccountId, user.AccountId, amount, DateTime.Now, TransactionType.Credited, bankid, bankid);
+                user.Transactions.Add(transaction);
+               // return user.currentbalance;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            }
         public bool withdraw(double amount, string accountId , Account user ,string bankid)
         {
             if(user.currentbalance >= amount)
             { 
-            var account = bank.Accounts.FirstOrDefault(m => m.AccountId == accountId);
+           
             //   return amount.currentbalance -= amount;
-            account.currentbalance -= amount;
-            Transaction transaction = new Transaction(accountId , accountId , amount , DateTime.Now , TransactionType.Debited  , bankid , bankid);
+            user.currentbalance -= amount;
+            Transaction transaction = new Transaction( user.AccountId , user.AccountId , amount , DateTime.Now , TransactionType.Debited  , bankid , bankid);
             user.Transactions.Add(transaction);
             return true;
             }

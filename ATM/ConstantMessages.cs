@@ -7,7 +7,7 @@ namespace ATM.CLI
   public  class ConstantMessages
     {
         public const string AccountDoesNotExist = "\nAccount does not exist";
-        public const string AccountId = "\nPlease Enter AccouontId:";
+        public const string AccountId = "\nPlease Enter AccountId:";
         public const string AccountSuccessfullCreation = "\nAccount Created Successfully!!\n";
         public const string AccountSuccessfullDeletion = "\nAccount deleted successfully!!\n";
         public const string AccountUpdateChoice = "\nWhat do you want to update!\n1.Name\n2.Password\n";
