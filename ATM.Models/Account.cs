@@ -5,17 +5,23 @@ namespace ATM.Models
 {
     public class Account 
     {
-        public string name; // Name
-        public string password; // Password
+        public string name { get; set; } // Name
+        public string password { get; set; } // Password
         public double  currentbalance = 1000.00; // Balance
-        public string AccountNo;
-        public string AccountId;
-        public string BankId;
+        public string AccountNo
+        {
+            get; set;
+        }
+        public string AccountId { get; set; }
+        public string BankId
+        {
+            get; set;
+         }
        
         public List<Transaction> Transactions ;
-        public AccountStatus status;
+        public AccountStatus status { get; set; }
         private static int year = 2021;
-        private DateTime currentDate;
+        private DateTime currentDate { get; set; }
 
         public  Account(string name , string password , AccountStatus status=AccountStatus.Active)
         {
