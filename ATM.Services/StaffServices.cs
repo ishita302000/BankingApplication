@@ -16,10 +16,11 @@ namespace ATM.Services
         {
             return false;
         }
-        public double viewbalance(Account user)
+   /*     public double viewbalance(Account user)
         {
             return user.currentbalance;
         }
+   */
         public Account checkAccount(string bankid, string id)
         {
             Account user = null;

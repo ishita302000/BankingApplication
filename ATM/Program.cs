@@ -24,7 +24,7 @@ namespace ATM.CLI
 
             ConsoleOutput.Welcome();
 
-            BankManager bankmanager = new BankManager();
+            CommanServices bankmanager = new CommanServices();
             StaffServices staffmanager = new StaffServices();
             Console.WriteLine(ConstantMessages.SetupFirstBank);
 
@@ -48,7 +48,7 @@ namespace ATM.CLI
             }
             Console.WriteLine(ConstantMessages.CreateFirstStaff);
 
-            AccountServices AccountManager = new AccountServices( bankName , CountryCode);
+            CustomerServices AccountManager = new CustomerServices( bankName , CountryCode);
 
         SetupStaff:
             Console.WriteLine(ConstantMessages.StaffName);
@@ -492,7 +492,7 @@ namespace ATM.CLI
                         else if(customerOperation == OperationsPerformedByUser.Balance)
                         {
                             ConsoleOutput.Balance();
-                            Console.Write(staffmanager.viewbalance(bankAccount));
+                            Console.Write(bankmanager.viewbalance(bankAccount));
                         }
 
                         else if (customerOperation == OperationsPerformedByUser.LoginAnotherAccount)

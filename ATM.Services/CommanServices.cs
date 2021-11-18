@@ -15,7 +15,7 @@ namespace ATM.Services
     //userpassword exit
     //deposit
     //withdrawl
-    public class BankManager
+    public class CommanServices
     {
         public Bank bank;
         public Staff staff;
@@ -146,6 +146,14 @@ namespace ATM.Services
             }
             return false;
         }
+
+        public List<Transaction> GettransactionHistory(string username, string userid)
+        {
+            Account account = bank.Accounts.FirstOrDefault(a => a.AccountId == userid);
+
+            return account.Transactions;
+        }
+
         public bool StaffAccountExit(string username , string bankid)    // user
         {
             // var a = Account.userlogin.ContainsKey(username);
@@ -171,9 +179,13 @@ namespace ATM.Services
             }
             return false;
         }
-    
-     
-       
+        public double viewbalance(Account user)
+        {
+            return user.currentbalance;
+        }
+
+
+
     }
 }
 

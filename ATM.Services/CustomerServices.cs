@@ -7,11 +7,11 @@ using System.Text;
 
 namespace ATM.Services
 {
-   public class AccountServices
+   public class CustomerServices
     {
         Bank bank;
 
-        public AccountServices( string bankname , string countrycode)
+        public CustomerServices( string bankname , string countrycode)
         {
             this.bank = new Bank(bankname , countrycode);
         }
@@ -114,20 +114,21 @@ namespace ATM.Services
         {
             return (double)Math.Round(amount*percent , 2);
         }
-        public void addtransaction(string senderId, string receiverId, double amount, TransactionType transactionType , string senderbankid,string recieverbankid)
+    /*    public void addtransaction(string senderId, string receiverId, double amount, TransactionType transactionType , string senderbankid,string recieverbankid)
         {
             DateTime datetime = DateTime.Now;
             Transaction transaction = new Transaction( senderId , receiverId,   amount, datetime, transactionType , senderbankid , recieverbankid);
             var acc = GetAccount(senderId);
             acc.Transactions.Add(transaction);
         }
+    
         public List<Transaction> GettransactionHistory(string username, string userid)
         {
             Account account = bank.Accounts.FirstOrDefault(a => a.AccountId == userid);
            
             return account.Transactions;
         }
-
+    */
         public Account GetAccount(string accId)
         {
             foreach (var acc in bank.Accounts)
