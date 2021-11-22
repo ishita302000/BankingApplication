@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ATM.Models
 {
-   public  class Transaction
+   public  class Transaction 
     {
         
         public string RecieverAccountId { get; set; }
@@ -12,8 +12,8 @@ namespace ATM.Models
         public string SenderBankId { get; set; }
         public string RecieverBankId { get; set; }
         public double Amount { get; set; }
-        public DateTime On { get; set; }
-        public TransactionType type { get; set; }
+        public DateTime On { get; set; } // rename CreatedOn/ TransactionOn
+        public TransactionType type { get; set; } // use same notation for property names mostly we use Camelcase
         public string TransactionId{get;set;}
         public string date { get; set; }
         public Transaction(string RecieverAccountId, string SenderAccountId,  double Amount, DateTime On, TransactionType type, String SenderBankId , String RecieverBankId)

@@ -6,7 +6,7 @@ namespace ATM.CLI
 {
     class ConsoleOutput
     {
-        public static void Welcome()
+        public static void Welcome() // why static menthods??
         {
             Console.WriteLine(ConstantMessages.Welcome);
         }

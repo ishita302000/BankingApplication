@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ATM.Services
 {
-   public class CustomerServices
+   public class CustomerServices // write Interfaces which inherit all the methods inside this service
     {
         Bank bank;
 

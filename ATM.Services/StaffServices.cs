@@ -7,7 +7,7 @@ using ATM.Models.Enums;
 
 namespace ATM.Services
 {
-   public class StaffServices 
+   public class StaffServices // write Interfaces which inherit all the methods inside this service
     {
        public   Bank bank;
       public  Staff staff;
@@ -31,6 +31,7 @@ namespace ATM.Services
                 {
                     throw new Exception("Bank doesn't exist! ");
                 }
+                // replace with isExist in all places
                 foreach(var account in bank.Accounts.Where(account => account.AccountId == id))
                 {
                     user = account;
@@ -45,7 +46,7 @@ namespace ATM.Services
         public string CreateBank(string name, string address, string currencyCode)
         {
             if (string.IsNullOrEmpty(name))
-                throw new Exception("Bank name is not valid!");
+                throw new Exception("Bank name is not valid!"); // use constants
            if(BankList.Banks.Count!=0 & BankList.Banks.Any(a=>a.name==name))
             {
                 throw new Exception("Bank Already Exist!");

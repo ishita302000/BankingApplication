@@ -5,7 +5,7 @@ using ATM.Models;
 using ATM.Models.Exceptions;
 
 
-namespace ATM.Services
+namespace ATM.Services // write Interfaces which inherit all the methods inside this service
 {
 
     //login
@@ -51,7 +51,7 @@ namespace ATM.Services
                 bank = StaffServices.FindBank(bankid);
                 if (bank == null)
                 {
-                    throw new Exception("Bank does not exist");
+                    throw new Exception("Bank does not exist"); // use constants
                 }
                 foreach (var account in bank.Accounts.Where(account => account.AccountId == accid & account.password == password))
                 {
@@ -166,7 +166,7 @@ namespace ATM.Services
                 {
                     throw new Exception("Bank does not exist");
                 }
-
+                // use isExist which return true/false  
                 foreach (var account in bank.StaffAccount.Where(account => account.Name == username))
                 {
                     user = account;

@@ -49,7 +49,6 @@ namespace ATM.CLI
             Console.WriteLine(ConstantMessages.CreateFirstStaff);
 
             CustomerServices AccountManager = new CustomerServices( bankName , CountryCode);
-
         SetupStaff:
             Console.WriteLine(ConstantMessages.StaffName);
             StaffName = Console.ReadLine();
@@ -83,14 +82,14 @@ namespace ATM.CLI
 
             if (loginOption == LoginType.BankSetup)
             {
-                Console.WriteLine(" Bank Set Up ");
+                Console.WriteLine(" Bank Set Up "); // use constants
                 goto SetupBank;
 
             }
             else if (loginOption == LoginType.Stafflogin)
             {
 
-                Console.WriteLine(" Staff Login ");
+                Console.WriteLine(" Staff Login "); // use constants
                 Staff bankstaff;
                 Console.WriteLine(ConstantMessages.BankId);
                 bankID = Console.ReadLine();
@@ -127,7 +126,7 @@ namespace ATM.CLI
                 while (staffOperation != OperationsPerdormedByStaff.LogOut)
                 {
                     Account bankAccount;
-                    if (staffOperation == OperationsPerdormedByStaff.CreateAccount)
+                    if (staffOperation == OperationsPerdormedByStaff.CreateAccount) // use swich case
                     {
                         int choice;
                         string bankId, name, password, Id;
@@ -167,7 +166,7 @@ namespace ATM.CLI
                     UpdateAccount:
                         Console.WriteLine(ConstantMessages.UpdateDeleteAccount);
                         string choice1 = Console.ReadLine();
-                        if (choice1 == "1")
+                        if (choice1 == "1") // use switch case & maintain choice in enum
                         {
                             int userChoice;
                             string userId, bankId;
@@ -260,7 +259,7 @@ namespace ATM.CLI
                     UpdateServiceCharge:
                         Console.WriteLine(ConstantMessages.ServiceChargeUpdateChoice);
                         string choice = Console.ReadLine();
-                        if (choice == "1")
+                        if (choice == "1")// use switch case & maintain choice in enum
                         {
                             double rtgs, imps;
                             try

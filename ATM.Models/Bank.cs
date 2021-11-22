@@ -10,7 +10,7 @@ namespace ATM.Models
         public List<Staff> StaffAccount;
         public string name { get; set; }
         public string BankId { get; set; }
-        public string Branch { get; set; }
+        public string Branch { get; set; } // use list as we have list of branches
         private readonly DateTime currentDate;
         public double RTGSsameBank { get; set; }
         public double RTGSdifferentBank { get; set; }
@@ -19,7 +19,7 @@ namespace ATM.Models
             get; set;
         }
         public double IMPSdifferentBank { get; set; }
-        const string DefaultCurrency = "INR";
+        const string DefaultCurrency = "INR"; // maintain constants saparately 
         public string Countrycode = DefaultCurrency;
         // currency part left 
 
@@ -34,7 +34,7 @@ namespace ATM.Models
             currentDate = DateTime.Now;
             string date = currentDate.ToShortDateString();
             BankId = "";
-            for(int i=0;i<3;i++)
+            for(int i=0;i<3;i++) // use substring
             {
                 BankId += this.name[i];
             }

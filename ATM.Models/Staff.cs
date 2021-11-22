@@ -6,7 +6,7 @@ using System.Text;
 
 namespace ATM.Models
 {
-  public  class Staff
+  public  class Staff // use one parent class for account holder and staff as they have multiple common properties
     {
         public string StaffId { get;
             set;

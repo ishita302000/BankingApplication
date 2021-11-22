@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ATM.Models
 {
-   public class Currency
+   public class Currency // why disctionary use one currency class which have Code, ExchangeRate, bank details properties
     {
         public static Dictionary<string, double> curr = new Dictionary<string, double>()
         {
