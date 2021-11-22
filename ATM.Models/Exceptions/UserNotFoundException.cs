@@ -6,5 +6,6 @@ namespace ATM.Models.Exceptions
 {
     public class UserNotFoundException: Exception
     {
+
     }
 }

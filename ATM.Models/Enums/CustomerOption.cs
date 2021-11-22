@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ATM.Models.Enums
 {
-  public enum  CustomerOption
+    public enum  CustomerOption
     {
         CreateAccount,
         Login 
