@@ -12,10 +12,13 @@ namespace ATM.Models
         public string BankId { get; set; }
         public string Branch { get; set; }
         private readonly DateTime currentDate;
-        public double RTGSsameBank;
-        public double RTGSdifferentBank;
-        public double IMPSsameBank;
-        public double IMPSdifferentBank;
+        public double RTGSsameBank { get; set; }
+        public double RTGSdifferentBank { get; set; }
+        public double IMPSsameBank
+        {
+            get; set;
+        }
+        public double IMPSdifferentBank { get; set; }
         const string DefaultCurrency = "INR";
         public string Countrycode = DefaultCurrency;
         // currency part left 
@@ -33,7 +36,7 @@ namespace ATM.Models
             BankId = "";
             for(int i=0;i<3;i++)
             {
-                BankId += this.name;
+                BankId += this.name[i];
             }
             BankId += date;  // bankid
             this.RTGSsameBank = 0;    //0%

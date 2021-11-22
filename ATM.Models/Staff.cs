@@ -8,11 +8,22 @@ namespace ATM.Models
 {
   public  class Staff
     {
-        public string StaffId;
-        public string Name;
-        public string Password;
-        private DateTime CurrentDate;
-        public StaffLoginType Access;
+        public string StaffId { get;
+            set;
+        }
+        public string Name
+        {
+            get; set;
+        }
+        public string Password
+        {
+            get; set;
+         }
+        private DateTime CurrentDate { get; set; }
+        public StaffLoginType Access
+        {
+            get; set;
+         }
         public Dictionary<string, string> stafflogin;
          
         public Staff(string Name , string Password , StaffLoginType Access = StaffLoginType.StaffMember)
@@ -20,12 +31,13 @@ namespace ATM.Models
             this.Name = Name;
             this.Password = Password;
             CurrentDate = DateTime.Now;
+            string Date = CurrentDate.ToShortDateString();
             stafflogin = new Dictionary<string, string>();
             for(int i=0;i<3;i++)
             {
                 StaffId += Name[i];
             }
-            StaffId += CurrentDate;  // staffmember
+            StaffId += Date;  // staffmember
             Access = StaffLoginType.StaffMember;
             this.Access = Access;
         }

@@ -6,7 +6,7 @@ namespace ATM.Models.Enums
 {
     public enum  CustomerOption
     {
-        CreateAccount,
+        CreateAccount=1,
         Login 
     }
 }

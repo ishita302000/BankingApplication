@@ -3,19 +3,25 @@ using System.Collections.Generic;
 
 namespace ATM.Models
 {
-    public class Account
+    public class Account 
     {
-        public string name; // Name
-        public string password; // Password
+        public string name { get; set; } // Name
+        public string password { get; set; } // Password
         public double  currentbalance = 1000.00; // Balance
-        public string AccountNo;
-        public string AccountId;
-        public string BankId;
+        public string AccountNo
+        {
+            get; set;
+        }
+        public string AccountId { get; set; }
+        public string BankId
+        {
+            get; set;
+         }
        
         public List<Transaction> Transactions ;
-        public AccountStatus status;
+        public AccountStatus status { get; set; }
         private static int year = 2021;
-        private DateTime currentDate;
+        private DateTime currentDate { get; set; }
 
         public  Account(string name , string password , AccountStatus status=AccountStatus.Active)
         {
@@ -26,13 +32,16 @@ namespace ATM.Models
          //   users = new Dictionary<string, Account>();
           
             this.AccountNo = Convert.ToString(++year);
+
             currentDate = DateTime.Now;
-            String date = currentDate.ToShortDateString();
-     //       this.AccountId = "xyz";
+            string date = currentDate.ToShortDateString();
             AccountId = "";
-            for (int i = 0;i<3; i++) 
-                AccountId += this.name;
-            AccountId += date;  // ish1203
+            for (int i = 0; i < 3; i++)
+            {
+                AccountId += this.name[i];
+            }
+            AccountId += date;  // bankid
+            this.status = status;
             
         }
     }
