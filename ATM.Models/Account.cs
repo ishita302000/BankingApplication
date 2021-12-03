@@ -12,7 +12,7 @@ namespace ATM.Models
             get; set;
         }
         public virtual IList<Transaction> Transactions { get; set; }
-        public Bank bank { get; set; }
+        public Bank Bank { get; set; }
        
     }
 }

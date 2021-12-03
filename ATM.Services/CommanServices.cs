@@ -129,7 +129,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
             return false;
         }
 
-        public List<Transaction> GettransactionHistory(string username, string userid)
+        public IList<Transaction> GettransactionHistory(string username, string userid)
         {
             Account account = bank.Accounts.FirstOrDefault(a => a.Id == userid);
 

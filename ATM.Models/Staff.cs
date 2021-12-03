@@ -16,5 +16,9 @@ namespace ATM.Models
             stafflogin = new Dictionary<string, string>();
             
         }
+
+        public Bank Bank { get; set; }
+
+        public string BankId { get; set; }
     }
 }

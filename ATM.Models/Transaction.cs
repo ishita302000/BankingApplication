@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace ATM.Models
 {
@@ -14,6 +15,7 @@ namespace ATM.Models
         public double Amount { get; set; }
         public DateTime TransactionOn { get; set; } // rename CreatedOn/ TransactionOn
         public TransactionType type { get; set; } // use same notation for property names mostly we use Camelcase
+        [Key][Required][StringLength(50)]
         public string TransactionId{get;set;}
         public string date { get; set; }
         public Transaction(Account RecieverAccountId, Account SenderAccountId,  double Amount, DateTime TransactionOn, TransactionType type, Bank SenderBankId , Bank RecieverBankId)

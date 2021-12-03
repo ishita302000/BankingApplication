@@ -21,7 +21,7 @@ namespace ATM.Services
           try{
                
                 user.currentbalance += (amount * Currency.curr[currentycode]);
-                Transaction transaction = new Transaction(user.Id, user.Id, amount, DateTime.Now, TransactionType.Credited, bankid, bankid);
+                Transaction transaction = new Transaction(user , user, amount, DateTime.Now, TransactionType.Credited, bankid, bankid);
                 user.Transactions.Add(transaction);
                // return user.currentbalance;
             }
@@ -30,14 +30,14 @@ namespace ATM.Services
                 Console.WriteLine(ex.Message);
             }
             }
-        public bool withdraw(double amount, string accountId , Account user ,string bankid)
+        public bool withdraw(double amount, string accountId , Account user , Bank bankid)
         {
             if(user.currentbalance >= amount)
             { 
            
             //   return amount.currentbalance -= amount;
             user.currentbalance -= amount;
-            Transaction transaction = new Transaction( user.Id, user.Id , amount , DateTime.Now , TransactionType.Debited  , bankid , bankid);
+            Transaction transaction = new Transaction( user , user , amount , DateTime.Now , TransactionType.Debited  , bankid , bankid);
             user.Transactions.Add(transaction);
             return true;
             }

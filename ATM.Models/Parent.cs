@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.ComponentModel.DataAnnotations;
 
 namespace ATM.Models
 {
@@ -11,6 +12,8 @@ namespace ATM.Models
         {
             get; set;
         }
+
+        [Key][Required][StringLength(50)]
         public string Id { get; set; }
         private DateTime dateTime { get; set; }
         public Parent()

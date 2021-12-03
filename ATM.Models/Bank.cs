@@ -8,6 +8,7 @@ namespace ATM.Models
         //   private const double V = 0.05;
         public virtual IList<Account> Accounts { get; set; } // accounts of customers
         public virtual IList<Staff> StaffAccount { get; set; }
+        public virtual IList<Currency> Currencies { get; set; }
  
     //    public virtual IList<Transaction> transactions { get; set; }
       
