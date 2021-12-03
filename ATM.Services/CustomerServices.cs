@@ -13,15 +13,15 @@ namespace ATM.Services
 
         public CustomerServices( string bankname , string countrycode)
         {
-            this.bank = new Bank(bankname , countrycode);
+            this.bank = new Bank();
         }
 
-        public void deposit(double amount, Account user, string currentycode, string bankid)  // static
+        public void deposit(double amount, Account user, string currentycode, Bank bankid)  // static
         {
-            try {
+          try{
                
                 user.currentbalance += (amount * Currency.curr[currentycode]);
-                Transaction transaction = new Transaction(user.AccountId, user.AccountId, amount, DateTime.Now, TransactionType.Credited, bankid, bankid);
+                Transaction transaction = new Transaction(user , user, amount, DateTime.Now, TransactionType.Credited, bankid, bankid);
                 user.Transactions.Add(transaction);
                // return user.currentbalance;
             }
@@ -30,14 +30,14 @@ namespace ATM.Services
                 Console.WriteLine(ex.Message);
             }
             }
-        public bool withdraw(double amount, string accountId , Account user ,string bankid)
+        public bool withdraw(double amount, string accountId , Account user , Bank bankid)
         {
             if(user.currentbalance >= amount)
             { 
            
             //   return amount.currentbalance -= amount;
             user.currentbalance -= amount;
-            Transaction transaction = new Transaction( user.AccountId , user.AccountId , amount , DateTime.Now , TransactionType.Debited  , bankid , bankid);
+            Transaction transaction = new Transaction( user , user , amount , DateTime.Now , TransactionType.Debited  , bankid , bankid);
             user.Transactions.Add(transaction);
             return true;
             }
@@ -51,11 +51,11 @@ namespace ATM.Services
             {
                 foreach(var i in BankList.Banks)
                 {
-                    if(i.BankId==SenderBankId)
+                    if(i.Id==SenderBankId)
                     {
                         bank = i;  // senderbank
                     }
-                    if(i.BankId==RecieverBankId)
+                    if(i.Id==RecieverBankId)
                     {
                         RecieverBank =i;
                     }
@@ -84,12 +84,12 @@ namespace ATM.Services
                     }
 
                 }
-                Account account1 = bank.Accounts.FirstOrDefault(m => m.AccountId == accountId1);
+                Account account1 = bank.Accounts.FirstOrDefault(m => m.Id == accountId1);
                 if (account1 == null)
                 {
                     throw new UserNotFoundException();
                 }
-                Account account2 = bank.Accounts.FirstOrDefault(m => m.AccountId == accountId2);
+                Account account2 = bank.Accounts.FirstOrDefault(m => m.Id == accountId2);
                 if (account2 == null)
                 {
                     throw new UserNotFoundException();
@@ -114,26 +114,12 @@ namespace ATM.Services
         {
             return (double)Math.Round(amount*percent , 2);
         }
-    /*    public void addtransaction(string senderId, string receiverId, double amount, TransactionType transactionType , string senderbankid,string recieverbankid)
-        {
-            DateTime datetime = DateTime.Now;
-            Transaction transaction = new Transaction( senderId , receiverId,   amount, datetime, transactionType , senderbankid , recieverbankid);
-            var acc = GetAccount(senderId);
-            acc.Transactions.Add(transaction);
-        }
     
-        public List<Transaction> GettransactionHistory(string username, string userid)
-        {
-            Account account = bank.Accounts.FirstOrDefault(a => a.AccountId == userid);
-           
-            return account.Transactions;
-        }
-    */
         public Account GetAccount(string accId)
         {
             foreach (var acc in bank.Accounts)
             {
-                if (acc.AccountId == accId) return acc;
+                if (acc.Id == accId) return acc;
             }
             return null;
         }

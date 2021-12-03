@@ -7,7 +7,7 @@ using ATM.Models.Enums;
 
 namespace ATM.Services
 {
-   public class StaffServices // write Interfaces which inherit all the methods inside this service
+   public class StaffServices 
     {
        public   Bank bank;
       public  Staff staff;
@@ -32,7 +32,7 @@ namespace ATM.Services
                     throw new Exception("Bank doesn't exist! ");
                 }
                 // replace with isExist in all places
-                foreach(var account in bank.Accounts.Where(account => account.AccountId == id))
+                foreach(var account in bank.Accounts.Where(account => account.Id == id))
                 {
                     user = account;
                 }
@@ -47,7 +47,7 @@ namespace ATM.Services
         {
             if (string.IsNullOrEmpty(name))
                 throw new Exception("Bank name is not valid!"); // use constants
-           if(BankList.Banks.Count!=0 & BankList.Banks.Any(a=>a.name==name))
+           if(BankList.Banks.Count!=0 & BankList.Banks.Any(a=>a.Name==name))
             {
                 throw new Exception("Bank Already Exist!");
             }
@@ -55,9 +55,9 @@ namespace ATM.Services
             {
                 throw new Exception("Invalid Currency Code");
             }
-            Bank bank = new Bank(name , currencyCode);
+            Bank bank = new Bank();
             BankList.Banks.Add(bank);
-            return bank.BankId;
+            return bank.Id;
         }
         public string CreateAccount(string bankId, string name, string password, int choice)
         {
@@ -67,28 +67,28 @@ namespace ATM.Services
 
             if (string.IsNullOrEmpty(name))
                 throw new Exception("Name is not valid!");
-            if (bank.Accounts.Count != 0 & bank.Accounts.Any(p => p.name == name) == true)
+            if (bank.Accounts.Count != 0 & bank.Accounts.Any(p => p.Name == name) == true)
                 throw new Exception("Account already exists!");
-            if (BankList.Banks.Count != 0 & BankList.Banks.Any(p => p.BankId == bankId) != true)
+            if (BankList.Banks.Count != 0 & BankList.Banks.Any(p => p.Id == bankId) != true)
                 throw new Exception("Bank doesn't exists!");
 
             if (choice == 1)
             {
-                Staff s = new Staff(name, password);
+                Staff s = new Staff();
                 bank.StaffAccount.Add(s);
-                Id = s.StaffId;
+                Id = s.Id;
             }
             else
             {
-                Account a = new Account(name,  password);
+                Account a = new Account();
                 bank.Accounts.Add(a);
-                Id = a.AccountId;
+                Id = a.Id;
             }
             return Id;
         }
         public static Account FindAccount(Bank bank, string userId)
         {
-            foreach (var account in bank.Accounts.Where(account => account.AccountId == userId))
+            foreach (var account in bank.Accounts.Where(account => account.Id == userId))
             {
                 return account;
             }
@@ -96,7 +96,7 @@ namespace ATM.Services
         }
         public static Bank FindBank(string bankId)
         {
-            foreach (var i in BankList.Banks.Where(i => i.BankId == bankId))
+            foreach (var i in BankList.Banks.Where(i => i.Id == bankId))
             {
                 return i;
             }
@@ -126,7 +126,7 @@ namespace ATM.Services
             Account user = null;
             try
             {
-                foreach (var account in bank.Accounts.Where(account => account.AccountId == Id))
+                foreach (var account in bank.Accounts.Where(account => account.Id == Id))
                 {
                     user = account;
                 }

@@ -190,10 +190,10 @@ namespace ATM.CLI
                             {
                                 case 1:
                                     Console.WriteLine(ConstantMessages.Name);
-                                    bankAccount.name = Console.ReadLine();
+                                    bankAccount.Name = Console.ReadLine();
                                     break;
                                 case 2:
-                                    bankAccount.password = InputTakenFromUser.Password();
+                                    bankAccount.Password = InputTakenFromUser.Password();
                                     break;
                                 default:
                                     ConsoleOutput.InValidOption();

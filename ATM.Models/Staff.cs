@@ -6,40 +6,19 @@ using System.Text;
 
 namespace ATM.Models
 {
-  public  class Staff // use one parent class for account holder and staff as they have multiple common properties
+  public  class Staff : Parent// use one parent class for account holder and staff as they have multiple common properties
     {
-        public string StaffId { get;
-            set;
-        }
-        public string Name
-        {
-            get; set;
-        }
-        public string Password
-        {
-            get; set;
-         }
-        private DateTime CurrentDate { get; set; }
-        public StaffLoginType Access
-        {
-            get; set;
-         }
+     
         public Dictionary<string, string> stafflogin;
          
-        public Staff(string Name , string Password , StaffLoginType Access = StaffLoginType.StaffMember)
-        {    
-            this.Name = Name;
-            this.Password = Password;
-            CurrentDate = DateTime.Now;
-            string Date = CurrentDate.ToShortDateString();
+        public Staff()
+        {   
             stafflogin = new Dictionary<string, string>();
-            for(int i=0;i<3;i++)
-            {
-                StaffId += Name[i];
-            }
-            StaffId += Date;  // staffmember
-            Access = StaffLoginType.StaffMember;
-            this.Access = Access;
+            
         }
+
+        public Bank Bank { get; set; }
+
+        public string BankId { get; set; }
     }
 }
