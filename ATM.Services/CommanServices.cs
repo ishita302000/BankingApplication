@@ -19,27 +19,22 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
     {
         public Bank bank;
         public Staff staff;
-     
-
-       
-
-     /*   public List<string> BankList()
+ 
+        public string addaccount(string username, string accountId, string password , double balance , string bankid)
         {
-            BankList.Add("Axis Bank");
-            BankList.Add("HDFC Bank");
-            BankList.Add("SBI Bank");
-            BankList.Add("Kotak Bank");
-            return BankManager.BankList;
-        }*/
-     
-        public string addaccount(string username, string accountId)
-        {
-               // bank.Accounts.Add(new List<username>());   // check
-            Account newAccount = new Account(username, accountId);
+            // bank.Accounts.Add(new List<username>());   // check
+            Account newAccount = new Account {
+                Name = username,
+                Id = accountId,
+                Password = password,
+                 currentbalance = balance,
+                 BankId = bankid,
+
+            };
             //    bank.Accounts.Add( username , newAccount); // list
             //  newAccount.userLogin.Add(username, accountId );  //
             bank.Accounts.Add(newAccount);
-            return newAccount.AccountId;
+            return newAccount.Id;
         }
      
         public Account userlogin(string accid , string password , string bankid )    // user
@@ -53,7 +48,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
                 {
                     throw new Exception("Bank does not exist"); // use constants
                 }
-                foreach (var account in bank.Accounts.Where(account => account.AccountId == accid & account.password == password))
+                foreach (var account in bank.Accounts.Where(account => account.Id == accid & account.Password == password))
                 {
                     user = account;
                 }
@@ -74,7 +69,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
                 {
                     throw new Exception("Bank does not exist");
                 }
-                foreach (var account in bank.StaffAccount.Where(account => account.StaffId == id & account.Password == password))
+                foreach (var account in bank.StaffAccount.Where(account => account.Id == id & account.Password == password))
                 {
                     user = account;
                 }
@@ -90,7 +85,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
         {
             foreach (Staff account in bank.StaffAccount)
             {
-                if (account.StaffId == accountId)
+                if (account.Id == accountId)
                 {
                     return true;
                 }
@@ -99,23 +94,10 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
         }
         public bool UsercheckId( string accountId)
         {
-            //   if ( bank.Accounts[username].AccountId == accountId)
-            // {
-            //   return true;
-            //}
-            //return false;
-            //   return bank.Accounts[username].AccountId == accountId;
-            //    return bank.Accounts[username].userlogin[] == accountId;
-
-          //  var result = bank.Accounts.FirstOrDefault(a => a.AccountId == accountId);
-        //    if(result)
-        //    {
-         //       return true;
-        //    }
-         //   return false;
+          
             foreach( Account account in bank.Accounts)
             {
-                if(account.AccountId==accountId)
+                if(account.Id==accountId)
                 {
                     return true;
                 }
@@ -134,7 +116,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
                     throw new Exception("Bank does not exist");
                 }
 
-                foreach (var account in bank.Accounts.Where(account => account.name == username))
+                foreach (var account in bank.Accounts.Where(account => account.Name == username))
                 {
                     user = account;
                 }
@@ -149,9 +131,9 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
 
         public List<Transaction> GettransactionHistory(string username, string userid)
         {
-            Account account = bank.Accounts.FirstOrDefault(a => a.AccountId == userid);
+            Account account = bank.Accounts.FirstOrDefault(a => a.Id == userid);
 
-            return account.Transactions;
+            return account.Transactions;      // check 
         }
 
         public bool StaffAccountExit(string username , string bankid)    // user

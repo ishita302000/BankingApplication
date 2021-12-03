@@ -119,7 +119,7 @@ namespace ATM.CLI
             {
                 Console.WriteLine("From " + userTransactionHistory.SenderAccountId + " to " + userTransactionHistory.RecieverAccountId);
             }
-            Console.WriteLine(userTransactionHistory.On.ToString());
+            Console.WriteLine(userTransactionHistory.TransactionOn.ToString());
           /*  foreach (var transaction in i)
             {
                 Console.WriteLine("Transaction ID:" + i.Id);
