@@ -20,7 +20,7 @@ namespace ATM.Services
         {
           try{
                
-                user.currentbalance += (amount * Currency.curr[currentycode]);
+                user.currentbalance += (amount * bank.Currencies.);  // check
                 Transaction transaction = new Transaction(user , user, amount, DateTime.Now, TransactionType.Credited, bankid, bankid);
                 user.Transactions.Add(transaction);
                // return user.currentbalance;
@@ -97,7 +97,7 @@ namespace ATM.Services
                 if (account1.currentbalance >= amount + charge)
                 {
                     account1.currentbalance -= amount + charge;
-                    account2.currentbalance += Math.Round(amount * (double)(Currency.curr[bank.Countrycode] / Currency.curr[RecieverBank.Countrycode]), 2);
+                    account2.currentbalance += Math.Round(amount * (double)(  / Currency.curr[RecieverBank.Countrycode]), 2);
                     return true;
                 }
              //   account2.currentbalance += amount;

@@ -51,7 +51,7 @@ namespace ATM.Services
             {
                 throw new Exception("Bank Already Exist!");
             }
-           if(!Currency.curr.ContainsKey(currencyCode))
+           if(!Currency.curriences.ContainsKey(currencyCode))
             {
                 throw new Exception("Invalid Currency Code");
             }

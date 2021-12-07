@@ -9,9 +9,13 @@ namespace ATM.Models
     { 
         [Key][Required]
         public int Id { get; set; }
+        [Key][Required]
         public Bank Bank { get; set; }
+        [Key][Required]
         public string BankId { get; set; }
+        [Key][Required]
         public double exchangerate { get; set; }
+        [Key][Required]
         public string code { get; set; }
     }
 }

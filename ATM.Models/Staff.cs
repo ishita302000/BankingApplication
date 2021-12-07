@@ -8,7 +8,7 @@ namespace ATM.Models
 {
   public  class Staff : Parent// use one parent class for account holder and staff as they have multiple common properties
     {
-     
+
         public Dictionary<string, string> stafflogin;
          
         public Staff()
@@ -16,9 +16,9 @@ namespace ATM.Models
             stafflogin = new Dictionary<string, string>();
             
         }
-
+        
         public Bank Bank { get; set; }
-
+        
         public string BankId { get; set; }
     }
 }

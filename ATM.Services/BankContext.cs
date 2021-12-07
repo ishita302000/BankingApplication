@@ -26,5 +26,51 @@ namespace ATM.Services
      //     Bank have accounts ( OnChangeEventHandler to many )
        //     bank have currency 
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Currency>(entity =>
+            {
+                entity.HasOne(d => d.Bank)
+                .WithMany(p => p.Currencies)
+                .HasForeignKey(d => d.BankId);
+            });
+
+            modelBuilder.Entity<Account>(entity =>
+            {
+                entity.HasOne(d => d.Bank)
+                .WithMany(p => p.Accounts)
+                .HasForeignKey(d => d.BankId);
+            });
+
+            modelBuilder.Entity<Staff>(entity =>
+            {
+                entity.HasOne(d => d.Bank)
+                .WithMany(p => p.StaffAccount)
+                .HasForeignKey(d => d.BankId);
+            });
+
+            modelBuilder.Entity<Transaction>(entity =>
+            {
+                entity.HasOne(d => d.Bank)
+                .WithMany(p => p.transactions)
+                .HasForeignKey(d => d.SenderBankId);
+
+                entity.HasOne(d => d.Bank)
+                .WithMany(p => p.transactions)
+                .HasForeignKey(d => d.RecieverBankId);
+
+                entity.HasOne(d => d.Account)
+                .WithMany(p => p.Transactions)
+                .HasForeignKey(d => d.SenderAccountId);
+
+                entity.HasOne(d => d.Account)
+                .WithMany(p => p.Transactions)
+                .HasForeignKey(d => d.RecieverAccountId);
+            });
+
+           
+        }
     }
 }

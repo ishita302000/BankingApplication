@@ -5,7 +5,7 @@ namespace ATM.Models
 {
     public class Account : Parent
     {
- 
+            
         public double currentbalance { get; set; } = 1000;
         public string BankId
         {
