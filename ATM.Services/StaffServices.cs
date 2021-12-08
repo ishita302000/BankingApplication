@@ -51,10 +51,11 @@ namespace ATM.Services
             {
                 throw new Exception("Bank Already Exist!");
             }
-           if(!Currency.curriences.ContainsKey(currencyCode))
+         /*  if(!Currency.Curriences.ContainsKey(currencyCode))
             {
                 throw new Exception("Invalid Currency Code");
             }
+           */
             Bank bank = new Bank();
             BankList.Banks.Add(bank);
             return bank.Id;
@@ -105,7 +106,11 @@ namespace ATM.Services
         }
         public void AddCurrency(string code, double rate)
         {
-            Currency.curr[code] = rate;
+            Currency currency = new Currency();
+            currency.code = code;
+            currency.exchangerate = rate;
+            bank.Currencies.Add(currency);
+            //Currency.curr[code] = rate;
         }
         public void UpdateCharges(double rtgs, double imps, int choice)
         {

@@ -16,11 +16,11 @@ namespace ATM.Services
             this.bank = new Bank();
         }
 
-        public void deposit(double amount, Account user, string currentycode, Bank bankid)  // static
+        public void deposit(double amount, Account user, string currentycode, string bankid)  // static
         {
           try{
                
-                user.currentbalance += (amount * bank.Currencies.);  // check
+                user.currentbalance += (amount * bank.Currencies.FirstOrDefault(c=>c.code == currentycode).exchangerate);  // check
                 Transaction transaction = new Transaction(user , user, amount, DateTime.Now, TransactionType.Credited, bankid, bankid);
                 user.Transactions.Add(transaction);
                // return user.currentbalance;
@@ -30,7 +30,7 @@ namespace ATM.Services
                 Console.WriteLine(ex.Message);
             }
             }
-        public bool withdraw(double amount, string accountId , Account user , Bank bankid)
+        public bool withdraw(double amount, string accountId , Account user , string bankid)
         {
             if(user.currentbalance >= amount)
             { 
@@ -43,7 +43,7 @@ namespace ATM.Services
             }
             return false;
         }
-        public bool transfer(double amount, string accountId1, string accountId2 , string SenderBankId , string RecieverBankId , string choice)
+        public bool transfer(double amount, string accountId1, string accountId2 , string SenderBankId , string RecieverBankId , string choice , string senderbankcurrencycode)
         {
          //   Bank SenderBank = null;
             Bank RecieverBank = null;
@@ -97,7 +97,7 @@ namespace ATM.Services
                 if (account1.currentbalance >= amount + charge)
                 {
                     account1.currentbalance -= amount + charge;
-                    account2.currentbalance += Math.Round(amount * (double)(  / Currency.curr[RecieverBank.Countrycode]), 2);
+                    account2.currentbalance += Math.Round(amount * (bank.Currencies.FirstOrDefault(a => a.code == senderbankcurrencycode).exchangerate));
                     return true;
                 }
              //   account2.currentbalance += amount;

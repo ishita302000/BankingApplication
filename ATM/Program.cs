@@ -429,7 +429,7 @@ namespace ATM.CLI
                                 Console.WriteLine(ex.Message);
                                 goto CustomerOperations;
                             }
-                            if ( AccountManager.withdraw( amt, accId , bankAccount, bankId))
+                            if ( AccountManager.withdraw( amt, accId , bankAccount, bankId ))
                             {
                                 ConsoleOutput.WithdrawSuccessfull(amt);
                             }
@@ -450,6 +450,7 @@ namespace ATM.CLI
                             string choice = Console.ReadLine();
                             Console.WriteLine(ConstantMessages.TransferToAccountHolderName);
                             string hName = Console.ReadLine();
+                            
                             try
                             {
                                 reciever = staffmanager.checkAccount(ToBankId, hName);
@@ -463,7 +464,7 @@ namespace ATM.CLI
                             {
                                 Console.WriteLine(ConstantMessages.Amount);
                                 double amtToTransfer = Convert.ToDouble(Console.ReadLine());
-                                if (AccountManager.transfer( amtToTransfer,sbankId  , ToBankId , sbankId, ToBankId, choice))
+                                if (AccountManager.transfer( amtToTransfer,sbankId  , ToBankId , sbankId, ToBankId, choice , currencyCode))
                                 {
                                     ConsoleOutput.TransferSuccessfull(amtToTransfer);
                                 }

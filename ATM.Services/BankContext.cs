@@ -23,8 +23,6 @@ namespace ATM.Services
         {
             optionsBuilder.UseSqlServer(@"Data Source = LAPTOP - 83O4PRPJ\MSSQLSERVER01; Initial Catalog = Banking_Application; Integrated Security = True");      
         }
-     //     Bank have accounts ( OnChangeEventHandler to many )
-       //     bank have currency 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -69,8 +67,6 @@ namespace ATM.Services
                 .WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.RecieverAccountId);
             });
-
-           
         }
     }
 }

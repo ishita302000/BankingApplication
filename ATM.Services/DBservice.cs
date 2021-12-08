@@ -127,7 +127,7 @@ namespace ATM.Services
             Dictionary<string, string> bankNames = new Dictionary<string, string>();
             using (BankContext bankContext = new BankContext())
             {
-                var banks = bankContext.Bank.Where(b => b.Id);
+                var banks = bankContext.Bank.Where(b =>b.Id != "");
                 foreach (var bank in banks)
                 {
                     bankNames.Add(bank.Id, bank.Name);
@@ -250,11 +250,11 @@ namespace ATM.Services
         }
         //////////////////
         ///
-        public Transaction GetTransactionById(string bankId, string txnId)
+        public Transaction GetTransactionById( string txnId)
         {
             using (BankContext bankContext = new BankContext())
             {
-                Transaction transaction = bankContext.Transaction.FirstOrDefault(t => t.Id == bankId && t.TransactionId == txnId);
+                Transaction transaction = bankContext.Transaction.FirstOrDefault(t =>  t.TransactionId == txnId);
                 if (transaction == null)
                 {
                     throw new TransactionNotFoundException();
@@ -263,12 +263,12 @@ namespace ATM.Services
             }
         }
 
-        public IList<Transaction> GetTransactions(string bankId, string accountId)
+        public IList<Transaction> GetTransactions(string accountId)
         {
             IList<Transaction> transactions;
             using (BankContext bankContext = new BankContext())
             {
-                transactions = bankContext.Transaction.Where(t => t.id == bankId && t.Id == accountId).ToList();
+                transactions = bankContext.Transaction.Where(t => t.RecieverAccountId.Id == accountId  || t.SenderAccountId.Id == accountId).ToList();
             }
             if (transactions.Count == 0 || transactions == null)
             {

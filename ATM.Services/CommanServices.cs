@@ -37,7 +37,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
             return newAccount.Id;
         }
      
-        public Account userlogin(string accid , string password , string bankid )    // user
+        public Account userlogin(string accid , string password , string bankid)    // user
         {
             Account user = null;
 

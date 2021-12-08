@@ -12,13 +12,13 @@ namespace ATM.Models
         [Key][Required]
         public Account SenderAccountId { get; set; }
         [Key][Required]
-        public Bank SenderBankId { get; set; }
+        public string SenderBankId { get; set; }
         [Key][Required]
         public Bank SenderBank { get; set; }
         [Key][Required]
         public Bank RecieverBank { get; set; }
         [Key][Required]
-        public Bank RecieverBankId { get; set; }
+        public string RecieverBankId { get; set; }
         [Key][Required]
         public Bank Bank { get; set; }
         [Key][Required]
@@ -33,7 +33,7 @@ namespace ATM.Models
         public string TransactionId{get;set;}
         [Key][Required]
         public string date { get; set; }
-        public Transaction( Account RecieverAccountId, Account SenderAccountId,  double Amount, DateTime TransactionOn, TransactionType type, Bank SenderBankId , Bank RecieverBankId)
+        public Transaction( Account RecieverAccountId, Account SenderAccountId,  double Amount, DateTime TransactionOn, TransactionType type, string SenderBankId , string RecieverBankId)
         {
             this.RecieverAccountId = RecieverAccountId;
             this.SenderAccountId = SenderAccountId;
