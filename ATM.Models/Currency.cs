@@ -7,15 +7,15 @@ namespace ATM.Models
 {
    public class Currency // why disctionary use one currency class which have Code, ExchangeRate, bank details properties
     { 
-        [Key][Required]
+    //    [Key][Required]
         public int Id { get; set; }
-        [Key][Required]
+      //  [Key][Required]
         public Bank Bank { get; set; }
-        [Key][Required]
+        //[Key][Required]
         public string BankId { get; set; }
-        [Key][Required]
+      //  [Key][Required]
         public double exchangerate { get; set; }
-        [Key][Required]
+        //[Key][Required]
         public string code { get; set; }
     }
 }

@@ -10,12 +10,17 @@ namespace ATM.Models
     {
 
         public Dictionary<string, string> stafflogin;
-         
-        public Staff()
-        {   
-            stafflogin = new Dictionary<string, string>();
+
+      
+        //public Staff( string Name , string Password , string Id)
+        //{
+        //    this.Name = Name;
+        //    this.Password = Password;
+        //    this.Id = Id;
+        //    stafflogin = new Dictionary<string, string>();
+        //    this.dateTime= DateTime.Now;
             
-        }
+        //}
         
         public Bank Bank { get; set; }
         

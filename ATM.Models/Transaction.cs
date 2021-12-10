@@ -7,38 +7,42 @@ namespace ATM.Models
 {
    public  class Transaction 
     {
-        [Key][Required]
-        public Account RecieverAccountId { get; set; }
-        [Key][Required]
-        public Account SenderAccountId { get; set; }
-        [Key][Required]
-        public string SenderBankId { get; set; }
-        [Key][Required]
-        public Bank SenderBank { get; set; }
-        [Key][Required]
-        public Bank RecieverBank { get; set; }
-        [Key][Required]
-        public string RecieverBankId { get; set; }
-        [Key][Required]
+       [Required]
+        public string RecieverAccountId { get; set; }
+        [Required]
+        public string AccountId { get; set; }
+       [Required]
+        
+        public string BankId { get; set; }
+     //   [Key][Required]
         public Bank Bank { get; set; }
-        [Key][Required]
+       // [Key][Required]
+           [Required]
+        public string RecieverBankId { get; set; }
+
         public Account Account { get; set; }
-        [Key][Required]
-        public double Amount { get; set; }
-        [Key][Required]
+    //   public Account ReceiverAccount { get; set; }
+        //[Key][Required]
+       public double Amount { get; set; }
+    //    [Key][Required]
         public DateTime TransactionOn { get; set; } // rename CreatedOn/ TransactionOn
-        [Key][Required]
+      //  [Key][Required]
         public TransactionType type { get; set; } // use same notation for property names mostly we use Camelcase
-        [Key][Required][StringLength(50)]
+        //[Key][Required][StringLength(50)]
         public string TransactionId{get;set;}
-        [Key][Required]
+      //  public Account Account { get; set; }
+        // [Key][Required]
         public string date { get; set; }
-        public Transaction( Account RecieverAccountId, Account SenderAccountId,  double Amount, DateTime TransactionOn, TransactionType type, string SenderBankId , string RecieverBankId)
+        public Transaction()
+        {
+
+        }
+        public Transaction( string RecieverAccountId, string SenderAccountId,  double Amount, DateTime TransactionOn, TransactionType type, string SenderBankId , string RecieverBankId)
         {
             this.RecieverAccountId = RecieverAccountId;
-            this.SenderAccountId = SenderAccountId;
+            this.AccountId = SenderAccountId;
             this.RecieverBankId = RecieverBankId;
-            this.SenderBankId = SenderBankId;
+            this.BankId = SenderBankId;
             this.Amount = Amount;
             this.TransactionOn = TransactionOn;
             this.type = (TransactionType)type;

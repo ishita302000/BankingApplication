@@ -6,6 +6,16 @@ namespace ATM.Models
     public class Bank : Parent
     {
         //   private const double V = 0.05;
+      //  public string Id;
+   /*     public Bank()
+        {
+        Id="";
+       for(int i=0;i<3;i++)
+            { Id+=Name[i];
+            }
+        Id+=date;
+        }
+     */
         public virtual IList<Account> Accounts { get; set; } // accounts of customers
         public virtual IList<Staff> StaffAccount { get; set; }
         public virtual IList<Currency> Currencies { get; set; }

@@ -21,7 +21,7 @@ namespace ATM.Services
           try{
                
                 user.currentbalance += (amount * bank.Currencies.FirstOrDefault(c=>c.code == currentycode).exchangerate);  // check
-                Transaction transaction = new Transaction(user , user, amount, DateTime.Now, TransactionType.Credited, bankid, bankid);
+                Transaction transaction = new Transaction(user.Id , user.Id, amount, DateTime.Now, TransactionType.Credited, bankid, bankid);
                 user.Transactions.Add(transaction);
                // return user.currentbalance;
             }
@@ -37,7 +37,7 @@ namespace ATM.Services
            
             //   return amount.currentbalance -= amount;
             user.currentbalance -= amount;
-            Transaction transaction = new Transaction( user , user , amount , DateTime.Now , TransactionType.Debited  , bankid , bankid);
+            Transaction transaction = new Transaction( user.Id , user.Id , amount , DateTime.Now , TransactionType.Debited  , bankid , bankid);
             user.Transactions.Add(transaction);
             return true;
             }

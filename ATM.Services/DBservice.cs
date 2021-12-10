@@ -268,7 +268,7 @@ namespace ATM.Services
             IList<Transaction> transactions;
             using (BankContext bankContext = new BankContext())
             {
-                transactions = bankContext.Transaction.Where(t => t.RecieverAccountId.Id == accountId  || t.SenderAccountId.Id == accountId).ToList();
+                transactions = bankContext.Transaction.Where(t => t.RecieverAccountId == accountId  || t.Account.Id == accountId).ToList();
             }
             if (transactions.Count == 0 || transactions == null)
             {

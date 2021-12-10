@@ -7,32 +7,38 @@ namespace ATM.Models
 {
     public class Parent
     {
-        [Key]
+    
         [Required]
-        [StringLength(10)]
-        public string Name { get; set; }
-        [Key]
+       public string Name { get; set; }
+     /*   [Key]
         [Required]
-        [StringLength(10)]
+        [StringLength(10)]*/
         public string Password
         {
             get; set;
         }
-
         [Key]
         [Required]
-        [StringLength(50)]
+     
         public string Id { get; set; }
-        [Key]
-        [Required]
-        private DateTime dateTime { get; set; }
+        //[Key]
+        //[Required]
+        public DateTime dateTime { get; set; }
+        //     dateTime = DateTime.Now;
+        //   string date = dateTime.ToShortDateString();
         public Parent()
         {
-            dateTime = DateTime.Now;
-            string date = dateTime.ToShortDateString();
-            Id = "";
-            for (int i = 0; i < 3; i++) Id += this.Name[i];
-            Id += date;
         }
+
+            public Parent( string Name , string Password)
+           {
+               this.Name = Name;
+               this.Password = Password;
+               this.dateTime = DateTime.Now;
+               string date = dateTime.ToShortDateString();
+               this.Id = "";
+               for (int i = 0; i < 3; i++) this.Id += this.Name[i];
+               Id += date;
+           }
     }
 }

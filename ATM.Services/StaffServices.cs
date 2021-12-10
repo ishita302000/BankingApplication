@@ -68,7 +68,7 @@ namespace ATM.Services
 
             if (string.IsNullOrEmpty(name))
                 throw new Exception("Name is not valid!");
-            if (bank.Accounts.Count != 0 & bank.Accounts.Any(p => p.Name == name) == true)
+            if (bank.Accounts.Count != 0 & bank.Accounts.Any(p => p.Name == name) == true                      // check
                 throw new Exception("Account already exists!");
             if (BankList.Banks.Count != 0 & BankList.Banks.Any(p => p.Id == bankId) != true)
                 throw new Exception("Bank doesn't exists!");
@@ -76,8 +76,9 @@ namespace ATM.Services
             if (choice == 1)
             {
                 Staff s = new Staff();
+
                 bank.StaffAccount.Add(s);
-                Id = s.Id;
+                return s.Id;
             }
             else
             {

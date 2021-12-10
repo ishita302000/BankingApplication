@@ -112,12 +112,12 @@ namespace ATM.CLI
         public static void TransactionHistory(Transaction userTransactionHistory)
         {
             Console.WriteLine("TRANSACTION HISTORY");
-            Console.WriteLine("Transaction ID:" + userTransactionHistory.SenderAccountId);
+            Console.WriteLine("Transaction ID:" + userTransactionHistory.AccountId);
             Console.WriteLine(userTransactionHistory.Amount);
             Console.WriteLine(userTransactionHistory.type + "to your account");
-            if (userTransactionHistory.SenderAccountId != userTransactionHistory.RecieverAccountId)
+            if (userTransactionHistory.AccountId != userTransactionHistory.RecieverAccountId)
             {
-                Console.WriteLine("From " + userTransactionHistory.SenderAccountId + " to " + userTransactionHistory.RecieverAccountId);
+                Console.WriteLine("From " + userTransactionHistory.AccountId + " to " + userTransactionHistory.RecieverAccountId);
             }
             Console.WriteLine(userTransactionHistory.TransactionOn.ToString());
           /*  foreach (var transaction in i)

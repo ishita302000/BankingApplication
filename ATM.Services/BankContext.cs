@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Data.SqlTypes;
 using System.Data.SqlClient;
 using ATM.Models;
@@ -14,6 +15,7 @@ namespace ATM.Services
         public DbSet<Currency> Currency { get; set; }
         public DbSet<Account> Account
         {
+
             get; set;
         }
         public DbSet<Transaction> Transaction { get; set; }
@@ -21,11 +23,15 @@ namespace ATM.Services
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source = LAPTOP - 83O4PRPJ\MSSQLSERVER01; Initial Catalog = Banking_Application; Integrated Security = True");      
+            optionsBuilder.UseSqlServer(@"Data Source = LAPTOP-83O4PRPJ\MSSQLSERVER01; Initial Catalog = Banking_Application; Integrated Security = True");      
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Currency>(entity =>
@@ -53,19 +59,15 @@ namespace ATM.Services
             {
                 entity.HasOne(d => d.Bank)
                 .WithMany(p => p.transactions)
-                .HasForeignKey(d => d.SenderBankId);
+                .HasForeignKey(d => d.BankId);
 
-                entity.HasOne(d => d.Bank)
-                .WithMany(p => p.transactions)
-                .HasForeignKey(d => d.RecieverBankId);
+
 
                 entity.HasOne(d => d.Account)
                 .WithMany(p => p.Transactions)
-                .HasForeignKey(d => d.SenderAccountId);
+                .HasForeignKey(d => d.AccountId);
 
-                entity.HasOne(d => d.Account)
-                .WithMany(p => p.Transactions)
-                .HasForeignKey(d => d.RecieverAccountId);
+             
             });
         }
     }
