@@ -1,14 +1,13 @@
-﻿
-using ATM.Models.Enums;
+﻿using ATM.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace ATM.Models
+namespace ATM.Services.DbModels
 {
-  public  class Staff // use one parent class for account holder and staff as they have multiple common properties
-    { 
+     public class DbStaffModel
+    {
         [Required]
         public string Name { get; set; }
         [Required]
@@ -19,13 +18,13 @@ namespace ATM.Models
         [Required]
         public string Id;
 
-     //   public Dictionary<string, string> stafflogin;
+        public Dictionary<string, string> stafflogin;
         public Bank Bank { get; set; }
         public string BankId { get; set; }
-        public Staff()
+        public DbStaffModel()
         {
             DateTime currentDate = DateTime.Now;
-           
+
             string date = currentDate.ToShortDateString();
             // set accountId
             Id = "";

@@ -1,26 +1,18 @@
-﻿using System;
+﻿using ATM.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
-namespace ATM.Models
+namespace ATM.Services.DbModels
 {
-    public class Bank
+    public class DbBankModel
     {
-        //   private const double V = 0.05;
-        //  public string Id;
-        /*     public Bank()
-             {
-             Id="";
-            for(int i=0;i<3;i++)
-                 { Id+=Name[i];
-                 }
-             Id+=date;
-             }
-          */
         [Required]
         public string Name
         {
-            get; set;  }
+            get; set;
+        }
         [Required]
         public string Password
         {
@@ -30,16 +22,22 @@ namespace ATM.Models
         [Required]
         public string Id;
         [Required]
-        public DateTime dateTime { get; set;
+        public DateTime dateTime
+        {
+            get; set;
         }
-    //    public virtual IList<Account> Accounts { get; set; }
-    
-      //  public virtual IList<Staff> StaffAccount { get; set; }
-   //     public virtual IList<Currency> Currencies { get; set; }
- 
-     //   public virtual IList<Transaction> transactions { get; set; }
-      
-      
+        public virtual IList<Account> Accounts
+        {
+            get;
+
+            set;
+        } // { this.Accounts = new IList<Account>();  } } // accounts of customers
+        public virtual IList<Staff> StaffAccount { get; set; }
+        public virtual IList<Currency> Currencies { get; set; }
+
+        public virtual IList<Transaction> transactions { get; set; }
+
+
         public double RTGSsameBank { get; set; } = 0;
         public double RTGSdifferentBank { get; set; } = .02;
         public double IMPSsameBank
@@ -49,8 +47,8 @@ namespace ATM.Models
         public double IMPSdifferentBank { get; set; } = .06;
         const string DefaultCurrency = "INR"; // maintain constants saparately 
         public string Countrycode = DefaultCurrency;
-      
-        public Bank()
+
+        public DbBankModel()
         {
             DateTime currentDate = DateTime.Now;
             string date = currentDate.ToShortDateString();
@@ -58,6 +56,6 @@ namespace ATM.Models
             Id = "";
             for (int i = 0; i < 3; i++) Id += this.Name[i];
             Id += date;
-        }          
-     }
+        }
+    }
 }

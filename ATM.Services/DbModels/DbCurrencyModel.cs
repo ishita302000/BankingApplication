@@ -1,13 +1,15 @@
-﻿using System;
+﻿using ATM.Models;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
-namespace ATM.Models
+namespace ATM.Services.DbModels
 {
-   public class Currency // why disctionary use one currency class which have Code, ExchangeRate, bank details properties
-    { 
-        [Key][Required]
+    public class DbCurrencyModel
+    {
+        [Key]
+        [Required]
         public int Id { get; set; }
         [Required]
         public Bank Bank { get; set; }

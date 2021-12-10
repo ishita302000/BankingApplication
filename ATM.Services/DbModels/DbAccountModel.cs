@@ -1,24 +1,29 @@
-﻿using System;
+﻿using ATM.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 
-namespace ATM.Models
+namespace ATM.Services.DbModels
 {
-    public class Account 
+   public class DbAccountModel
     {
         [Required]
         public string Name
         {
             get; set;
-          }
-        [Required]
-        public string Password { get; set;
         }
-        [Key][Required]
+        [Required]
+        public string Password
+        {
+            get; set;
+        }
+        [Key]
+        [Required]
         public string Id
         {
             get; set;
-         }
+        }
         [Required]
         public DateTime dateTime
         {
@@ -31,11 +36,9 @@ namespace ATM.Models
         {
             get; set;
         }
-    //    public virtual IList<Transaction> Transactions { get; set; }
+        public  IList<Transaction> Transactions { get; set; }
         public Bank Bank { get; set; }
-     //   public IList<Transaction> Transactions { get; set; }
-
-        public Account()
+        public DbAccountModel()
         {
             DateTime currentDate = DateTime.Now;
             string date = currentDate.ToShortDateString();

@@ -10,17 +10,20 @@ namespace ATM.Services
    public class CustomerServices // write Interfaces which inherit all the methods inside this service
     {
         Bank bank;
-
-        public CustomerServices( string bankname , string countrycode)
+        readonly BankContext bankcontext = new BankContext();
+        public CustomerServices( )
         {
-            this.bank = new Bank();
+            using (BankContext bankContext = new BankContext())
+            {
+                bankContext.Database.EnsureCreated();
+            }
         }
 
         public void deposit(double amount, Account user, string currentycode, string bankid)  // static
         {
           try{
                
-                user.currentbalance += (amount * bank.Currencies.FirstOrDefault(c=>c.code == currentycode).exchangerate);  // check
+                user.currentbalance += (amount * bankcontext.Currency.FirstOrDefault(c=>c.code == currentycode).exchangerate);  // check
                 Transaction transaction = new Transaction(user.Id , user.Id, amount, DateTime.Now, TransactionType.Credited, bankid, bankid);
                 user.Transactions.Add(transaction);
                // return user.currentbalance;
@@ -84,12 +87,12 @@ namespace ATM.Services
                     }
 
                 }
-                Account account1 = bank.Accounts.FirstOrDefault(m => m.Id == accountId1);
+                Account account1 = bankcontext.Account.FirstOrDefault(m => m.Id == accountId1);
                 if (account1 == null)
                 {
                     throw new UserNotFoundException();
                 }
-                Account account2 = bank.Accounts.FirstOrDefault(m => m.Id == accountId2);
+                Account account2 = bankcontext.Account.FirstOrDefault(m => m.Id == accountId2);
                 if (account2 == null)
                 {
                     throw new UserNotFoundException();
@@ -97,7 +100,7 @@ namespace ATM.Services
                 if (account1.currentbalance >= amount + charge)
                 {
                     account1.currentbalance -= amount + charge;
-                    account2.currentbalance += Math.Round(amount * (bank.Currencies.FirstOrDefault(a => a.code == senderbankcurrencycode).exchangerate));
+                    account2.currentbalance += Math.Round(amount * (bankcontext.Currency.FirstOrDefault(a => a.code == senderbankcurrencycode).exchangerate));
                     return true;
                 }
              //   account2.currentbalance += amount;
@@ -117,7 +120,7 @@ namespace ATM.Services
     
         public Account GetAccount(string accId)
         {
-            foreach (var acc in bank.Accounts)
+            foreach (var acc in bankcontext.Account)
             {
                 if (acc.Id == accId) return acc;
             }

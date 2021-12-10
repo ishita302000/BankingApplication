@@ -19,6 +19,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
     {
         public Bank bank;
         public Staff staff;
+        readonly BankContext bankcontext = new BankContext();
  
         public string addaccount(string username, string accountId, string password , double balance , string bankid)
         {
@@ -33,10 +34,10 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
             };
             //    bank.Accounts.Add( username , newAccount); // list
             //  newAccount.userLogin.Add(username, accountId );  //
-            bank.Accounts.Add(newAccount);
+            bankcontext.Account.Add(newAccount);
             return newAccount.Id;
         }
-     
+      
         public Account userlogin(string accid , string password , string bankid)    // user
         {
             Account user = null;
@@ -48,7 +49,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
                 {
                     throw new Exception("Bank does not exist"); // use constants
                 }
-                foreach (var account in bank.Accounts.Where(account => account.Id == accid & account.Password == password))
+                foreach (var account in bankcontext.Account.Where(account => account.Id == accid & account.Password == password))
                 {
                     user = account;
                 }
@@ -69,7 +70,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
                 {
                     throw new Exception("Bank does not exist");
                 }
-                foreach (var account in bank.StaffAccount.Where(account => account.Id == id & account.Password == password))
+                foreach (var account in bankcontext.Staff.Where(account => account.Id == id & account.Password == password))
                 {
                     user = account;
                 }
@@ -83,7 +84,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
         }
         public bool StaffcheckId(string accountId)    // user
         {
-            foreach (Staff account in bank.StaffAccount)
+            foreach (Staff account in bankcontext.Staff)
             {
                 if (account.Id == accountId)
                 {
@@ -95,7 +96,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
         public bool UsercheckId( string accountId)
         {
           
-            foreach( Account account in bank.Accounts)
+            foreach( Account account in bankcontext.Account)
             {
                 if(account.Id==accountId)
                 {
@@ -116,7 +117,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
                     throw new Exception("Bank does not exist");
                 }
 
-                foreach (var account in bank.Accounts.Where(account => account.Name == username))
+                foreach (var account in bankcontext.Account.Where(account => account.Name == username))
                 {
                     user = account;
                 }
@@ -131,7 +132,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
 
         public IList<Transaction> GettransactionHistory(string username, string userid)
         {
-            Account account = bank.Accounts.FirstOrDefault(a => a.Id == userid);
+            Account account = bankcontext.Account.FirstOrDefault(a => a.Id == userid);
 
             return account.Transactions;      // check 
         }
@@ -149,7 +150,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
                     throw new Exception("Bank does not exist");
                 }
                 // use isExist which return true/false  
-                foreach (var account in bank.StaffAccount.Where(account => account.Name == username))
+                foreach (var account in bankcontext.Staff.Where(account => account.Name == username))
                 {
                     user = account;
                 }
