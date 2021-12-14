@@ -49,14 +49,15 @@ namespace ATM.Models
         public double IMPSdifferentBank { get; set; } = .06;
         const string DefaultCurrency = "INR"; // maintain constants saparately 
         public string Countrycode = DefaultCurrency;
-      
-        public Bank()
+
+        public Bank(string Name)
         {
+            this.Name = Name;
             DateTime currentDate = DateTime.Now;
             string date = currentDate.ToShortDateString();
             // set accountId
-            Id = "";
-            for (int i = 0; i < 3; i++) Id += this.Name[i];
+            this.Id = "";
+            for (int i = 0; i < 3; i++) this.Id += this.Name[i];
             Id += date;
         }          
      }

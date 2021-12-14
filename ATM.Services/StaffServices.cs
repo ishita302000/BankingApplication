@@ -15,45 +15,18 @@ namespace ATM.Services
         readonly BankContext bankContext = new BankContext();
     
 
-        public StaffServices()
+      /*  public StaffServices()
         {
             using (BankContext bankContext = new BankContext())
             {
                 bankContext.Database.EnsureCreated();
             }
-        }
+        } */
         public bool revertTransaction()
         {
             return false;
         }
-   /*     public double viewbalance(Account user)
-        {
-            return user.currentbalance;
-        }
-   */
-     /*   public Account checkAccount(string bankid, string id)
-        {
-            Account user = null;
-            try
-            {
-                bank = FindBank(bankid);
-                if(bank==null)
-                {
-                    throw new Exception("Bank doesn't exist! ");
-                }
-                // replace with isExist in all places
-                foreach(var account in bank.Accounts.Where(account => account.Id == id))
-                {
-                    user = account;
-                }
-            }
-            catch(Exception exception)
-            {
-                throw new Exception(exception.Message);
-            }
-            return user;
-        }
-     */
+  
         public string CreateBank(string name, string address, string currencyCode)
         {
             if (string.IsNullOrEmpty(name))
@@ -67,7 +40,7 @@ namespace ATM.Services
                 throw new Exception("Invalid Currency Code");
             }
            */
-            Bank bank = new Bank();
+            Bank bank = new Bank(name);
             BankList.Banks.Add(bank);
             return bank.Id;
         }

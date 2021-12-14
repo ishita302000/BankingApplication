@@ -11,13 +11,14 @@ namespace ATM.Services
     {
         Bank bank;
         readonly BankContext bankcontext = new BankContext();
-        public CustomerServices( )
+  /*      public CustomerServices( )
         {
             using (BankContext bankContext = new BankContext())
             {
                 bankContext.Database.EnsureCreated();
             }
         }
+  */
 
         public void deposit(double amount, Account user, string currentycode, string bankid)  // static
         {

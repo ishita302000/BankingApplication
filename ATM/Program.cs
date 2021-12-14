@@ -14,9 +14,7 @@ namespace ATM.CLI
            
             string accountId = "";
          
-            string BankId = "";
-            string Bankname = "";
-            string CountryCode = "";
+            
         
             string StaffName = "";
             string Staffpass = "";
