@@ -141,7 +141,7 @@ namespace ATM.Services
                 bankContext.SaveChanges();
             }
         }
-        public void AddCurrency(Currency currency)
+        public void AddCurrency( Currency currency )
         {
             using (BankContext bankContext = new BankContext())
             {
@@ -258,15 +258,23 @@ namespace ATM.Services
             }
         }
 
-        public void CheckAccountExistance(string bankId, string accountId)
+        public Account CheckAccountExistance(string bankId, string accountId)
         {
+            Account user;
             using (BankContext bankContext = new BankContext())
             {
                 if (!bankContext.Account.Any(a => a.BankId == bankId && a.Id == accountId))
                 {
-                    throw new AccountDoesNotExistException();
+                     throw new AccountDoesNotExistException();
+                  //  user = bankContext.Account.Any(a => a.BankId == bankId && a.Id == accountId);
+                    
+                }
+                else
+                {
+                    user = bankContext.Account.FirstOrDefault(a => a.BankId == bankId && a.Id == accountId);
                 }
             }
+            return user;
         }
 
         // get Id
@@ -342,13 +350,15 @@ namespace ATM.Services
             }
         }
 
-        public Currency GetCurrencyByName(string bankId, string currencyName)
+        public Currency GetCurrencyByName(string bankId, string currencyName )
         {
-            CheckCurrencyExistance(bankId, currencyName);
-            using (BankContext bankContext = new BankContext())
-            {
-                return bankContext.Currency.FirstOrDefault(c => c.BankId == bankId && c.code == currencyName);
-            }
+            
+                CheckCurrencyExistance(bankId, currencyName);
+                using (BankContext bankContext = new BankContext())
+                {
+                    return bankContext.Currency.FirstOrDefault(c => c.BankId == bankId && c.code == currencyName);
+                }
+            
         }
         /*    public Account UpdateChanges(string bankId, string userId)
              {

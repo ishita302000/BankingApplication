@@ -32,12 +32,12 @@ namespace ATM.Models
         [Required]
         public DateTime dateTime { get; set;
         }
-    //    public virtual IList<Account> Accounts { get; set; }
+        public virtual IList<Account> Accounts { get; set; }
     
-      //  public virtual IList<Staff> StaffAccount { get; set; }
-   //     public virtual IList<Currency> Currencies { get; set; }
+        public virtual IList<Staff> StaffAccount { get; set; }
+        public virtual IList<Currency> Currencies { get; set; }
  
-     //   public virtual IList<Transaction> transactions { get; set; }
+        public virtual IList<Transaction> transactions { get; set; }
       
       
         public double RTGSsameBank { get; set; } = 0;

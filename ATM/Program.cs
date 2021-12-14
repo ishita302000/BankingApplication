@@ -48,7 +48,7 @@ namespace ATM.CLI
             }
             Console.WriteLine(ConstantMessages.CreateFirstStaff);
 
-            CustomerServices AccountManager = new CustomerServices( bankName , CountryCode);
+            CustomerServices AccountManager = new CustomerServices( );  //check
         SetupStaff:
             Console.WriteLine(ConstantMessages.StaffName);
             StaffName = Console.ReadLine();
@@ -162,11 +162,12 @@ namespace ATM.CLI
                     }
                     else if (staffOperation == OperationsPerdormedByStaff.UpdateAccountStatus)
                     {
+                        Account account;
                       //  Console.Clear();
                     UpdateAccount:
                         Console.WriteLine(ConstantMessages.UpdateDeleteAccount);
                         string choice1 = Console.ReadLine();
-                        if (choice1 == "1") // use switch case & maintain choice in enum
+                        if (choice1 == "1") 
                         {
                             int userChoice;
                             string userId, bankId;
@@ -178,7 +179,8 @@ namespace ATM.CLI
                                 userId = Console.ReadLine();
                                 Console.WriteLine(ConstantMessages.BankId);
                                 bankId = Console.ReadLine();
-                                bankAccount = staffmanager.UpdateChanges(bankId, userId);
+                                bankAccount = staffmanager.GetAccountById(bankId , userId);
+                                 staffmanager.UpdateAccount(bankAccount);
                             }
                             catch (Exception exception)
                             {
@@ -236,21 +238,27 @@ namespace ATM.CLI
 
                     else if (staffOperation == OperationsPerdormedByStaff.ChangeCurrency)
                     {
-                        string code;
+                        string code , bankId;
                         double rate;
+                        Currency currency = new Currency();   // check
                         try
                         {
+                            Console.WriteLine(ConstantMessages.BankId);
+                            bankId = Console.ReadLine();
                             Console.WriteLine(ConstantMessages.NewCurrencyCode);
                             code = Console.ReadLine();
                             Console.WriteLine(ConstantMessages.ExchangeRate);
                             rate = Convert.ToDouble(Console.ReadLine());
+                            
+                            staffmanager.AddCurrency(currency);   // check exchange rate
+
+                            currency =staffmanager.GetCurrencyByName(bankId , code);   // check
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex.Message);
                             goto StaffOperations;
                         }
-                        staffmanager.AddCurrency(code, rate);
                     }
 
 
@@ -449,11 +457,11 @@ namespace ATM.CLI
                             Console.WriteLine(ConstantMessages.ServiceChargeType);
                             string choice = Console.ReadLine();
                             Console.WriteLine(ConstantMessages.TransferToAccountHolderName);
-                            string hName = Console.ReadLine();
-                            
+                            string ReceiverName = Console.ReadLine();
+                            string receiveraccId = staffmanager.GetAccountIdByname(ToBankId , ReceiverName);
                             try
                             {
-                                reciever = staffmanager.checkAccount(ToBankId, hName);
+                                reciever = staffmanager.CheckAccountExistance(ToBankId, receiveraccId);
                             }
                             catch (Exception ex)
                             {

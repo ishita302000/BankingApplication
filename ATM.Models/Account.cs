@@ -33,7 +33,7 @@ namespace ATM.Models
         }
     //    public virtual IList<Transaction> Transactions { get; set; }
         public Bank Bank { get; set; }
-     //   public IList<Transaction> Transactions { get; set; }
+        public IList<Transaction> Transactions { get; set; }
 
         public Account()
         {
