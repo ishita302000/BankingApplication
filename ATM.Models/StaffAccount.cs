@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ATM.Models
 {
-  public  class Staff // use one parent class for account holder and staff as they have multiple common properties
+  public  class StaffAccount // use one parent class for account holder and staff as they have multiple common properties
     { 
         [Required]
         public string Name { get; set; }
@@ -22,10 +22,11 @@ namespace ATM.Models
      //   public Dictionary<string, string> stafflogin;
         public Bank Bank { get; set; }
         public string BankId { get; set; }
-        public Staff()
+        public StaffAccount(string Name , String Password)
         {
+            this.Name = Name;
+            this.Password = Password;
             DateTime currentDate = DateTime.Now;
-           
             string date = currentDate.ToShortDateString();
             // set accountId
             Id = "";

@@ -49,11 +49,22 @@ namespace ATM.Services
         }
         public bool transfer(double amount, string accountId1, string accountId2 , string SenderBankId , string RecieverBankId , string choice , string senderbankcurrencycode)
         {
-         //   Bank SenderBank = null;
-            Bank RecieverBank = null;
+         Bank SenderBank;
+         Bank RecieverBank;
             try
             {
-                foreach(var i in BankList.Banks)
+                using (BankContext bankContext = new BankContext())
+                {
+                    SenderBank = bankContext.Bank.FirstOrDefault(b => b.Id == SenderBankId);
+                    RecieverBank = bankContext.Bank.FirstOrDefault(b => b.Id == RecieverBankId);
+                    if (SenderBank == null || RecieverBank == null)
+                    {
+                        throw new BankDoesnotExistException();
+                    }
+                }
+
+               // foreach(var i in BankList.Banks)
+                   /* foreach(var i in Bank)
                 {
                     if(i.Id==SenderBankId)
                     {
@@ -63,7 +74,7 @@ namespace ATM.Services
                     {
                         RecieverBank =i;
                     }
-                }
+                } */
                 double charge;
                 if(SenderBankId==RecieverBankId)
                 {

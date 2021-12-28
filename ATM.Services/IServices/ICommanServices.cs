@@ -11,7 +11,7 @@ namespace ATM.Services.IServices
 
         string addaccount(string username, string accountId, string password, double balance, string bankid);
         Account userlogin(string accid, string password, string bankid);
-        Staff Stafflogin(string id, string password, string bankid);
+        StaffAccount Stafflogin(string id, string password, string bankid);
         bool StaffcheckId(string accountId);
         bool UsercheckId(string accountId);
         bool UserAccountExit(string username, string bankid);   // user

@@ -11,7 +11,7 @@ namespace ATM.Services
    public class StaffServices 
     {
        public   Bank bank;
-      public  Staff staff;
+      public  StaffAccount staff;
         readonly BankContext bankContext = new BankContext();
     
 
@@ -31,65 +31,41 @@ namespace ATM.Services
         {
             if (string.IsNullOrEmpty(name))
                 throw new Exception("Bank name is not valid!"); // use constants
-           if(BankList.Banks.Count!=0 & BankList.Banks.Any(a=>a.Name==name))
-            {
-                throw new Exception("Bank Already Exist!");
-            }
+           
          /*  if(!Currency.Curriences.ContainsKey(currencyCode))
             {
                 throw new Exception("Invalid Currency Code");
             }
            */
             Bank bank = new Bank(name);
-            BankList.Banks.Add(bank);
+         
             return bank.Id;
         }
-        public string CreateAccount(string bankId, string name, string password, int choice)
+        public Account CreateCustomerAccount(string bankId, string name, string password, int choice)
         {
-
-            string Id;
-            bank = FindBank(bankId);
+            bank = GetBankById(bankId);
 
             if (string.IsNullOrEmpty(name))
                 throw new Exception("Name is not valid!");
-            if (  bankContext.Account.Any(p => p.Name == name) == true )                     // check
+            if (  bankContext.Account.Any(p => p.Name == name))                     // check
                 throw new Exception("Account already exists!");
-            if (BankList.Banks.Count != 0 & BankList.Banks.Any(p => p.Id == bankId) != true)
-                throw new Exception("Bank doesn't exists!");
-
-            if (choice == 1)
-            {
-                Staff s = new Staff();
-
-                bankContext.Staff.Add(s);
-                return s.Id;
-            }
-            else
-            {
-                Account a = new Account();
-                bankContext.Account.Add(a);
-                Id = a.Id;
-            }
-            return Id;
+           
+           
+                Account a = new Account(name , password);
+            return a;
         }
-  /*      public static Account FindAccount(Bank bank, string userId)
+        public StaffAccount CreateStaffAccount(string bankId, string name, string password, int choice)
         {
-            foreach (var account in bankContext.Account.Where(account => account.Id == userId))
-            {
-                return account;
-            }
-            return null;
-        }*/
-        public static Bank FindBank(string bankId)
-        {
-            foreach (var i in BankList.Banks.Where(i => i.Id == bankId))
-            {
-                return i;
-            }
+            bank = GetBankById(bankId);
 
-            return null;
+            if (string.IsNullOrEmpty(name))
+                throw new Exception("Name is not valid!");
+            if (bankContext.Account.Any(p => p.Name == name))                     // check
+                throw new Exception("Account already exists!");
+             StaffAccount a = new StaffAccount(name, password);
+           return a;
         }
-        //Add bank currency transaction
+
         public void AddBank(Bank bank)
         {
             using (BankContext bankContext = new BankContext())
@@ -98,7 +74,7 @@ namespace ATM.Services
                 bankContext.SaveChanges();
             }
         }
-        public void AddStaff(Staff staff)
+        public void AddStaff(StaffAccount staff)
         {
             using (BankContext bankContext = new BankContext())
             {
@@ -286,7 +262,7 @@ namespace ATM.Services
             string id;
             using (BankContext bankContext = new BankContext())
             {
-                Staff staff = bankContext.Staff.FirstOrDefault(e => e.BankId == bankId && e.Name == username);
+                StaffAccount staff = bankContext.Staff.FirstOrDefault(e => e.BankId == bankId && e.Name == username);
                 if (staff == null)
                 {
                     throw new EmployeeDoesNotExistException();
@@ -305,7 +281,7 @@ namespace ATM.Services
             }
         }
 
-        public Staff GetEmployeeById(string bankId, string employeeId)
+        public StaffAccount GetEmployeeById(string bankId, string employeeId)
         {
             CheckStaff(bankId, employeeId);
             using (BankContext bankContext = new BankContext())
@@ -333,26 +309,7 @@ namespace ATM.Services
                 }
             
         }
-        /*    public Account UpdateChanges(string bankId, string userId)
-             {
-                 Account user;
-                 try
-                 {
-                     bank = FindBank(bankId);
-                     if (bank == null)
-                     {
-                         throw new Exception("Bank does not exist");
-                     }
-                     user = FindAccount(bank, userId);
-                 }
-                 catch (Exception ex)
-                 {
-                     throw new Exception(ex.Message);
-                 }
-                 return user;
-             }*/
-     
-        /////////
+       
         public void UpdateBank(Bank bank)
         {
             using (BankContext bankContext = new BankContext())
@@ -366,12 +323,11 @@ namespace ATM.Services
                 bankContext.SaveChanges();
             }
         }
-
-        public void UpdateEmployee(Staff employee)
+        public void UpdateEmployee(StaffAccount employee)
         {
             using (BankContext bankContext = new BankContext())
             {
-                Staff currentEmployee = bankContext.Staff.First(e => e.BankId == employee.BankId && e.Id == employee.Id);
+                StaffAccount currentEmployee = bankContext.Staff.First(e => e.BankId == employee.BankId && e.Id == employee.Id);
                 currentEmployee.Name = employee.Name;
                 currentEmployee.Password = employee.Password;
                 bankContext.SaveChanges();
@@ -431,7 +387,7 @@ namespace ATM.Services
         {
             using (BankContext bankContext = new BankContext())
             {
-                Staff employee = bankContext.Staff.First(e => e.Id == employeeId && e.BankId == bankId);
+                StaffAccount employee = bankContext.Staff.First(e => e.Id == employeeId && e.BankId == bankId);
 
                 bankContext.SaveChanges();
             }

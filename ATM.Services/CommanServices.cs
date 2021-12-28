@@ -18,33 +18,19 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
     public class CommanServices
     {
         public Bank bank;
-        public Staff staff;
+        public StaffAccount staff;
         readonly BankContext bankcontext = new BankContext();
+        StaffServices staffServices = new StaffServices();
  
-        public string addaccount(string username, string accountId, string password , double balance , string bankid)
-        {
-            // bank.Accounts.Add(new List<username>());   // check
-            Account newAccount = new Account {
-                Name = username,
-                Id = accountId,
-                Password = password,
-                 currentbalance = balance,
-                 BankId = bankid,
-
-            };
-            //    bank.Accounts.Add( username , newAccount); // list
-            //  newAccount.userLogin.Add(username, accountId );  //
-            bankcontext.Account.Add(newAccount);
-            return newAccount.Id;
-        }
-      
+       
         public Account userlogin(string accid , string password , string bankid)    // user
         {
             Account user = null;
+            Bank bank;
 
             try
             {
-                bank = StaffServices.FindBank(bankid);
+                bank = staffServices.GetBankById(bankid);
                 if (bank == null)
                 {
                     throw new Exception("Bank does not exist"); // use constants
@@ -60,12 +46,12 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
             }
            return user;
         }
-    public Staff Stafflogin(string id, string password , string bankid)    // user
+    public StaffAccount Stafflogin(string id, string password , string bankid)    // user
         {
-            Staff user = null;
+            StaffAccount user = null;
             try
             {
-                bank = StaffServices.FindBank(bankid);
+                bank = staffServices.GetBankById(bankid);
                 if (bank == null)
                 {
                     throw new Exception("Bank does not exist");
@@ -84,7 +70,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
         }
         public bool StaffcheckId(string accountId)    // user
         {
-            foreach (Staff account in bankcontext.Staff)
+            foreach (StaffAccount account in bankcontext.Staff)
             {
                 if (account.Id == accountId)
                 {
@@ -111,7 +97,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
             Account user = null;
             try
             {
-                bank = StaffServices.FindBank(bankid);
+                bank = staffServices.GetBankById(bankid);
                 if (bank == null)
                 {
                     throw new Exception("Bank does not exist");
@@ -141,10 +127,10 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
         {
             // var a = Account.userlogin.ContainsKey(username);
             //  return bank.user.ContainsKey(username);
-            Staff user = null;
+            StaffAccount user = null;
             try
             {
-                bank = StaffServices.FindBank(bankid);
+                bank = staffServices.GetBankById(bankid);
                 if (bank == null)
                 {
                     throw new Exception("Bank does not exist");

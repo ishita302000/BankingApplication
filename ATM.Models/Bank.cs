@@ -34,7 +34,7 @@ namespace ATM.Models
         }
         public virtual IList<Account> Accounts { get; set; }
     
-        public virtual IList<Staff> StaffAccount { get; set; }
+        public virtual IList<StaffAccount> StaffAccount { get; set; }
         public virtual IList<Currency> Currencies { get; set; }
  
         public virtual IList<Transaction> transactions { get; set; }

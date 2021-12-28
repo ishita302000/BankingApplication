@@ -19,7 +19,7 @@ namespace ATM.Services
             get; set;
         }
         public DbSet<Transaction> Transaction { get; set; }
-        public DbSet<Staff> Staff { get; set; }
+        public DbSet<StaffAccount> Staff { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -48,7 +48,7 @@ namespace ATM.Services
                 .HasForeignKey(d => d.BankId);
             });
 
-            modelBuilder.Entity<Staff>(entity =>
+            modelBuilder.Entity<StaffAccount>(entity =>
             {
                 entity.HasOne(d => d.Bank)
                 .WithMany(p => p.StaffAccount)
@@ -61,13 +61,9 @@ namespace ATM.Services
                 .WithMany(p => p.transactions)
                 .HasForeignKey(d => d.BankId);
 
-
-
                 entity.HasOne(d => d.Account)
                 .WithMany(p => p.Transactions)
-                .HasForeignKey(d => d.AccountId);
-
-             
+                .HasForeignKey(d => d.AccountId);         
             });
         }
     }

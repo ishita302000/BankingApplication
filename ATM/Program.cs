@@ -8,20 +8,13 @@ using ATM.Services;
 namespace ATM.CLI
 {
     class Program
-    {
+    {   
         static void Main(string[] args)
         {
-           
             string accountId = "";
-         
-            
-        
             string StaffName = "";
-            string Staffpass = "";
-            
-
+            string Staffpass = "";         
             ConsoleOutput.Welcome();
-
             CommanServices bankmanager = new CommanServices();
             StaffServices staffmanager = new StaffServices();
             Console.WriteLine(ConstantMessages.SetupFirstBank);
@@ -54,7 +47,8 @@ namespace ATM.CLI
             string StaffaccountID;
             try
             {
-                StaffaccountID = staffmanager.CreateAccount(bankID, StaffName, Staffpass , 1);
+               StaffAccount Staffaccount = staffmanager.CreateStaffAccount(bankID, StaffName, Staffpass , 1);
+                StaffaccountID=staffmanager.GetStaffIdByname(bankID , StaffName);
                 ConsoleOutput.AccountId(StaffaccountID);
                 ConsoleOutput.WelcomeUser();
             }
@@ -88,7 +82,7 @@ namespace ATM.CLI
             {
 
                 Console.WriteLine(" Staff Login "); // use constants
-                Staff bankstaff;
+                StaffAccount bankstaff;
                 Console.WriteLine(ConstantMessages.BankId);
                 bankID = Console.ReadLine();
                 Console.WriteLine(ConstantMessages.AccountId);
@@ -127,7 +121,8 @@ namespace ATM.CLI
                     if (staffOperation == OperationsPerdormedByStaff.CreateAccount) // use swich case
                     {
                         int choice;
-                        string bankId, name, password, Id;
+                        string bankId, name, password;
+                        string Id;
 
                         try
                         {
@@ -146,14 +141,26 @@ namespace ATM.CLI
                         }
                         try
                         {
-                            Id = staffmanager.CreateAccount(bankId, name, password, choice);
+                            Account account = staffmanager.CreateCustomerAccount(bankId, name, password, 2);
+                            
+                            staffmanager.AddAccount(account);
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex.Message);
                             goto StaffOperations;
                         }
-
+                        try
+                        {
+                            StaffAccount acc = staffmanager.CreateStaffAccount(bankId, name, password, 1);
+                            staffmanager.AddStaff(acc);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                            goto StaffOperations;
+                        }
+                        Id = staffmanager.GetAccountIdByname(bankId,name);
                         ConsoleOutput.AccountId(Id);
                         ConsoleOutput.AccountSuccessfullCreation();
 
@@ -409,6 +416,7 @@ namespace ATM.CLI
                             try
                             {
                                 AccountManager.deposit(  amt,bankAccount,  currCode, bankId);
+
                             }
                             catch (Exception ex)
                             {
