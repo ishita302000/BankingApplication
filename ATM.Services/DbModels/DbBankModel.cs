@@ -32,7 +32,7 @@ namespace ATM.Services.DbModels
 
             set;
         } // { this.Accounts = new IList<Account>();  } } // accounts of customers
-        public virtual IList<StaffAccount> StaffAccount { get; set; }
+        public virtual IList<Employee> StaffAccount { get; set; }
         public virtual IList<Currency> Currencies { get; set; }
 
         public virtual IList<Transaction> transactions { get; set; }

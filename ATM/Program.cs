@@ -26,9 +26,12 @@ namespace ATM.CLI
             Console.WriteLine(ConstantMessages.CurrencyCode);
             string currencyCode = Console.ReadLine();
             string bankID;
+            Bank bank;
             try
             {
-                bankID = staffmanager.CreateBank(bankName,branch,  currencyCode);
+                bankID = staffmanager.CreateBank(bankName,branch,  currencyCode); // check
+                bank=staffmanager.GetBankById(bankID);
+                staffmanager.AddBank(bank);
                 ConsoleOutput.BankSuccessfullCreation();
                 ConsoleOutput.BankId(bankID);
             }
@@ -44,12 +47,13 @@ namespace ATM.CLI
             Console.WriteLine(ConstantMessages.StaffName);
             StaffName = Console.ReadLine();
             Staffpass = InputTakenFromUser.Password();
-            string StaffaccountID;
+            string StaffAccountID;
             try
             {
-               StaffAccount Staffaccount = staffmanager.CreateStaffAccount(bankID, StaffName, Staffpass , 1);
-                StaffaccountID=staffmanager.GetStaffIdByname(bankID , StaffName);
-                ConsoleOutput.AccountId(StaffaccountID);
+               Employee Staffaccount = staffmanager.CreateStaffAccount(bankID, StaffName, Staffpass , 1);
+                StaffAccountID=staffmanager.GetStaffIdByname(bankID , StaffName);
+                staffmanager.AddStaff(Staffaccount);
+                ConsoleOutput.AccountId(StaffAccountID);
                 ConsoleOutput.WelcomeUser();
             }
             catch (Exception ex)
@@ -74,15 +78,15 @@ namespace ATM.CLI
 
             if (loginOption == LoginType.BankSetup)
             {
-                Console.WriteLine(" Bank Set Up "); // use constants
+        //        Console.WriteLine(" Bank Set Up "); // use constants
                 goto SetupBank;
 
             }
             else if (loginOption == LoginType.Stafflogin)
             {
 
-                Console.WriteLine(" Staff Login "); // use constants
-                StaffAccount bankstaff;
+          //      Console.WriteLine(" Staff Login "); // use constants
+                Employee bankstaff;
                 Console.WriteLine(ConstantMessages.BankId);
                 bankID = Console.ReadLine();
                 Console.WriteLine(ConstantMessages.AccountId);
@@ -152,7 +156,7 @@ namespace ATM.CLI
                         }
                         try
                         {
-                            StaffAccount acc = staffmanager.CreateStaffAccount(bankId, name, password, 1);
+                            Employee acc = staffmanager.CreateStaffAccount(bankId, name, password, 1);
                             staffmanager.AddStaff(acc);
                         }
                         catch (Exception ex)

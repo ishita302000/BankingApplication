@@ -25,7 +25,7 @@ namespace ATM.Services
                 bankContext.SaveChanges();
             }
         }
-        public void AddStaff(StaffAccount staff)
+        public void AddStaff(Employee staff)
         {
             using (BankContext bankContext = new BankContext())
             {
@@ -156,7 +156,7 @@ namespace ATM.Services
             string id;
             using (BankContext bankContext = new BankContext())
             {
-                StaffAccount staff = bankContext.Staff.FirstOrDefault(e => e.BankId == bankId && e.Name == username);
+                Employee staff = bankContext.Staff.FirstOrDefault(e => e.BankId == bankId && e.Name == username);
                 if (staff == null)
                 {
                     throw new EmployeeDoesNotExistException();
@@ -222,7 +222,7 @@ namespace ATM.Services
             }
         }
 
-        public StaffAccount GetEmployeeById(string bankId, string employeeId)
+        public Employee GetEmployeeById(string bankId, string employeeId)
         {
             CheckStaff(bankId, employeeId);
             using (BankContext bankContext = new BankContext())
@@ -308,7 +308,7 @@ namespace ATM.Services
         {
             using (BankContext bankContext = new BankContext())
             {
-                StaffAccount employee = bankContext.Staff.First(e => e.Id == employeeId && e.BankId == bankId);
+                Employee employee = bankContext.Staff.First(e => e.Id == employeeId && e.BankId == bankId);
 
                 bankContext.SaveChanges();
             }
@@ -339,11 +339,11 @@ namespace ATM.Services
             }
         }
 
-        public void UpdateEmployee(StaffAccount employee)
+        public void UpdateEmployee(Employee employee)
         {
             using (BankContext bankContext = new BankContext())
             {
-                StaffAccount currentEmployee = bankContext.Staff.First(e => e.BankId == employee.BankId && e.Id == employee.Id);
+                Employee currentEmployee = bankContext.Staff.First(e => e.BankId == employee.BankId && e.Id == employee.Id);
                 currentEmployee.Name = employee.Name;
                 currentEmployee.Password = employee.Password;
                 bankContext.SaveChanges();

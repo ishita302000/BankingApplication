@@ -18,7 +18,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
     public class CommanServices
     {
         public Bank bank;
-        public StaffAccount staff;
+        public Employee staff;
         readonly BankContext bankcontext = new BankContext();
         StaffServices staffServices = new StaffServices();
  
@@ -46,9 +46,9 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
             }
            return user;
         }
-    public StaffAccount Stafflogin(string id, string password , string bankid)    // user
+    public Employee Stafflogin(string id, string password , string bankid)    // user
         {
-            StaffAccount user = null;
+            Employee user = null;
             try
             {
                 bank = staffServices.GetBankById(bankid);
@@ -70,7 +70,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
         }
         public bool StaffcheckId(string accountId)    // user
         {
-            foreach (StaffAccount account in bankcontext.Staff)
+            foreach (Employee account in bankcontext.Staff)
             {
                 if (account.Id == accountId)
                 {
@@ -127,7 +127,7 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
         {
             // var a = Account.userlogin.ContainsKey(username);
             //  return bank.user.ContainsKey(username);
-            StaffAccount user = null;
+            Employee user = null;
             try
             {
                 bank = staffServices.GetBankById(bankid);
