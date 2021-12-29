@@ -14,7 +14,7 @@ namespace ATM.Models
         public string Salary { get; set; }
         public string Password { get; set; }
         public DateTime CreatedOn { get; set; }
-        public DateTime CreatedBy { get; set; }
+        public string CreatedBy { get; set; }
         public string Id { get; set; }
         public string EmployeeId { get; set; }
        
