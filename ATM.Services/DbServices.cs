@@ -5,12 +5,13 @@ using System.Linq;
 using ATM.Models;
 using ATM.Models.Enums;
 using ATM.Models.Exceptions;
+using ATM.Services.DbModels;
 
 namespace ATM.Services
 {
-   public class StaffServices 
+   public class DbServices 
     {
-       public   Bank bank;
+       public   DbBankModel bank;
       public  Employee staff;
         readonly BankContext bankContext = new BankContext();
     
@@ -37,13 +38,13 @@ namespace ATM.Services
                 throw new Exception("Invalid Currency Code");
             }
            */
-            Bank bank = new Bank(name);
+            Bank bank = new Bank();
          
             return bank.Id;
         }
-        public Account CreateCustomerAccount(string bankId, string name, string password, int choice)
+        public DbCustomerModel CreateCustomerAccount(string bankId, string name, string password, int choice)
         {
-            bank = GetBankById(bankId);
+            bank =  GetBankById(bankId);
 
             if (string.IsNullOrEmpty(name))
                 throw new Exception("Name is not valid!");
@@ -51,10 +52,10 @@ namespace ATM.Services
                 throw new Exception("Account already exists!");
            
            
-                Account a = new Account(name , password);
+                Customer a = new Customer();
             return a;
         }
-        public Employee CreateStaffAccount(string bankId, string name, string password, int choice)
+        public DbEmployeeModel CreateStaffAccount(string bankId, string name, string password, int choice)
         {
             bank = GetBankById(bankId);
 
@@ -62,11 +63,11 @@ namespace ATM.Services
                 throw new Exception("Name is not valid!");
             if (bankContext.Account.Any(p => p.Name == name))                     // check
                 throw new Exception("Account already exists!");
-             Employee a = new StaffAccount(name, password);
+             DbEmployeeModel a = new DbEmployeeModel();
            return a;
         }
 
-        public void AddBank(Bank bank)
+        public void AddBank(DbBankModel bank)
         {
             using (BankContext bankContext = new BankContext())
             {
@@ -74,7 +75,7 @@ namespace ATM.Services
                 bankContext.SaveChanges();
             }
         }
-        public void AddStaff(Employee staff)
+        public void AddStaff(DbEmployeeModel staff)
         {
             using (BankContext bankContext = new BankContext())
             {
@@ -82,7 +83,7 @@ namespace ATM.Services
                 bankContext.SaveChanges();
             }
         }
-        public void AddAccount(Account account)
+        public void AddAccount(DbCustomerModel account)
         {
             using (BankContext bankContext = new BankContext())
             {
@@ -90,7 +91,7 @@ namespace ATM.Services
                 bankContext.SaveChanges();
             }
         }
-        public void AddCurrency( Currency currency )
+        public void AddCurrency(DbCurrencyModel currency )
         {
             using (BankContext bankContext = new BankContext())
             {
@@ -98,7 +99,7 @@ namespace ATM.Services
                 bankContext.SaveChanges();
             }
         }
-        public void AddTransaction(Transaction transaction)
+        public void AddTransaction(DbTransactionModel transaction)
         {
             using (BankContext bankContext = new BankContext())
             {
@@ -128,13 +129,11 @@ namespace ATM.Services
           
             }
         }
-
-        //jgg
-        public Transaction GetTransactionById(string txnId)
+        public DbTransactionModel GetTransactionById(string txnId)
         {
             using (BankContext bankContext = new BankContext())
             {
-                Transaction transaction = bankContext.Transaction.FirstOrDefault(t => t.TransactionId == txnId);
+                DbTransactionModel transaction = bankContext.Transaction.FirstOrDefault(t => t.TransactionId == txnId);
                 if (transaction == null)
                 {
                     throw new TransactionNotFoundException();
@@ -156,9 +155,9 @@ namespace ATM.Services
             }
             return transactions;
         }
-        public Account ViewHistory(string Id)
+        public DbCustomerModel ViewHistory(string Id)
         {
-            Account user = null;
+           DbCustomerModel user = null;
             try
             {
                 foreach (var account in bankContext.Account.Where(account => account.Id == Id))
@@ -189,7 +188,7 @@ namespace ATM.Services
         {
             using (BankContext bankContext = new BankContext())
             {
-                if (!bankContext.Currency.Any(c => c.BankId == bankId && c.code == currencyName))
+                if (!bankContext.Currency.Any(c => c.BankId == bankId && c.Code == currencyName))
                 {
                     throw new CurrencyDoesNotExistException();
                 }
@@ -207,9 +206,9 @@ namespace ATM.Services
             }
         }
 
-        public Account CheckAccountExistance(string bankId, string accountId)
+        public DbCustomerModel CheckAccountExistance(string bankId, string accountId)
         {
-            Account user;
+            DbCustomerModel user;
             using (BankContext bankContext = new BankContext())
             {
                 if (!bankContext.Account.Any(a => a.BankId == bankId && a.Id == accountId))
@@ -236,7 +235,7 @@ namespace ATM.Services
                 var banks = bankContext.Bank.Where(b => b.Id != "");
                 foreach (var bank in banks)
                 {
-                    bankNames.Add(bank.Id, bank.Name);
+                    bankNames.Add(bank.Id, bank.BankName);
                 }
             }
             return bankNames;
@@ -247,7 +246,7 @@ namespace ATM.Services
             string id;
             using (BankContext bankContext = new BankContext())
             {
-                Account account = bankContext.Account.FirstOrDefault(a => a.BankId == bankId && a.Name == username);
+                DbCustomerModel account = bankContext.Account.FirstOrDefault(a => a.Id == bankId && a.Name == username);
                 if (account == null)
                 {
                     throw new AccountDoesNotExistException();
@@ -272,7 +271,7 @@ namespace ATM.Services
             return id;
         }
         // get bank , employee
-        public Bank GetBankById(string bankId)
+        public DbBankModel GetBankById(string bankId)
         {
             CheckBankExistance(bankId);
             using (BankContext bankContext = new BankContext())
@@ -290,7 +289,7 @@ namespace ATM.Services
             }
         }
 
-        public Account GetAccountById(string bankId, string accountId)
+        public Customer GetAccountById(string bankId, string accountId)
         {
             CheckAccountExistance(bankId, accountId);
             using (BankContext bankContext = new BankContext())
@@ -299,13 +298,13 @@ namespace ATM.Services
             }
         }
 
-        public Currency GetCurrencyByName(string bankId, string currencyName )
+        public DbCurrencyModel GetCurrencyByName(string bankId, string currencyName )
         {
             
                 CheckCurrencyExistance(bankId, currencyName);
                 using (BankContext bankContext = new BankContext())
                 {
-                    return bankContext.Currency.FirstOrDefault(c => c.BankId == bankId && c.code == currencyName);
+                    return bankContext.Currency.FirstOrDefault(c => c.BankId == bankId && c.Code == currencyName);
                 }
             
         }
@@ -314,8 +313,8 @@ namespace ATM.Services
         {
             using (BankContext bankContext = new BankContext())
             {
-                Bank currentBank = bankContext.Bank.First(b => b.Id == bank.Id);
-                currentBank.Name = bank.Name;
+                DbBankModel currentBank = bankContext.Bank.First(b => b.Id == bank.Id);
+                currentBank.BankName = bank.BankName;
                 currentBank.IMPSsameBank = bank.IMPSsameBank;
                 currentBank.IMPSdifferentBank = bank.IMPSdifferentBank;
                 currentBank.RTGSdifferentBank = bank.RTGSdifferentBank;
@@ -334,14 +333,14 @@ namespace ATM.Services
             }
         }
 
-        public void UpdateAccount(Account account)
+        public void UpdateAccount(Customer account)
         {
             using (BankContext bankContext = new BankContext())
             {
-                Account currentAccount = bankContext.Account.First(a => a.BankId == account.BankId && a.Id == account.Id);
+                Customer currentAccount = bankContext.Account.First(a => a.BankId == account.BankId && a.Id == account.Id);
                 currentAccount.Name = account.Name;
                 currentAccount.Password = account.Password;
-                currentAccount.currentbalance = account.currentbalance;
+                currentAccount.CurrentBalance = account.CurrentBalance;
                 bankContext.SaveChanges();
             }
         }
@@ -350,8 +349,8 @@ namespace ATM.Services
         {
             using (BankContext bankContext = new BankContext())
             {
-                Currency currentCurrency = bankContext.Currency.First(c => c.BankId == currency.BankId && c.code == currency.code);
-                currentCurrency.exchangerate = currency.exchangerate;
+                Currency currentCurrency = bankContext.Currency.First(c => c.BankId == currency.BankId && c.Code == currency.Code);
+                currentCurrency.ExchangeRate = currency.ExchangeRate;
                 bankContext.SaveChanges();
             }
         }
@@ -362,7 +361,7 @@ namespace ATM.Services
         {
             using (BankContext bankContext = new BankContext())
             {
-                Bank bank = bankContext.Bank.First(b => b.Id == bankId);
+                DbBankModel bank = bankContext.Bank.First(b => b.Id == bankId);
 
                 var staff = bankContext.Staff.Where(e => e.BankId == bankId).ToList();
 
@@ -377,7 +376,7 @@ namespace ATM.Services
         {
             using (BankContext bankContext = new BankContext())
             {
-                Account account = bankContext.Account.First(a => a.Id == accountId && a.BankId == bankId);
+                DbCustomerModel account = bankContext.Account.First(a => a.Id == accountId && a.BankId == bankId);
 
                 bankContext.SaveChanges();
             }
@@ -397,7 +396,7 @@ namespace ATM.Services
         {
             using (BankContext bankContext = new BankContext())
             {
-                bankContext.Remove(bankContext.Currency.First(c => c.BankId == bankId && c.code == currencyName));
+                bankContext.Remove(bankContext.Currency.First(c => c.BankId == bankId && c.Code == currencyName));
                 bankContext.SaveChanges();
             }
         }

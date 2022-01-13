@@ -6,20 +6,17 @@ using System.Data.SqlTypes;
 using System.Data.SqlClient;
 using ATM.Models;
 using Microsoft.EntityFrameworkCore;
+using ATM.Services.DbModels;
 
 namespace ATM.Services
 {
     public class BankContext : DbContext
     {
-        public DbSet<Bank> Bank { get; set; }
-        public DbSet<Currency> Currency { get; set; }
-        public DbSet<Account> Account
-        {
-
-            get; set;
-        }
-        public DbSet<Transaction> Transaction { get; set; }
-        public DbSet<Employee> Staff { get; set; }
+        public DbSet<DbBankModel> Bank { get; set; }
+        public DbSet<DbCurrencyModel> Currency { get; set; }
+        public DbSet<DbCustomerModel> Account { get; set; }
+        public DbSet<DbTransactionModel> Transaction { get; set; }
+        public DbSet<DbEmployeeModel> Staff { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -41,7 +38,7 @@ namespace ATM.Services
                 .HasForeignKey(d => d.BankId);
             });
 
-            modelBuilder.Entity<Account>(entity =>
+            modelBuilder.Entity<Customer>(entity =>
             {
                 entity.HasOne(d => d.Bank)
                 .WithMany(p => p.Accounts)

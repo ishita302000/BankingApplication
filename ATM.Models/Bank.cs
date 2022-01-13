@@ -7,9 +7,8 @@ namespace ATM.Models
     public class Bank
     {
       
-        public string BankName  { get; set;  }
-     
-        public string Id;
+        public string BankName  { get; set;  }  
+        public string Id { get; set; }
         public DateTime CreatedOn { get; set;}
         public string CreatedBy { get; set; }
         public string BankId { get; set; }

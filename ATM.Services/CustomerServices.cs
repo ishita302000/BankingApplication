@@ -1,5 +1,6 @@
 ﻿using ATM.Models;
 using ATM.Models.Exceptions;
+using ATM.Services.DbModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,39 +12,26 @@ namespace ATM.Services
     {
         Bank bank;
         readonly BankContext bankcontext = new BankContext();
-  /*      public CustomerServices( )
-        {
-            using (BankContext bankContext = new BankContext())
-            {
-                bankContext.Database.EnsureCreated();
-            }
-        }
-  */
 
-        public void deposit(double amount, Account user, string currentycode, string bankid)  // static
+        public void deposit(double amount, DbCustomerModel user, string currentycode, string bankid)  // static
         {
-          try{
-               
-                user.currentbalance += (amount * bankcontext.Currency.FirstOrDefault(c=>c.code == currentycode).exchangerate);  // check
-                Transaction transaction = new Transaction(user.Id , user.Id, amount, DateTime.Now, TransactionType.Credited, bankid, bankid);
-                user.Transactions.Add(transaction);
-               // return user.currentbalance;
+            try
+            {
+               user.CurrentBalance += (amount * bankcontext.Currency.FirstOrDefault(c=>c.Code == currentycode).ExchangeRate);  // check
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
             }
-        public bool withdraw(double amount, string accountId , Account user , string bankid)
+        public bool withdraw(double amount, string accountId , DbCustomerModel user , string bankid)
         {
-            if(user.currentbalance >= amount)
+            if(user.CurrentBalance >= amount)
             { 
            
             //   return amount.currentbalance -= amount;
-            user.currentbalance -= amount;
-            Transaction transaction = new Transaction( user.Id , user.Id , amount , DateTime.Now , TransactionType.Debited  , bankid , bankid);
-            user.Transactions.Add(transaction);
-            return true;
+            user.CurrentBalance -= amount;
+           
             }
             return false;
         }
@@ -55,26 +43,14 @@ namespace ATM.Services
             {
                 using (BankContext bankContext = new BankContext())
                 {
-                    SenderBank = bankContext.Bank.FirstOrDefault(b => b.Id == SenderBankId);
-                    RecieverBank = bankContext.Bank.FirstOrDefault(b => b.Id == RecieverBankId);
+                    SenderBank = bankContext.Bank.FirstOrDefault(b => b.Id == );
+                    RecieverBank = bankContext.Bank.FirstOrDefault(b => b.Id == );
                     if (SenderBank == null || RecieverBank == null)
                     {
                         throw new BankDoesnotExistException();
                     }
                 }
 
-               // foreach(var i in BankList.Banks)
-                   /* foreach(var i in Bank)
-                {
-                    if(i.Id==SenderBankId)
-                    {
-                        bank = i;  // senderbank
-                    }
-                    if(i.Id==RecieverBankId)
-                    {
-                        RecieverBank =i;
-                    }
-                } */
                 double charge;
                 if(SenderBankId==RecieverBankId)
                 {
@@ -99,20 +75,20 @@ namespace ATM.Services
                     }
 
                 }
-                Account account1 = bankcontext.Account.FirstOrDefault(m => m.Id == accountId1);
+                DbCustomerModel account1 = bankcontext.Account.FirstOrDefault(m => m.Id == accountId1);
                 if (account1 == null)
                 {
                     throw new UserNotFoundException();
                 }
-                Account account2 = bankcontext.Account.FirstOrDefault(m => m.Id == accountId2);
+                DbCustomerModel account2 = bankcontext.Account.FirstOrDefault(m => m.Id == accountId2);
                 if (account2 == null)
                 {
                     throw new UserNotFoundException();
                 }
-                if (account1.currentbalance >= amount + charge)
+                if (account1.CurrentBalance >= amount + charge)
                 {
-                    account1.currentbalance -= amount + charge;
-                    account2.currentbalance += Math.Round(amount * (bankcontext.Currency.FirstOrDefault(a => a.code == senderbankcurrencycode).exchangerate));
+                    account1.CurrentBalance -= amount + charge;
+                    account2.CurrentBalance += Math.Round(amount * (bankcontext.Currency.FirstOrDefault(a => a.Code == senderbankcurrencycode).ExchangeRate));
                     return true;
                 }
              //   account2.currentbalance += amount;
@@ -125,18 +101,9 @@ namespace ATM.Services
             return false;
 
         }
-        public double DeductCharge(double amount , double percent )
+        public double DeductCharge(double amount, double percent)
         {
-            return (double)Math.Round(amount*percent , 2);
-        }
-    
-        public Account GetAccount(string accId)
-        {
-            foreach (var acc in bankcontext.Account)
-            {
-                if (acc.Id == accId) return acc;
-            }
-            return null;
+            return (double)Math.Round(amount * percent, 2);
         }
 
     }

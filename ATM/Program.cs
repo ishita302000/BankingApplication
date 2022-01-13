@@ -4,6 +4,7 @@ using ATM.Models;
 using ATM.Models.Enums;
 using ATM.Models.Exceptions;
 using ATM.Services;
+using ATM.Services.DbModels;
 
 namespace ATM.CLI
 {
@@ -16,7 +17,7 @@ namespace ATM.CLI
             string Staffpass = "";         
             ConsoleOutput.Welcome();
             CommanServices bankmanager = new CommanServices();
-            StaffServices staffmanager = new StaffServices();
+            DbServices staffmanager = new DbServices();
             Console.WriteLine(ConstantMessages.SetupFirstBank);
 
         SetupBank:
@@ -26,7 +27,7 @@ namespace ATM.CLI
             Console.WriteLine(ConstantMessages.CurrencyCode);
             string currencyCode = Console.ReadLine();
             string bankID;
-            Bank bank;
+            DbBankModel bank;
             try
             {
                 bankID = staffmanager.CreateBank(bankName,branch,  currencyCode); // check
@@ -50,7 +51,7 @@ namespace ATM.CLI
             string StaffAccountID;
             try
             {
-               Employee Staffaccount = staffmanager.CreateStaffAccount(bankID, StaffName, Staffpass , 1);
+               DbEmployeeModel Staffaccount = staffmanager.CreateStaffAccount(bankID, StaffName, Staffpass , 1);
                 StaffAccountID=staffmanager.GetStaffIdByname(bankID , StaffName);
                 staffmanager.AddStaff(Staffaccount);
                 ConsoleOutput.AccountId(StaffAccountID);
@@ -86,7 +87,7 @@ namespace ATM.CLI
             {
 
           //      Console.WriteLine(" Staff Login "); // use constants
-                Employee bankstaff;
+                DbEmployeeModel bankstaff;
                 Console.WriteLine(ConstantMessages.BankId);
                 bankID = Console.ReadLine();
                 Console.WriteLine(ConstantMessages.AccountId);
@@ -121,7 +122,7 @@ namespace ATM.CLI
                 }
                 while (staffOperation != OperationsPerdormedByStaff.LogOut)
                 {
-                    Account bankAccount;
+                    Customer bankAccount;
                     if (staffOperation == OperationsPerdormedByStaff.CreateAccount) // use swich case
                     {
                         int choice;
@@ -145,7 +146,7 @@ namespace ATM.CLI
                         }
                         try
                         {
-                            Account account = staffmanager.CreateCustomerAccount(bankId, name, password, 2);
+                            DbCustomerModel account = staffmanager.CreateCustomerAccount(bankId, name, password, 2);
                             
                             staffmanager.AddAccount(account);
                         }
@@ -156,7 +157,7 @@ namespace ATM.CLI
                         }
                         try
                         {
-                            Employee acc = staffmanager.CreateStaffAccount(bankId, name, password, 1);
+                            DbEmployeeModel acc = staffmanager.CreateStaffAccount(bankId, name, password, 1);
                             staffmanager.AddStaff(acc);
                         }
                         catch (Exception ex)
@@ -171,10 +172,10 @@ namespace ATM.CLI
                     }
                     else if (staffOperation == OperationsPerdormedByStaff.UpdateAccountStatus)
                     {
-                        Account account;
+                        Customer account;
                       //  Console.Clear();
                     UpdateAccount:
-                        Console.WriteLine(ConstantMessages.UpdateDeleteAccount);
+                        Console.WriteLine(ConstantMessages.UpdateDeleteAccount);  // 1 update 2 delete
                         string choice1 = Console.ReadLine();
                         if (choice1 == "1") 
                         {
@@ -249,7 +250,7 @@ namespace ATM.CLI
                     {
                         string code , bankId;
                         double rate;
-                        Currency currency = new Currency();   // check
+                        DbCurrencyModel currency = new DbCurrencyModel();   // check
                         try
                         {
                             Console.WriteLine(ConstantMessages.BankId);
@@ -274,9 +275,9 @@ namespace ATM.CLI
                     else if (staffOperation == OperationsPerdormedByStaff.UpdateServiceCharge)
                     {
                     UpdateServiceCharge:
-                        Console.WriteLine(ConstantMessages.ServiceChargeUpdateChoice);
+                        Console.WriteLine(ConstantMessages.ServiceChargeUpdateChoice);  // 1 same bank 2 different bank
                         string choice = Console.ReadLine();
-                        if (choice == "1")// use switch case & maintain choice in enum
+                        if (choice == "1")
                         {
                             double rtgs, imps;
                             try
@@ -318,12 +319,11 @@ namespace ATM.CLI
                     }
                     else if (staffOperation == OperationsPerdormedByStaff.TransactionHistory)
                     {
-                      //  Console.Clear();
 
                     ShowTransactionHistory:
                         Console.WriteLine(ConstantMessages.AccountId);
-                        string acountId = Console.ReadLine();
-                        bankAccount = staffmanager.ViewHistory(accountId);
+                        string AccId = Console.ReadLine();
+                        bankAccount = staffmanager.ViewHistory(AccId);       // gettransactions
                         if (bankAccount == null)
                         {
                             Console.WriteLine(ConstantMessages.InvalidDetail);
@@ -356,9 +356,9 @@ namespace ATM.CLI
             }
             else if (loginOption == LoginType.Customerlogin)
             {
-                Console.WriteLine(" Customer Log in ");
+      //          Console.WriteLine(" Customer Log in ");
 
-                Account bankAccount;
+                DbCustomerModel bankAccount;
         //        Console.Clear();
 
                 Console.WriteLine(ConstantMessages.BankId);
@@ -402,15 +402,13 @@ namespace ATM.CLI
                           //  Console.Clear();
                             double amt;
                             string currCode, bankId , accId;
+                            DbTransactionModel transaction;
                             try
                             {
                                 amt = Convert.ToDouble(InputTakenFromUser.DepositAmount());
                                 Console.WriteLine(ConstantMessages.CurrencyCode);
                                 currCode = Console.ReadLine();
-                                Console.WriteLine(ConstantMessages.BankId);
-                                bankId = Console.ReadLine();
-                          //      Console.WriteLine(ConstantMessages.AccountId);
-                            //    accId = Console.ReadLine();
+                                transaction = staffmanager.GetTransactionById(aId);   // check
                             }
                             catch (Exception ex)
                             {
@@ -419,7 +417,8 @@ namespace ATM.CLI
                             }
                             try
                             {
-                                AccountManager.deposit(  amt,bankAccount,  currCode, bankId);
+                                AccountManager.deposit(  amt,bankAccount, currCode, bId);
+                                staffmanager.AddTransaction(transaction);   // check
 
                             }
                             catch (Exception ex)
@@ -431,24 +430,26 @@ namespace ATM.CLI
                         }
                         else if (customerOperation == OperationsPerformedByUser.Withdraw)
                         {
-                          //  Console.Clear();
+                            //  Console.Clear();
                             double amt;
-                            string bankId , accId;
+                            DbTransactionModel transaction;
                             try
                             {
                                 amt = Convert.ToDouble(InputTakenFromUser.WithdrawAmount());
-                                Console.WriteLine(ConstantMessages.BankId);
-                                bankId = Console.ReadLine();
-                                Console.WriteLine(ConstantMessages.AccountId);
-                                accId = Console.ReadLine();
+                                /*   Console.WriteLine(ConstantMessages.BankId);
+                                   bankId = Console.ReadLine();
+                                   Console.WriteLine(ConstantMessages.AccountId);
+                                   accId = Console.ReadLine();*/
+                                transaction= new DbTransactionModel();      //check
                             }
                             catch (Exception ex)
                             {
                                 Console.WriteLine(ex.Message);
                                 goto CustomerOperations;
                             }
-                            if ( AccountManager.withdraw( amt, accId , bankAccount, bankId ))
+                            if ( AccountManager.withdraw( amt, aId , bankAccount, bId ))
                             {
+                                staffmanager.AddTransaction(transaction);   //check
                                 ConsoleOutput.WithdrawSuccessfull(amt);
                             }
                             else
@@ -459,7 +460,8 @@ namespace ATM.CLI
                         else if (customerOperation == OperationsPerformedByUser.Transfer)
                         {
                          //   Console.Clear();
-                            Account reciever;
+                            DbCustomerModel reciever;
+                            DbTransactionModel transaction;
                             Console.WriteLine(ConstantMessages.SenderBankId);
                             string sbankId = Console.ReadLine();
                             Console.WriteLine(ConstantMessages.ReceiverBankId);
@@ -485,6 +487,7 @@ namespace ATM.CLI
                                 if (AccountManager.transfer( amtToTransfer,sbankId  , ToBankId , sbankId, ToBankId, choice , currencyCode))
                                 {
                                     ConsoleOutput.TransferSuccessfull(amtToTransfer);
+                                    staffmanager.AddTransaction(transaction);        //check
                                 }
                                 else
                                 {

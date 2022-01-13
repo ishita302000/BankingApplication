@@ -6,15 +6,15 @@ using System.Text;
 
 namespace ATM.Services.DbModels
 {
-     public class DbTransactionModel
+     public class DbEmployeeModel
     {
-        public string SrcAccount { get; set; }
-        public string DepAccount { get; set; }
-        public string Id { get; set; }
-        public double Amount { get; set; }
-        public string TransactionId { get; set; }
+        public string Name { get; set; }
+        public string Salary { get; set; }
+        public string Password { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
+        public string Id { get; set; }
+        public string EmployeeId { get; set; }
 
     }
 }
