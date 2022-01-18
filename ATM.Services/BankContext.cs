@@ -31,36 +31,33 @@ namespace ATM.Services
             }
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Currency>(entity =>
+            modelBuilder.Entity<DbCurrencyModel>(entity =>
             {
                 entity.HasOne(d => d.Bank)
                 .WithMany(p => p.Currencies)
                 .HasForeignKey(d => d.BankId);
             });
 
-            modelBuilder.Entity<Customer>(entity =>
+            modelBuilder.Entity<DbCustomerModel>(entity =>
             {
                 entity.HasOne(d => d.Bank)
-                .WithMany(p => p.Accounts)
+                .WithMany(p => p.CustomerAccounts)
                 .HasForeignKey(d => d.BankId);
             });
 
-            modelBuilder.Entity<Employee>(entity =>
+            modelBuilder.Entity<DbEmployeeModel>(entity =>
             {
                 entity.HasOne(d => d.Bank)
-                .WithMany(p => p.StaffAccount)
+                .WithMany(p => p.StaffAccounts)
                 .HasForeignKey(d => d.BankId);
             });
 
-            modelBuilder.Entity<Transaction>(entity =>
+            modelBuilder.Entity<DbTransactionModel>(entity =>
             {
-                entity.HasOne(d => d.Bank)
-                .WithMany(p => p.transactions)
-                .HasForeignKey(d => d.BankId);
-
-                entity.HasOne(d => d.Account)
+               
+                entity.HasOne(d => d.Customer)
                 .WithMany(p => p.Transactions)
-                .HasForeignKey(d => d.AccountId);         
+                .HasForeignKey(d => d.SrcAccount);         
             });
         }
     }

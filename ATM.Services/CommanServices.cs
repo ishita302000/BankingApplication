@@ -4,10 +4,11 @@ using System.Linq;
 using ATM.Models;
 using ATM.Models.Exceptions;
 using ATM.Services.DbModels;
+using ATM.Services.IServices;
+using AutoMapper;
 
 namespace ATM.Services // write Interfaces which inherit all the methods inside this service
 {
-
     //login
     // addaccount
     //trasactionhistory -- add transaction 
@@ -15,27 +16,31 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
     //userpassword exit
     //deposit
     //withdrawl
-    public class CommanServices
+    public class CommanServices : ICommanServices
     {
-        public DbBankModel bank;
-        public Employee staff;
-        readonly BankContext bankcontext = new BankContext();
-        DbServices staffServices = new DbServices();
- 
-       
-        public DbCustomerModel userlogin(string accid , string password , string bankid)    
+        private readonly BankContext _bankContext;
+        private readonly IMapper _mapper;
+        private  IDbServices dbservice_;
+        public CommanServices(BankContext bankContext , IMapper mapper , IDbServices dbServices)
+        {
+            _bankContext = bankContext;
+            _mapper = mapper;
+            dbservice_ = dbServices;
+        }
+        
+        public Customer userlogin(string accid , string password , string bankid)    
         {
             DbCustomerModel user = null;
 
             try
             {
                
-                bank = staffServices.GetBankById(bankid);
+                Bank bank = dbservice_.GetBankById(bankid);
                 if (bank == null)
                 {
                     throw new Exception("Bank does not exist"); 
                 }
-                foreach (var account in bankcontext.Account.Where(account => account.Id == accid & account.Password == password))
+                foreach (var account in _bankContext.Account.Where(account => account.CustomerId == accid & account.Password == password))
                 {
                     user = account;
                 }
@@ -44,19 +49,19 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
             {
                 throw new Exception(ex.Message);
             }
-           return user;
+           return _mapper.Map<Customer>(user);
         }
-    public DbEmployeeModel Stafflogin(string id, string password , string bankid)    // user
-        {
+        public Employee Stafflogin(string id, string password , string bankid)    // user
+          {
             DbEmployeeModel user = null;
             try
             {
-                bank = staffServices.GetBankById(bankid);
+              Bank bank = dbservice_.GetBankById(bankid);
                 if (bank == null)
                 {
                     throw new Exception("Bank does not exist");
                 }
-                foreach (var account in bankcontext.Staff.Where(account => account.Id == id & account.Password == password))
+                foreach (var account in _bankContext.Staff.Where(account => account.EmployeeId == id & account.Password == password))
                 {
                     user = account;
                 }
@@ -66,15 +71,12 @@ namespace ATM.Services // write Interfaces which inherit all the methods inside 
             {
                 throw new Exception(ex.Message);
             }
-            return user;
+            return _mapper.Map<Employee>(user);
         }
-        public double viewbalance(DbCustomerModel user)
+        public double viewbalance(Customer user)
         {
             return user.CurrentBalance;
         }
-
-
-
     }
 }
 

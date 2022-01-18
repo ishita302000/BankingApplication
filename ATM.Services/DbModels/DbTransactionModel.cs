@@ -15,6 +15,7 @@ namespace ATM.Services.DbModels
         public string TransactionId { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
+        public DbCustomerModel Customer { get; set; }
 
     }
 }

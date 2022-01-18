@@ -5,9 +5,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ATM.Models
 {
-   public  class Transaction 
-    {
-        
+    public  class Transaction 
+    {      
         public string SrcAccount{ get; set; }
         public string DepAccount { get; set; }
         public string  Id { get; set; }   
@@ -15,7 +14,5 @@ namespace ATM.Models
         public string TransactionId{get;set;}
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
-
-
     }
 }

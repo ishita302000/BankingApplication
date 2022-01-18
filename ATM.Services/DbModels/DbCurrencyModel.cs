@@ -11,5 +11,7 @@ namespace ATM.Services.DbModels
         public int Id { get; set; }
         public double ExchangeRate { get; set; }
         public string Code { get; set; }
+        public string BankId { get; set; }
+        public DbBankModel Bank { get; set; }
     }
 }

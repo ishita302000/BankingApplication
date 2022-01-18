@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-
+using System.Linq;
 namespace ATM.Services
 {
-    public static  class IDGenService
+    public static class IDGenService
     {
-        public static string GenId(this string Name)
+    
+        public static  string GenId(this string Name)
         {
             string Id;
             Id = Name.Substring(0, 3).ToUpper() + GetDateStr();

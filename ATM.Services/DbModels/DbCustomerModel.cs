@@ -13,8 +13,9 @@ namespace ATM.Services.DbModels
         public string CustomerId { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
-        public string Id { get; set; }
+        public string BankId { get; set; } // Foreign key
+        public DbBankModel Bank { get; set; }
         public double CurrentBalance { get; set; } = 1000;
-        public virtual IList<Transaction> Transactions { get; set; }
+        public virtual IList<DbTransactionModel> Transactions { get; set; }
     }
 }

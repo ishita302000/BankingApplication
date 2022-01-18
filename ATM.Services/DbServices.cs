@@ -1,166 +1,185 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using ATM.Models;
-using ATM.Models.Enums;
+﻿using ATM.Models;
 using ATM.Models.Exceptions;
 using ATM.Services.DbModels;
+using ATM.Services.IServices;
+using AutoMapper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ATM.Services
 {
-   public class DbServices 
+    public class DbServices : IDbServices
     {
-       public   DbBankModel bank;
-      public  Employee staff;
-        readonly BankContext bankContext = new BankContext();
-    
 
-      /*  public StaffServices()
+        private readonly IMapper _mapper;
+        private readonly BankContext _bankContext;
+        public readonly ICustomerServices _accountService;
+
+        public DbServices(BankContext bankContext, IMapper mapper)
         {
-            using (BankContext bankContext = new BankContext())
-            {
-                bankContext.Database.EnsureCreated();
-            }
-        } */
-        public bool revertTransaction()
-        {
-            return false;
+            _mapper = mapper;
+            _bankContext = bankContext;
+            _bankContext.Database.EnsureCreated();
         }
-  
+        public void revertTransaction(string txnId)
+        {
+            Transaction transaction = GetTransactionById(txnId);
+            double amount = transaction.Amount;
+            string fromAccId = transaction.SrcAccount;
+            string toAccId = transaction.DepAccount;
+        //    _accountService.transfer(amount , toAccId, fromAccId, amount);
+        }
         public string CreateBank(string name, string address, string currencyCode)
         {
             if (string.IsNullOrEmpty(name))
                 throw new Exception("Bank name is not valid!"); // use constants
-           
-         /*  if(!Currency.Curriences.ContainsKey(currencyCode))
+
+            Bank bank = new Bank
             {
-                throw new Exception("Invalid Currency Code");
-            }
-           */
-            Bank bank = new Bank();
-         
+                BankName = name,
+                Id = name.GenId(),
+                Countrycode = currencyCode,
+                ////check imps rtgs 
+
+            };
+
             return bank.Id;
         }
-        public DbCustomerModel CreateCustomerAccount(string bankId, string name, string password, int choice)
+        public Customer CreateCustomerAccount(string bankId, string name, string password, int choice)
         {
-            bank =  GetBankById(bankId);
+            //   Bank bank =  GetBankById(bankId);
 
             if (string.IsNullOrEmpty(name))
                 throw new Exception("Name is not valid!");
-            if (  bankContext.Account.Any(p => p.Name == name))                     // check
+            if (_bankContext.Account.Any(p => p.Name == name))                     // check
                 throw new Exception("Account already exists!");
-           
-           
-                Customer a = new Customer();
+
+            Customer a = new Customer
+            {
+                Name = name,
+                Password = password,
+                CustomerId = name.GenId(),
+                BankId = bankId,
+
+            };
             return a;
         }
-        public DbEmployeeModel CreateStaffAccount(string bankId, string name, string password, int choice)
+        public Employee CreateStaffAccount(string bankId, string name, string password)
         {
-            bank = GetBankById(bankId);
-
+            //   bank = GetBankById(bankId);
             if (string.IsNullOrEmpty(name))
                 throw new Exception("Name is not valid!");
-            if (bankContext.Account.Any(p => p.Name == name))                     // check
+            if (_bankContext.Account.Any(p => p.Name == name))                     // check
                 throw new Exception("Account already exists!");
-             DbEmployeeModel a = new DbEmployeeModel();
-           return a;
+            Employee a = new Employee
+            {
+                Name = name,
+                Password = password,
+                EmployeeId = name.GenId(),
+                BankId = bankId,
+            };
+            return a;
         }
 
-        public void AddBank(DbBankModel bank)
+        public void AddBank(Bank bank)
         {
-            using (BankContext bankContext = new BankContext())
+            using (_bankContext)
             {
-                bankContext.Bank.Add(bank);
-                bankContext.SaveChanges();
+                DbBankModel bank_ = _mapper.Map<DbBankModel>(bank);
+                _bankContext.Bank.Add(bank_);
+                _bankContext.SaveChanges();
             }
         }
-        public void AddStaff(DbEmployeeModel staff)
+        public void AddStaff(Employee staff)
         {
-            using (BankContext bankContext = new BankContext())
+            using (_bankContext)
             {
-                bankContext.Staff.Add(staff);
-                bankContext.SaveChanges();
+                DbEmployeeModel staff_ = _mapper.Map<DbEmployeeModel>(staff);
+                _bankContext.Staff.Add(staff_);
+                _bankContext.SaveChanges();
             }
         }
-        public void AddAccount(DbCustomerModel account)
+        public void AddAccount(Customer account)
         {
-            using (BankContext bankContext = new BankContext())
+            using (_bankContext)
             {
-                bankContext.Account.Add(account);
-                bankContext.SaveChanges();
+                DbCustomerModel acc_ = _mapper.Map<DbCustomerModel>(account);
+                _bankContext.Account.Add(acc_);
+                _bankContext.SaveChanges();
             }
         }
-        public void AddCurrency(DbCurrencyModel currency )
+        public void AddCurrency(Currency currency)
         {
-            using (BankContext bankContext = new BankContext())
+            using (_bankContext)
             {
-                bankContext.Currency.Add(currency);
-                bankContext.SaveChanges();
+                DbCurrencyModel currency_ = _mapper.Map<DbCurrencyModel>(currency);
+                _bankContext.Currency.Add(currency_);
+                _bankContext.SaveChanges();
             }
         }
-        public void AddTransaction(DbTransactionModel transaction)
+        public void AddTransaction(Transaction transaction)
         {
-            using (BankContext bankContext = new BankContext())
+            using (_bankContext)
             {
-                bankContext.Transaction.Add(transaction);
-                bankContext.SaveChanges();
+                DbTransactionModel transaction_ = _mapper.Map<DbTransactionModel>(transaction);
+                _bankContext.Transaction.Add(transaction_);
+                _bankContext.SaveChanges();
             }
         }
-   /*     public void AddCurrency(string code, double rate)
+
+        public void UpdateCharges(double rtgs, double imps, int choice , string bankId)
         {
-            Currency currency = new Currency();
-            currency.code = code;
-            currency.exchangerate = rate;
-            bankContext.Currency.Add(currency);
-            //Currency.curr[code] = rate;
-        }*/
-        public void UpdateCharges(double rtgs, double imps, int choice)
-        {
+         //   DbBankModel bank = _bankContext.Bank.FirstOrDefault(b => b.Id == bankId);
             if (choice == 1)
             {
+                DbBankModel bank = _bankContext.Bank.FirstOrDefault(b => b.Id == bankId);
                 bank.RTGSsameBank = rtgs;
                 bank.IMPSsameBank = imps;
             }
             else if (choice == 2)
             {
+                DbBankModel bank = _bankContext.Bank.FirstOrDefault(b => b.Id == bankId);
                 bank.RTGSdifferentBank = rtgs;
                 bank.IMPSdifferentBank = imps;
-          
             }
+            _bankContext.SaveChanges();
         }
-        public DbTransactionModel GetTransactionById(string txnId)
+        public Transaction GetTransactionById(string txnId)
         {
-            using (BankContext bankContext = new BankContext())
+            using (_bankContext)
             {
-                DbTransactionModel transaction = bankContext.Transaction.FirstOrDefault(t => t.TransactionId == txnId);
+
+                DbTransactionModel transaction ;
+                transaction = _bankContext.Transaction.FirstOrDefault(t => t.TransactionId == txnId);
                 if (transaction == null)
                 {
                     throw new TransactionNotFoundException();
                 }
-                return transaction;
+                return _mapper.Map<Transaction>(transaction);
             }
         }
 
         public IList<Transaction> GetTransactions(string accountId)
         {
-            IList<Transaction> transactions;
-            using (BankContext bankContext = new BankContext())
+            IList<DbTransactionModel> transactions;
+            using (_bankContext)
             {
-                transactions = bankContext.Transaction.Where(t => t.RecieverAccountId == accountId || t.Account.Id == accountId).ToList();
+                // Use mapping here to convert from DBmodel to general model
+                transactions = _bankContext.Transaction.Where(t => t.SrcAccount == accountId).ToList();
             }
             if (transactions.Count == 0 || transactions == null)
             {
                 throw new NoTransactionsException();
             }
-            return transactions;
+            return _mapper.Map<IList<Transaction>>(transactions);      // check
         }
-        public DbCustomerModel ViewHistory(string Id)
+        public Customer ViewHistory(string Id)
         {
-           DbCustomerModel user = null;
+            DbCustomerModel user = null;
             try
             {
-                foreach (var account in bankContext.Account.Where(account => account.Id == Id))
+                foreach (var account in _bankContext.Account.Where(account => account.CustomerId == Id))
                 {
                     user = account;
                 }
@@ -170,14 +189,14 @@ namespace ATM.Services
                 Console.WriteLine("Error in ViewHistory: {0}", ex.Message);
 
             }
-            return user;
+            return _mapper.Map<Customer>(user);
         }
         //check existence
         public void CheckBankExistance(string bankId)
         {
-            using (BankContext bankContext = new BankContext())
+            using (_bankContext)
             {
-                if (!bankContext.Bank.Any(b => b.Id == bankId))
+                if (!_bankContext.Bank.Any(b => b.Id == bankId))
                 {
                     throw new BankDoesnotExistException();
                 }
@@ -186,9 +205,9 @@ namespace ATM.Services
 
         public void CheckCurrencyExistance(string bankId, string currencyName)
         {
-            using (BankContext bankContext = new BankContext())
+            using (_bankContext)
             {
-                if (!bankContext.Currency.Any(c => c.BankId == bankId && c.Code == currencyName))
+                if (!_bankContext.Currency.Any(c => c.BankId == bankId && c.Code == currencyName))
                 {
                     throw new CurrencyDoesNotExistException();
                 }
@@ -197,208 +216,202 @@ namespace ATM.Services
 
         public void CheckStaff(string bankId, string staffId)
         {
-            using (BankContext bankContext = new BankContext())
+            using (_bankContext)
             {
-                if (!bankContext.Staff.Any(e => e.BankId == bankId && e.Id == staffId))
+                if (!_bankContext.Staff.Any(e => e.BankId == bankId && e.EmployeeId == staffId))
                 {
                     throw new StaffDoesNotExistException();
                 }
             }
         }
 
-        public DbCustomerModel CheckAccountExistance(string bankId, string accountId)
+        public Customer CheckAccountExistance(string bankId, string accountId)
         {
             DbCustomerModel user;
-            using (BankContext bankContext = new BankContext())
             {
-                if (!bankContext.Account.Any(a => a.BankId == bankId && a.Id == accountId))
+                using (_bankContext)
                 {
-                     throw new AccountDoesNotExistException();
-                  //  user = bankContext.Account.Any(a => a.BankId == bankId && a.Id == accountId);
-                    
+                    if (!_bankContext.Account.Any(a => a.BankId == bankId && a.CustomerId == accountId))
+                    {
+                        throw new AccountDoesNotExistException();
+                        //  user = bankContext.Account.Any(a => a.BankId == bankId && a.Id == accountId);
+
+                    }
+                    else
+                    {
+                        user = _bankContext.Account.FirstOrDefault(a => a.BankId == bankId && a.CustomerId == accountId);
+                    }
                 }
-                else
-                {
-                    user = bankContext.Account.FirstOrDefault(a => a.BankId == bankId && a.Id == accountId);
-                }
+                return _mapper.Map<Customer>(user);
             }
-            return user;
         }
 
-        // get Id
+            // get Id
 
-        public Dictionary<string, string> GetAllBankNames()
-        {
-            Dictionary<string, string> bankNames = new Dictionary<string, string>();
-            using (BankContext bankContext = new BankContext())
+            public Dictionary<string, string> GetAllBankNames()
             {
-                var banks = bankContext.Bank.Where(b => b.Id != "");
-                foreach (var bank in banks)
+                Dictionary<string, string> bankNames = new Dictionary<string, string>();
+                using (_bankContext)
                 {
-                    bankNames.Add(bank.Id, bank.BankName);
+                    var banks = _bankContext.Bank.Where(b => b.Id != "");
+                    foreach (var bank in banks)
+                    {
+                        bankNames.Add(bank.Id, bank.BankName);
+                    }
                 }
+                return bankNames;
             }
-            return bankNames;
-        }
 
-        public string GetAccountIdByname(string bankId, string username)
-        {
-            string id;
-            using (BankContext bankContext = new BankContext())
+            public string GetAccountIdByname(string bankId, string username)
             {
-                DbCustomerModel account = bankContext.Account.FirstOrDefault(a => a.Id == bankId && a.Name == username);
-                if (account == null)
+                string id;
+                using (_bankContext)
                 {
-                    throw new AccountDoesNotExistException();
+                    DbCustomerModel account = _bankContext.Account.FirstOrDefault(a => a.CustomerId == bankId && a.Name == username);
+                    if (account == null)
+                    {
+                        throw new AccountDoesNotExistException();
+                    }
+                    id = account.CustomerId;
                 }
-                id = account.Id;
+                return id;
             }
-            return id;
-        }
 
-        public string GetStaffIdByname(string bankId, string username)
-        {
-            string id;
-            using (BankContext bankContext = new BankContext())
+            public string GetStaffIdByname(string bankId, string username)
             {
-                Employee staff = bankContext.Staff.FirstOrDefault(e => e.BankId == bankId && e.Name == username);
-                if (staff == null)
+            Employee staff;
+            DbEmployeeModel staff_;
+                string id;
+                using (_bankContext)
                 {
-                    throw new EmployeeDoesNotExistException();
+                     staff_ = _bankContext.Staff.FirstOrDefault(e => e.BankId == bankId && e.Name == username);
+                    if (staff_ == null)
+                    {
+                        throw new EmployeeDoesNotExistException();
+                    }
+                    id = staff_.EmployeeId;
                 }
-                id = staff.Id;
+                return id;
             }
-            return id;
-        }
         // get bank , employee
-        public DbBankModel GetBankById(string bankId)
+        public Bank GetBankById(string bankId)
         {
+
             CheckBankExistance(bankId);
-            using (BankContext bankContext = new BankContext())
+            using (_bankContext)
             {
-                return bankContext.Bank.FirstOrDefault(b => b.Id == bankId);
+                DbBankModel bank_ = _bankContext.Bank.FirstOrDefault(b => b.Id == bankId);
+
+                return _mapper.Map<Bank>(bank_);
             }
         }
 
-        public Employee GetEmployeeById(string bankId, string employeeId)
-        {
-            CheckStaff(bankId, employeeId);
-            using (BankContext bankContext = new BankContext())
+            public Employee GetEmployeeById(string bankId, string employeeId)
             {
-                return bankContext.Staff.FirstOrDefault(e => e.BankId == bankId && e.Id == employeeId);
-            }
-        }
-
-        public Customer GetAccountById(string bankId, string accountId)
-        {
-            CheckAccountExistance(bankId, accountId);
-            using (BankContext bankContext = new BankContext())
-            {
-                return bankContext.Account.FirstOrDefault(a => a.BankId == bankId && a.Id == accountId);
-            }
-        }
-
-        public DbCurrencyModel GetCurrencyByName(string bankId, string currencyName )
-        {
-            
-                CheckCurrencyExistance(bankId, currencyName);
-                using (BankContext bankContext = new BankContext())
+                CheckStaff(bankId, employeeId);
+                using (_bankContext)
                 {
-                    return bankContext.Currency.FirstOrDefault(c => c.BankId == bankId && c.Code == currencyName);
+                    DbEmployeeModel employee_= _bankContext.Staff.FirstOrDefault(e => e.BankId == bankId && e.EmployeeId == employeeId);
+                return _mapper.Map<Employee>(employee_);    
+            }
+            }
+
+            public Customer GetAccountById(string bankId, string accountId)
+            {
+                CheckAccountExistance(bankId, accountId);
+                using (_bankContext)
+                {
+                    DbCustomerModel customer_= _bankContext.Account.FirstOrDefault(a => a.BankId == bankId && a.CustomerId == accountId);
+                return _mapper.Map<Customer>(customer_);
+            }
+            }
+
+            public Currency GetCurrencyByName(string bankId, string currencyName)
+            {
+
+                CheckCurrencyExistance(bankId, currencyName);
+                using (_bankContext)
+                {
+                    DbCurrencyModel curr_= _bankContext.Currency.FirstOrDefault(c => c.BankId == bankId && c.Code == currencyName);
+                return _mapper.Map<Currency>(curr_);
+            }
+
+            }
+
+            public void UpdateBank(Bank bank)
+            {
+                using (_bankContext)
+                {
+                    DbBankModel currentBank = _bankContext.Bank.First(b => b.Id == bank.Id);
+                    currentBank.BankName = bank.BankName;
+                    currentBank.IMPSsameBank = bank.IMPSsameBank;
+                    currentBank.IMPSdifferentBank = bank.IMPSdifferentBank;
+                    currentBank.RTGSdifferentBank = bank.RTGSdifferentBank;
+                    currentBank.RTGSsameBank = bank.RTGSsameBank;
+                    _bankContext.SaveChanges();
                 }
-            
-        }
-       
-        public void UpdateBank(Bank bank)
-        {
-            using (BankContext bankContext = new BankContext())
-            {
-                DbBankModel currentBank = bankContext.Bank.First(b => b.Id == bank.Id);
-                currentBank.BankName = bank.BankName;
-                currentBank.IMPSsameBank = bank.IMPSsameBank;
-                currentBank.IMPSdifferentBank = bank.IMPSdifferentBank;
-                currentBank.RTGSdifferentBank = bank.RTGSdifferentBank;
-                currentBank.RTGSsameBank = bank.RTGSsameBank;
-                bankContext.SaveChanges();
             }
-        }
-        public void UpdateEmployee(Employee employee)
-        {
-            using (BankContext bankContext = new BankContext())
+            public void UpdateEmployee(Employee employee)
             {
-                Employee currentEmployee = bankContext.Staff.First(e => e.BankId == employee.BankId && e.Id == employee.Id);
-                currentEmployee.Name = employee.Name;
-                currentEmployee.Password = employee.Password;
-                bankContext.SaveChanges();
-            }
-        }
 
-        public void UpdateAccount(Customer account)
-        {
-            using (BankContext bankContext = new BankContext())
+                using (_bankContext)
+                {
+                    DbEmployeeModel currentEmployee = _bankContext.Staff.First(e => e.BankId == employee.BankId && e.EmployeeId == employee.EmployeeId);
+                    currentEmployee.Name = employee.Name;
+                    currentEmployee.Password = employee.Password;
+                    _bankContext.SaveChanges();
+                }
+            }
+
+            public void UpdateAccount(Customer account)
             {
-                Customer currentAccount = bankContext.Account.First(a => a.BankId == account.BankId && a.Id == account.Id);
-                currentAccount.Name = account.Name;
-                currentAccount.Password = account.Password;
-                currentAccount.CurrentBalance = account.CurrentBalance;
-                bankContext.SaveChanges();
+                using (_bankContext)
+                {
+                    DbCustomerModel currentAccount = _bankContext.Account.First(a => a.BankId == account.BankId && a.CustomerId == account.CustomerId);
+                    currentAccount.Name = account.Name;
+                    currentAccount.Password = account.Password;
+                    currentAccount.CurrentBalance = account.CurrentBalance;
+                    _bankContext.SaveChanges();
+                }
             }
-        }
 
-        public void UpdateCurrency(Currency currency)
-        {
-            using (BankContext bankContext = new BankContext())
+            public void UpdateCurrency(Currency currency , string bankId)
             {
-                Currency currentCurrency = bankContext.Currency.First(c => c.BankId == currency.BankId && c.Code == currency.Code);
-                currentCurrency.ExchangeRate = currency.ExchangeRate;
-                bankContext.SaveChanges();
+                using (_bankContext)
+                {
+                    DbCurrencyModel currentCurrency = _bankContext.Currency.First(c => c.BankId == bankId && c.Code == currency.Code);
+                    currentCurrency.ExchangeRate = currency.ExchangeRate;
+                    _bankContext.SaveChanges();
+                }
             }
-        }
 
 
-        ///
-        public void DeleteBank(string bankId)
-        {
-            using (BankContext bankContext = new BankContext())
+            ///
+            public void DeleteBank(string bankId)
             {
-                DbBankModel bank = bankContext.Bank.First(b => b.Id == bankId);
+                using ( _bankContext )
+                {
+                    DbBankModel bank = _bankContext.Bank.First(b => b.Id == bankId);
 
-                var staff = bankContext.Staff.Where(e => e.BankId == bankId).ToList();
+                    var staff = _bankContext.Staff.Where(e => e.BankId == bankId).ToList();
 
-                var accounts = bankContext.Account.Where(a => a.BankId == bankId).ToList();
+                    var accounts = _bankContext.Account.Where(a => a.BankId == bankId).ToList();
 
-                bankContext.Currency.RemoveRange(bankContext.Currency.Where(c => c.BankId == bankId));
-                bankContext.SaveChanges();
+                    _bankContext.Currency.RemoveRange(_bankContext.Currency.Where(c => c.BankId == bankId));
+                    _bankContext.SaveChanges();
+                }
             }
-        }
 
-        public void DeleteAccount(string bankId, string accountId)
-        {
-            using (BankContext bankContext = new BankContext())
+            public void DeleteAccount(string bankId, string accountId)
             {
-                DbCustomerModel account = bankContext.Account.First(a => a.Id == accountId && a.BankId == bankId);
-
-                bankContext.SaveChanges();
+                using (_bankContext )
+                {
+                    DbCustomerModel account = _bankContext.Account.First(a => a.CustomerId == accountId && a.BankId == bankId);
+                    _bankContext.SaveChanges();
+                }
             }
-        }
 
-        public void DeleteStaffAccount(string bankId, string employeeId)
-        {
-            using (BankContext bankContext = new BankContext())
-            {
-                Employee employee = bankContext.Staff.First(e => e.Id == employeeId && e.BankId == bankId);
 
-                bankContext.SaveChanges();
-            }
-        }
-
-        public void DeleteCurrency(string bankId, string currencyName)
-        {
-            using (BankContext bankContext = new BankContext())
-            {
-                bankContext.Remove(bankContext.Currency.First(c => c.BankId == bankId && c.Code == currencyName));
-                bankContext.SaveChanges();
-            }
         }
     }
-}
+

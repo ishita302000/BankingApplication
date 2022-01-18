@@ -120,22 +120,7 @@ namespace ATM.CLI
                 Console.WriteLine("From " + userTransactionHistory.AccountId + " to " + userTransactionHistory.RecieverAccountId);
             }
             Console.WriteLine(userTransactionHistory.TransactionOn.ToString());
-          /*  foreach (var transaction in i)
-            {
-                Console.WriteLine("Transaction ID:" + i.Id);
-                Console.WriteLine(i.Amount);
-                string date = transaction.date;
-                string senderId = transaction.SenderAccountId;
-                string recieverId = transaction.RecieverAccountId;
-                double amount = transaction.Amount;
-                string info = amount + " transfered to " + recieverId + " from " + senderId + " on " + date;
-                Console.WriteLine();
-                Console.WriteLine(info);
-            }
-          */
+         
         }
-       
-    
-
     }
 }
