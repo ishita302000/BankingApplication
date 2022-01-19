@@ -11,7 +11,6 @@ namespace ATM.Services.IServices
    
         Customer userlogin(string accid, string password, string bankid);
         Employee Stafflogin(string id, string password, string bankid);
-   
         double viewbalance(Customer user);
 
 

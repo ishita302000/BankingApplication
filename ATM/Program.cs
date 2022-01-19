@@ -535,7 +535,6 @@ namespace ATM.CLI
                         goto CustomerOperations;
                     }
                 }
-
             }
             else
             {

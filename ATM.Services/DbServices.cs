@@ -279,7 +279,7 @@ namespace ATM.Services
 
             public string GetStaffIdByname(string bankId, string username)
             {
-            Employee staff;
+            
             DbEmployeeModel staff_;
                 string id;
                 using (_bankContext)
