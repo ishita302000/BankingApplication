@@ -10,9 +10,9 @@ namespace ATM.Services.DbModels
     {
         public string SrcAccount { get; set; }
         public string DepAccount { get; set; }
-        public string Id { get; set; }
         public double Amount { get; set; }
-        public string TransactionId { get; set; }
+        [Key]
+        public string Id { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
         public DbCustomerModel Customer { get; set; }

@@ -8,6 +8,7 @@ namespace ATM.Services.DbModels
 {
     public class DbCurrencyModel
     {
+        [Key]
         public int Id { get; set; }
         public double ExchangeRate { get; set; }
         public string Code { get; set; }

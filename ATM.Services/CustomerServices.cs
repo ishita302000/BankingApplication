@@ -1,5 +1,4 @@
-﻿using Amazon.CloudFront.Model;
-using ATM.Models;
+﻿using ATM.Models;
 using ATM.Models.Exceptions;
 using ATM.Services.DbModels;
 using ATM.Services.IServices;
@@ -103,9 +102,7 @@ namespace ATM.Services
                 Console.WriteLine("Error in Transfer: {0}", ex.Message);
             }
             return false;
-
-        }
-       
+        }    
         public double DeductCharge(double amount, double percent)
         {
             return (double)Math.Round(amount * percent, 2);

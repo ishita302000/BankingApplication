@@ -9,7 +9,7 @@ namespace ATM.Services.IServices
     {
         void revertTransaction(string txnId);
        
-        string CreateBank(string name, string address, string currencyCode);
+        Bank CreateBank(string name, string address, string currencyCode);
         Customer CreateCustomerAccount(string bankId, string name, string password, int choice);
         Employee CreateStaffAccount(string bankId, string name, string password);
         void AddBank(Bank bank);

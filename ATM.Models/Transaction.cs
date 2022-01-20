@@ -11,7 +11,6 @@ namespace ATM.Models
         public string DepAccount { get; set; }
         public string  Id { get; set; }   
         public double Amount { get; set; }
-        public string TransactionId{get;set;}
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
     }

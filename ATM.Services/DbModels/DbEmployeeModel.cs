@@ -13,6 +13,7 @@ namespace ATM.Services.DbModels
         public string Password { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
+        [Key]
         public string EmployeeId { get; set; }
         public string BankId { get; set; }
         public DbBankModel Bank{get;set;}

@@ -18,10 +18,7 @@ namespace ATM.Services
         public DbSet<DbTransactionModel> Transaction { get; set; }
         public DbSet<DbEmployeeModel> Staff { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(@"Data Source = LAPTOP-83O4PRPJ\MSSQLSERVER01; Initial Catalog = Banking_Application; Integrated Security = True");      
-        }
+        public BankContext(DbContextOptions<BankContext> options): base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

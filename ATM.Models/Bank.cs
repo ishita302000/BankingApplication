@@ -9,7 +9,7 @@ namespace ATM.Models
       
         public string BankName  { get; set;  }  
         public string Id { get; set; }
-        public DateTime CreatedOn { get; set;}
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
         public string CreatedBy { get; set; }
         public string BankId { get; set; }
         public virtual IList<Customer> Accounts { get; set; }

@@ -21,8 +21,8 @@ namespace ATM.CLI
             ConsoleOutput.Welcome();
 
             ICommanServices commanService = services.GetService<ICommanServices>();
-            ICustomerServices CustomerService = services.GetService<ICustomerServices>();
-            IDbServices DbService = services.GetService<IDbServices>();
+            ICustomerServices customerService = services.GetService<ICustomerServices>();
+            IDbServices dbService = services.GetService<IDbServices>();
             
 
 
@@ -38,11 +38,10 @@ namespace ATM.CLI
             Bank bank;
             try
             {
-                bankID = DbService.CreateBank(bankName,branch,  currencyCode); // check
-                bank=DbService.GetBankById(bankID);
-                DbService.AddBank(bank);
+                bank = dbService.CreateBank(bankName,branch,  currencyCode); // check
+                dbService.AddBank(bank);
                 ConsoleOutput.BankSuccessfullCreation();
-                ConsoleOutput.BankId(bankID);
+                ConsoleOutput.BankId(bank.Id);
             }
             catch (Exception exception)
             {
@@ -58,10 +57,10 @@ namespace ATM.CLI
             string StaffAccountID;
             try
             {
-               Employee Staffaccount = DbService.CreateStaffAccount(bankID, StaffName, Staffpass);
-                StaffAccountID=DbService.GetStaffIdByname(bankID , StaffName);
-                DbService.AddStaff(Staffaccount);
-                ConsoleOutput.AccountId(StaffAccountID);
+               Employee Staffaccount = dbService.CreateStaffAccount(bank.Id, StaffName, Staffpass);
+              //  StaffAccountID=dbService.GetStaffIdByname(bank.Id , StaffName);
+                dbService.AddStaff(Staffaccount);
+                ConsoleOutput.AccountId(Staffaccount.EmployeeId);
                 ConsoleOutput.WelcomeUser();
             }
             catch (Exception ex)
@@ -102,7 +101,7 @@ namespace ATM.CLI
                 string pass = InputTakenFromUser.Password();
                 try
                 {
-                    bankstaff = CommanServices.Stafflogin(accountId, pass, bankID);
+                    bankstaff = commanService.Stafflogin(accountId, pass, bankID);
                     if (bankstaff == null)
                     {
                         throw new Exception(ConstantMessages.AccountDoesNotExist);
@@ -153,9 +152,9 @@ namespace ATM.CLI
                         }
                         try
                         {
-                            Customer account = DbService.CreateCustomerAccount(bankId, name, password, 2);
+                            Customer account = dbService.CreateCustomerAccount(bankId, name, password, 2);
                             
-                            DbService.AddAccount(account);
+                            dbService.AddAccount(account);
                         }
                         catch (Exception ex)
                         {
@@ -164,15 +163,15 @@ namespace ATM.CLI
                         }
                         try
                         {
-                            Employee acc = DbService.CreateStaffAccount(bankId, name, password);
-                            DbService.AddStaff(acc);
+                            Employee acc = dbService.CreateStaffAccount(bankId, name, password);
+                            dbService.AddStaff(acc);
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex.Message);
                             goto StaffOperations;
                         }
-                        Id = DbService.GetAccountIdByname(bankId,name);
+                        Id = dbService.GetAccountIdByname(bankId,name);
                         ConsoleOutput.AccountId(Id);
                         ConsoleOutput.AccountSuccessfullCreation();
 
@@ -196,8 +195,8 @@ namespace ATM.CLI
                                 userId = Console.ReadLine();
                                 Console.WriteLine(ConstantMessages.BankId);
                                 bankId = Console.ReadLine();
-                                bankAccount = DbService.GetAccountById(bankId , userId);
-                                 DbService.UpdateAccount(bankAccount);
+                                bankAccount = dbService.GetAccountById(bankId , userId);
+                                 dbService.UpdateAccount(bankAccount);
                             }
                             catch (Exception exception)
                             {
@@ -237,7 +236,7 @@ namespace ATM.CLI
                             }
                             try
                             {
-                                DbService.DeleteAccount(bankId, userId);
+                                dbService.DeleteAccount(bankId, userId);
                             }
                             catch (Exception ex)
                             {
@@ -253,7 +252,7 @@ namespace ATM.CLI
                         }
                     }
 
-                    else if (staffOperation == OperationsPerdormedByStaff.ChangeCurrency)
+                    else if (staffOperation == OperationsPerdormedByStaff.ChangeCurrency) //Add currency
                     {
                         string code , bankId;
                         double rate;
@@ -266,16 +265,21 @@ namespace ATM.CLI
                             code = Console.ReadLine();
                             Console.WriteLine(ConstantMessages.ExchangeRate);
                             rate = Convert.ToDouble(Console.ReadLine());
-                            
-                            DbService.AddCurrency(currency);   // check exchange rate
+                            currency = new Currency {
+                                Code = code,
+                                BankId = bankId,
+                                ExchangeRate = rate
+                            };
+                            dbService.AddCurrency(currency);   // check exchange rate
 
-                            currency =DbService.GetCurrencyByName(bankId , code);   // check
+                          //  currency =DbService.GetCurrencyByName(bankId , code);   // check
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine(ex.Message);
                             goto StaffOperations;
                         }
+                    
                     }
 
 
@@ -299,7 +303,7 @@ namespace ATM.CLI
                                 Console.WriteLine(ex.Message);
                                 goto UpdateServiceCharge;
                             }
-                            DbService.UpdateCharges(rtgs, imps, 1 , bankID);
+                            dbService.UpdateCharges(rtgs, imps, 1 , bankID);
                         }
                         else if (choice == "2")
                         {
@@ -316,7 +320,7 @@ namespace ATM.CLI
                                 Console.WriteLine(ex.Message);
                                 goto UpdateServiceCharge;
                             }
-                            DbService.UpdateCharges(rtgs, imps, 2 , bankID);
+                            dbService.UpdateCharges(rtgs, imps, 2 , bankID);
                         }
                         else
                         {
@@ -330,7 +334,7 @@ namespace ATM.CLI
                     ShowTransactionHistory:
                         Console.WriteLine(ConstantMessages.AccountId);
                         string AccId = Console.ReadLine();
-                        bankAccount = DbService.ViewHistory(AccId);       // gettransactions
+                        bankAccount = dbService.ViewHistory(AccId);       // gettransactions
                         if (bankAccount == null)
                         {
                             Console.WriteLine(ConstantMessages.InvalidDetail);
@@ -375,7 +379,7 @@ namespace ATM.CLI
                 string pass = InputTakenFromUser.Password();
                 try
                 {
-                    bankAccount = CommanServices.userlogin( aId, pass, bId);
+                    bankAccount = commanService.userlogin( aId, pass, bId);
                 }
                 catch
                 {
@@ -415,26 +419,24 @@ namespace ATM.CLI
                                 amt = Convert.ToDouble(InputTakenFromUser.DepositAmount());
                                 Console.WriteLine(ConstantMessages.CurrencyCode);
                                 currCode = Console.ReadLine();
-                                transaction = DbService.GetTransactionById(aId);   // check
+                                customerService.Deposit(amt, bankAccount, currCode);
+                                transaction = new Transaction {
+                                    SrcAccount = bankAccount.CustomerId,
+                                    Id = bankAccount.BankId.GenTransactionId(bankAccount.CustomerId),
+                                    Amount = amt,
+                                    CreatedOn = DateTime.Now
+                                };
+                                    dbService.AddTransaction(transaction);
                             }
                             catch (Exception ex)
                             {
                                 Console.WriteLine(ex.Message);
                                 goto CustomerOperations;
                             }
-                            try
-                            {
-                                   CustomerService.Deposit(  amt,bankAccount, currCode);
-                                DbService.AddTransaction(transaction);   // check
-
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                                goto CustomerOperations;
-                            }
+                          
                             ConsoleOutput.DepositSuccessfull(amt);
                         }
+                        
                         else if (customerOperation == OperationsPerformedByUser.Withdraw)
                         {
                             //  Console.Clear();
@@ -454,9 +456,15 @@ namespace ATM.CLI
                                 Console.WriteLine(ex.Message);
                                 goto CustomerOperations;
                             }
-                            if ( CustomerService.Withdraw( amt, bankAccount ))
+                            if ( customerService.Withdraw( amt, bankAccount ))
                             {
-                                DbService.AddTransaction(transaction);   //check
+                                transaction = new Transaction {
+                                    SrcAccount = bankAccount.CustomerId,
+                                    Id = bankAccount.BankId.GenTransactionId(bankAccount.CustomerId),
+                                    Amount = amt,
+                                    CreatedOn = DateTime.Now
+                                };
+                                dbService.AddTransaction(transaction);   //check
                                 ConsoleOutput.WithdrawSuccessfull(amt);
                             }
                             else
@@ -477,10 +485,10 @@ namespace ATM.CLI
                             string choice = Console.ReadLine();
                             Console.WriteLine(ConstantMessages.TransferToAccountHolderName);
                             string ReceiverName = Console.ReadLine();
-                            string receiveraccId = DbService.GetAccountIdByname(ToBankId , ReceiverName);
+                            string receiveraccId = dbService.GetAccountIdByname(ToBankId , ReceiverName);
                             try
                             {
-                                reciever = DbService.CheckAccountExistance(ToBankId, receiveraccId);
+                                reciever = dbService.CheckAccountExistance(ToBankId, receiveraccId);
                             }
                             catch (Exception ex)
                             {
@@ -491,10 +499,16 @@ namespace ATM.CLI
                             {
                                 Console.WriteLine(ConstantMessages.Amount);
                                 double amtToTransfer = Convert.ToDouble(Console.ReadLine());
-                                if (CustomerServices.transfer( amtToTransfer,sbankId  , ToBankId , sbankId, ToBankId, choice , currencyCode))
+                                if (customerService.transfer( amtToTransfer , aId , receiveraccId , sbankId, ToBankId, choice , currencyCode))
                                 {
                                     ConsoleOutput.TransferSuccessfull(amtToTransfer);
-                                    DbService.AddTransaction(transaction);        //check
+                                    transaction = new Transaction {
+                                        SrcAccount = bankAccount.CustomerId,
+                                        Id = bankAccount.BankId.GenTransactionId(bankAccount.CustomerId),
+                                        Amount = amtToTransfer,
+                                        CreatedOn = DateTime.Now
+                                    };
+                                    dbService.AddTransaction(transaction);        //check
                                 }
                                 else
                                 {
@@ -520,7 +534,7 @@ namespace ATM.CLI
                         else if(customerOperation == OperationsPerformedByUser.Balance)
                         {
                             ConsoleOutput.Balance();
-                            Console.Write(CommanServices.viewbalance(bankAccount));
+                            Console.Write(commanService.viewbalance(bankAccount));
                         }
 
                         else if (customerOperation == OperationsPerformedByUser.LoginAnotherAccount)

@@ -9,10 +9,11 @@ namespace ATM.Services.DbModels
     public class DbBankModel
     {
         public string BankName { get; set; }
+        [Key]
         public string Id { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
-        public string BankId { get; set; }
+      
         public virtual IList<DbCurrencyModel> Currencies { get; set; }
         public virtual IList<DbEmployeeModel> StaffAccounts { get; set; }
         public virtual IList<DbTransactionModel> Transactions { get; set; }

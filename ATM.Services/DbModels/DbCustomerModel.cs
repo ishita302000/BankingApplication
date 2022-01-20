@@ -10,6 +10,7 @@ namespace ATM.Services.DbModels
     {
         public string Name { get; set; }
         public string Password { get; set; }
+        [Key]
         public string CustomerId { get; set; }
         public DateTime CreatedOn { get; set; }
         public string CreatedBy { get; set; }
