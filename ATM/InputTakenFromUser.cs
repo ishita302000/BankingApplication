@@ -60,7 +60,6 @@ namespace ATM.CLI
         {
             return GetInput(ConstantMessages.BranchName);
         }
-        
-
+       
     }
 }

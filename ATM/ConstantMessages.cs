@@ -6,6 +6,7 @@ namespace ATM.CLI
 {
   public  class ConstantMessages
     {
+        public const string Bank = "\nDo you want to \n1.Set up new Bank 2.Login to existing Bank: ";
         public const string AccountDoesNotExist = "\nAccount does not exist";
         public const string AccountId = "\nPlease Enter AccountId:";
         public const string AccountSuccessfullCreation = "\nAccount Created Successfully!!\n";

@@ -23,13 +23,16 @@ namespace ATM.CLI
             ICommanServices commanService = services.GetService<ICommanServices>();
             ICustomerServices customerService = services.GetService<ICustomerServices>();
             IDbServices dbService = services.GetService<IDbServices>();
-            
 
 
-            Console.WriteLine(ConstantMessages.SetupFirstBank);
+            Console.WriteLine(ConstantMessages.Bank);           
+
+        LoginBank:
+
 
         SetupBank:
 
+            Console.WriteLine(ConstantMessages.SetupFirstBank);
             string bankName = InputTakenFromUser.BankName();
             string branch = InputTakenFromUser.branch();
             Console.WriteLine(ConstantMessages.CurrencyCode);
