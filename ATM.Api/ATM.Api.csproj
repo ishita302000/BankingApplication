@@ -5,7 +5,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Controllers\Bank.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="11.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ATM.Models\ATM.Models.csproj" />
+    <ProjectReference Include="..\ATM.Services\ATM.Services.csproj" />
   </ItemGroup>
 
 </Project>

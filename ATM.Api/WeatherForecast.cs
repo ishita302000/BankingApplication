@@ -4,7 +4,7 @@ namespace ATM.Api
 {
     public class WeatherForecast
     {
-        public DateTime Date { get; set; }
+        public DateTime Date { get; set; } = DateTime.Now;
 
         public int TemperatureC { get; set; }
 

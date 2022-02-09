@@ -11,7 +11,7 @@ namespace ATM.Api.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        public List<string> Summaries = new List<String>
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
@@ -23,17 +23,28 @@ namespace ATM.Api.Controllers
             _logger = logger;
         }
 
+
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public IActionResult Get()
         {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            List<WeatherForecast> weatherForecasts = new List<WeatherForecast>();
+            foreach(string summary in Summaries)
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+                WeatherForecast weatherForecast = new WeatherForecast
+                {
+                    TemperatureC = 30,
+                    Summary = summary
+                };
+                weatherForecasts.Add(weatherForecast);
+            }
+            return Ok(weatherForecasts);
+        }
+
+        [HttpPost]
+        public IActionResult CreateNew(SummaryDTO s)
+        {
+            Summaries.Add(s.Summary);
+            return Created(Request.Path, Summaries);
         }
     }
 }

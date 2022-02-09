@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATM.Models", "ATM.Models\AT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATM.Services", "ATM.Services\ATM.Services.csproj", "{2530C84D-078E-4033-BBD4-AB5129064483}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATM.Api", "ATM.Api\ATM.Api.csproj", "{56389580-0D1A-43EA-99E9-1A398086B20A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ATM.Api", "ATM.Api\ATM.Api.csproj", "{56389580-0D1A-43EA-99E9-1A398086B20A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
