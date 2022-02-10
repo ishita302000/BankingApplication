@@ -30,7 +30,7 @@ namespace ATM.Api.Controllers
             _logger = logger;
         }
 
-        [HttpGet("{accountId}")]
+        [HttpGet("transactions/{accountId}")]
         public IActionResult GetAllTransactions(string accountId)
         {
             try
@@ -61,7 +61,7 @@ namespace ATM.Api.Controllers
             }
         }
 
-        [HttpGet("{bankId}")]
+        [HttpGet("bank/{bankId}")]
         public IActionResult GetBank(string bankId)
         {
             try

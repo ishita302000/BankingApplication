@@ -25,7 +25,7 @@ namespace ATM.Services.IServices
         void CheckCurrencyExistance(string bankId, string currencyName);
         void CheckStaff(string bankId, string staffId);
         Customer CheckAccountExistance(string bankId, string accountId);
-        Dictionary<string, string> GetAllBankNames();
+        IList<Bank> GetAllBankNames();
         string GetAccountIdByname(string bankId, string username);
         string GetStaffIdByname(string bankId, string username);
         Bank GetBankById(string bankId);

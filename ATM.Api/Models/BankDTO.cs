@@ -9,7 +9,7 @@ namespace ATM.Api.Models
 {
     public class BankDTO 
     {
-        public string Name { get; set; }
+        public string BankName { get; set; }
         public string Id { get; set; }
         public DateTime CreatedOn { get; set; }
         public double RTGSsameBank { get; set; } = 0;

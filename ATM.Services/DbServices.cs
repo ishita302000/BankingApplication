@@ -220,17 +220,17 @@ namespace ATM.Services
 
             // get Id
 
-            public Dictionary<string, string> GetAllBankNames()
+            public IList<Bank> GetAllBankNames()
             {
-                Dictionary<string, string> bankNames = new Dictionary<string, string>();
+                IList<Bank> banks = new List<Bank>();
                
-                    var banks = _bankContext.Bank.Where(b => b.Id != "");
-                    foreach (var bank in banks)
+                    var bankRecords = _bankContext.Bank.Where(b => b.Id != "");
+                    foreach (var bank in bankRecords)
                     {
-                        bankNames.Add(bank.Id, bank.BankName);
+                        banks.Add(_mapper.Map<Bank>(bank));
                     }
                 
-                return bankNames;
+                return banks;
             }
 
             public string GetAccountIdByname(string bankId, string username)
